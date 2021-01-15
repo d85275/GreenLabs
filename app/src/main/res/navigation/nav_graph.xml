@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="chao.greenlabs.views.MainFragment"
+        android:label="Blank"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_addMarketFragment"
+            app:destination="@id/addMarketFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_manageItemFragment"
+            app:destination="@id/manageItemFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_manageMarketFragment"
+            app:destination="@id/manageMarketFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="chao.greenlabs.views.AddItemFragment"
+        android:label="Blank"
+        tools:layout="@layout/fragment_add_item" />
+
+    <fragment
+        android:id="@+id/addMarketFragment"
+        android:name="chao.greenlabs.views.AddMarketFragment"
+        android:label="AddMarketFragment"
+        tools:layout="@layout/fragment_add_market" />
+    <fragment
+        android:id="@+id/manageItemFragment"
+        android:name="chao.greenlabs.views.ItemListFragment"
+        android:label="ManageItemFragment"
+        tools:layout="@layout/fragment_item_list" />
+    <fragment
+        android:id="@+id/manageMarketFragment"
+        android:name="chao.greenlabs.views.MarketListFragment"
+        android:label="ManageMarketFragment"
+        tools:layout="@layout/fragment_market_list" />
+
+</navigation>

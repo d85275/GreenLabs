@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GreenLabs</string>
+
+    <string name="image_source">Please select the image source</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="price">$ %1$s</string>
+</resources>

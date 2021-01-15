@@ -1,0 +1,93 @@
+package chao.greenlabs.repository
+
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaScannerConnection
+import android.os.Environment
+import android.util.Log
+import androidx.room.Room
+import chao.greenlabs.datamodels.ItemData
+import chao.greenlabs.datamodels.MarketData
+import chao.greenlabs.repository.database.AppDatabase
+import io.reactivex.Completable
+import io.reactivex.Single
+import java.io.File
+import java.io.FileOutputStream
+
+
+class Repository(private val context: Context) {
+
+    // local
+
+    private val db = Room.databaseBuilder(context, AppDatabase::class.java, "database-name").build()
+
+    fun addMarket(marketData: MarketData): Completable {
+        return db.marketDao().insert(marketData)
+    }
+
+    fun deleteMarket(marketData: MarketData): Completable {
+        return db.marketDao().delete(marketData)
+    }
+
+    fun getMarkets(): Single<List<MarketData>> {
+        return db.marketDao().getAll()
+    }
+
+    fun addItem(itemData: ItemData): Completable {
+        return db.itemDao().insert(itemData)
+    }
+
+    fun deleteItem(itemData: ItemData): Completable {
+        return db.itemDao().delete(itemData)
+    }
+
+    fun getItems(): Single<List<ItemData>> {
+        return db.itemDao().getAll()
+    }
+
+    fun getSavedImage(imgName: String): Bitmap {
+        val imageFile = getImagePath(imgName) ?: throw Exception("cannot get the path")
+        return BitmapFactory.decodeFile(imageFile.absolutePath)
+    }
+
+    fun getTmpPath(): File? {
+        val path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
+        if (!path.exists()) path.mkdirs()
+        return File(path, "tmp.png")
+    }
+
+    private fun getImagePath(imgName: String): File? {
+        val path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
+        if (!path.exists()) path.mkdirs()
+        return File(path, "$imgName.png")
+    }
+
+    @Throws(Exception::class)
+    fun saveImageToExternal(imgName: String, bm: Bitmap) {
+        val imageFile = getImagePath(imgName) ?: throw Exception("cannot get the path")
+        val out = FileOutputStream(imageFile)
+        try {
+            bm.compress(Bitmap.CompressFormat.PNG, 100, out) // Compress Image
+            out.flush()
+            out.close()
+
+            // Tell the media scanner about the new file so that it is
+            // immediately available to the user.
+            MediaScannerConnection.scanFile(
+                context,
+                arrayOf(imageFile.absolutePath),
+                null
+            ) { filePath, uri ->
+                Log.i("ExternalStorage", "Scanned $filePath:")
+                Log.i("ExternalStorage", "-> uri=$uri")
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+
+    // remote
+
+}
