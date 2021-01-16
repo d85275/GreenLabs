@@ -17,11 +17,11 @@
             android:id="@+id/action_mainFragment_to_addMarketFragment"
             app:destination="@id/addMarketFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_manageItemFragment"
-            app:destination="@id/manageItemFragment" />
+            android:id="@+id/action_mainFragment_to_ItemListFragment"
+            app:destination="@id/ItemListFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_manageMarketFragment"
-            app:destination="@id/manageMarketFragment" />
+            android:id="@+id/action_mainFragment_to_MarketListFragment"
+            app:destination="@id/MarketListFragment" />
     </fragment>
 
     <fragment
@@ -36,14 +36,23 @@
         android:label="AddMarketFragment"
         tools:layout="@layout/fragment_add_market" />
     <fragment
-        android:id="@+id/manageItemFragment"
+        android:id="@+id/ItemListFragment"
         android:name="chao.greenlabs.views.ItemListFragment"
-        android:label="ManageItemFragment"
+        android:label="ItemListFragment"
         tools:layout="@layout/fragment_item_list" />
     <fragment
-        android:id="@+id/manageMarketFragment"
+        android:id="@+id/MarketListFragment"
         android:name="chao.greenlabs.views.MarketListFragment"
+        android:label="MarketListFragment"
+        tools:layout="@layout/fragment_market_list">
+        <action
+            android:id="@+id/action_marketListFragment_to_manageMarketFragment"
+            app:destination="@id/manageMarketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageMarketFragment"
+        android:name="chao.greenlabs.views.ManageMarketFragment"
         android:label="ManageMarketFragment"
-        tools:layout="@layout/fragment_market_list" />
+        tools:layout="@layout/fragment_manage_market" />
 
 </navigation>

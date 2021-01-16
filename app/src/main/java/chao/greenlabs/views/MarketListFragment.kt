@@ -7,17 +7,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.MarketListVMFactory
 import chao.greenlabs.viewmodels.MarketListViewModel
+import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.MarketAdapter
 import kotlinx.android.synthetic.main.fragment_market_list.*
 
 class MarketListFragment : Fragment() {
 
     private lateinit var listViewModel: MarketListViewModel
+    private lateinit var manageMarketViewModel: ManageMarketViewModel
     private lateinit var adapter: MarketAdapter
 
     override fun onCreateView(
@@ -38,14 +42,24 @@ class MarketListFragment : Fragment() {
     }
 
     private fun getViewModel() {
-        val factory = MarketListVMFactory(
-            Repository(requireContext())
-        )
+        val repository = Repository(requireContext())
+        val factory = MarketListVMFactory(repository)
         listViewModel = ViewModelProvider(this, factory).get(MarketListViewModel::class.java)
+
+        val manageMarketVMFactory = ManageMarketVMFactory(repository)
+        manageMarketViewModel = ViewModelProvider(
+            requireActivity(),
+            manageMarketVMFactory
+        ).get(ManageMarketViewModel::class.java)
+
     }
 
     private fun setViews() {
-        adapter = MarketAdapter()
+        val onClickedListener: ((name: String, date: String) -> Unit) = { name, date ->
+            manageMarketViewModel.setMarketData(name, date)
+            findNavController().navigate(R.id.action_marketListFragment_to_manageMarketFragment)
+        }
+        adapter = MarketAdapter(onClickedListener)
         rv_markets.layoutManager = LinearLayoutManager(requireContext())
         rv_markets.setHasFixedSize(true)
         rv_markets.adapter = adapter

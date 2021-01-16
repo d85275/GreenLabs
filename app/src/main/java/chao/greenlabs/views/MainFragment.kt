@@ -33,10 +33,10 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_addMarketFragment)
         }
         bt_manage_item.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_manageItemFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_ItemListFragment)
         }
         bt_manage_market.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_manageMarketFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_MarketListFragment)
         }
     }
 }

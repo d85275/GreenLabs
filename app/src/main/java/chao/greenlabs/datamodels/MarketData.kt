@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class MarketData(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey val id: String,
     @ColumnInfo val name: String,
     @ColumnInfo val price: String,
     @ColumnInfo val date: String
@@ -14,7 +14,7 @@ data class MarketData(
 
     companion object {
         fun create(name: String, price: String, date: String): MarketData {
-            return MarketData(0, name, price, date)
+            return MarketData("$name-$date", name, price, date)
         }
     }
 }

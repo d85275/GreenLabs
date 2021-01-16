@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_items.view.*
 import kotlinx.android.synthetic.main.item_market.view.*
 import kotlinx.android.synthetic.main.item_market.view.tv_name
 
-class MarketAdapter() :
+class MarketAdapter(private val onClickedListener: ((name: String, date: String) -> Unit)) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var marketList = arrayListOf<MarketData>()
@@ -24,8 +24,13 @@ class MarketAdapter() :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.tv_name.text = marketList[position].name
-        holder.itemView.tv_date.text = marketList[position].date
+        val name = marketList[position].name
+        val date = marketList[position].date
+        holder.itemView.tv_name.text = name
+        holder.itemView.tv_date.text = date
+        holder.itemView.setOnClickListener {
+            onClickedListener.invoke(name, date)
+        }
     }
 
     fun setList(items: List<MarketData>) {
