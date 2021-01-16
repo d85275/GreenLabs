@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.viewmodels.ManageMarketViewModel
@@ -20,13 +21,15 @@ import chao.greenlabs.viewmodels.MarketListViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.MarketAdapter
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
+import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_manage_market.*
 import kotlinx.android.synthetic.main.fragment_market_list.*
 
 class ManageMarketFragment : Fragment() {
 
     private lateinit var viewModel: ManageMarketViewModel
-    private lateinit var adapter: SearchedItemAdapter
+    private lateinit var searchedAdapter: SearchedItemAdapter
+    private lateinit var soldAdapter: SoldItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,10 +57,15 @@ class ManageMarketFragment : Fragment() {
     }
 
     private fun setViews() {
-        adapter = SearchedItemAdapter(viewModel)
+        searchedAdapter = SearchedItemAdapter(viewModel)
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
         rv_searched_items.setHasFixedSize(true)
-        rv_searched_items.adapter = adapter
+        rv_searched_items.adapter = searchedAdapter
+
+        soldAdapter = SoldItemAdapter(viewModel)
+        rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
+        rv_sold_items.setHasFixedSize(true)
+        rv_sold_items.adapter = soldAdapter
     }
 
     private fun registerObservers() {
@@ -73,7 +81,7 @@ class ManageMarketFragment : Fragment() {
             list.forEach {
                 Log.e("123", "name: ${it.name}, price: ${it.price}")
             }
-            adapter.setList(list)
+            searchedAdapter.setList(list)
         })
     }
 
