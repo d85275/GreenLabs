@@ -10,7 +10,7 @@ import io.reactivex.Single
 
 @Dao
 interface ItemDao {
-    @Query("SELECT * FROM itemdata ORDER BY id DESC")
+    @Query("SELECT * FROM itemdata")
     fun getAll(): Single<List<ItemData>>
 
     @Insert

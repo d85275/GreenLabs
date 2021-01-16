@@ -26,7 +26,7 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
                 AndroidSchedulers.mainThread()
             ).doOnError { e -> Log.e(TAG, "Error when loading saved items: $e") }
                 .subscribe { list ->
-                    itemList.postValue(list)
+                    itemList.postValue(list.reversed())
                 }
         )
     }

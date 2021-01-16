@@ -42,7 +42,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             repository.getItems().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e -> Log.e("MMVM", "e: $e") }.subscribe { list ->
-                    itemList.addAll(list)
+                    itemList.addAll(list.reversed())
                 }
         )
     }

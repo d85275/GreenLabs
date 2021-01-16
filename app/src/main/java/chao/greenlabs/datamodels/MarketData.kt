@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class MarketData(
     @PrimaryKey val id: String,
-    @ColumnInfo val name: String,
-    @ColumnInfo val price: String,
-    @ColumnInfo val date: String
+    val name: String,
+    val price: String,
+    val date: String
 ) {
 
     companion object {

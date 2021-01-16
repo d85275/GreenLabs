@@ -37,7 +37,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
             return
         }
 
-        val data = ItemData.create(name, price)
+        val data = ItemData(name, price)
 
         isSavingFinished.postValue(true)
         // create an item data and save it into our database
