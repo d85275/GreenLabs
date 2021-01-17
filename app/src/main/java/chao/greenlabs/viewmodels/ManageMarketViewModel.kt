@@ -1,5 +1,6 @@
 package chao.greenlabs.viewmodels
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -17,10 +18,6 @@ private const val TAG = "ManageMarketViewModel"
 
 class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
-    init {
-        loadItemData()
-    }
-
     private val marketData = MutableLiveData<MarketData>()
 
     private val itemList = arrayListOf<ItemData>()
@@ -37,13 +34,25 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun getSoldItems(): LiveData<ArrayList<SoldData>> = soldItems
 
-    private fun loadItemData() {
+    fun loadItemData() {
         val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
             repository.getItems().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { e -> Log.e("MMVM", "e: $e") }.subscribe { list ->
+                .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
                     itemList.addAll(list.reversed())
+                }
+        )
+    }
+
+    fun loadSoldData() {
+        val marketData = this.marketData.value ?: return
+        val compositeDisposable = CompositeDisposable()
+        compositeDisposable.add(
+            repository.getSoldItems(marketData).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
+                    soldItems.postValue(list as ArrayList<SoldData>?)
                 }
         )
     }
@@ -64,6 +73,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         return repository.getSavedImage(fileName)
     }
 
+    @SuppressLint("CheckResult")
     fun onSearchItemClicked(itemData: ItemData) {
         val list: ArrayList<SoldData> = soldItems.value as ArrayList<SoldData>
         var isExist = false
@@ -72,20 +82,36 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             if (soldData.name == itemData.name || soldData.price == itemData.price) {
                 isExist = true
                 soldData.count++
-                list[i] = soldData
+                repository.updateSoldItem(soldData).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        {
+                            list[i] = soldData
+                            soldItems.value = list
+                        }, { t ->
+                            Log.e(TAG, "on error: $t")
+                        }
+                    )
                 break
             }
         }
 
-        if (!isExist) {
-            val name = itemData.name
-            val price = itemData.price
-            val marketData = this.marketData.value!!
-            val soldData = SoldData.create(name, price, marketData)
-            list.add(soldData)
-        }
+        if (isExist) return
 
-        soldItems.value = list
+
+        val name = itemData.name
+        val price = itemData.price
+        val marketData = this.marketData.value!!
+        val soldData = SoldData.create(name, price, marketData)
+        repository.insertSoldItem(soldData).doOnComplete {
+
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+            {
+                list.add(soldData)
+                soldItems.value = list
+            }, { t ->
+                Log.e(TAG, "on error: $t")
+            }
+        )
     }
 
 }

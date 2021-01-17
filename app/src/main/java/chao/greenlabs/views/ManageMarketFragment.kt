@@ -40,6 +40,7 @@ class ManageMarketFragment : Fragment() {
         setViews()
         registerObservers()
         setListeners()
+        loadData()
     }
 
     private fun getViewModel() {
@@ -84,6 +85,11 @@ class ManageMarketFragment : Fragment() {
 
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
+    }
+
+    private fun loadData(){
+        viewModel.loadItemData()
+        viewModel.loadSoldData()
     }
 
     private val textWatcher = object : TextWatcher {

@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.room.Room
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
+import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.repository.database.AppDatabase
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -44,6 +45,18 @@ class Repository(private val context: Context) {
 
     fun getItems(): Single<List<ItemData>> {
         return db.itemDao().getAll()
+    }
+
+    fun getSoldItems(marketData: MarketData): Single<List<SoldData>> {
+        return db.soldDao().getAll(marketData)
+    }
+
+    fun insertSoldItem(soldData: SoldData): Completable {
+        return db.soldDao().insert(soldData)
+    }
+
+    fun updateSoldItem(soldData: SoldData): Completable {
+        return db.soldDao().update(soldData)
     }
 
     fun getSavedImage(imgName: String): Bitmap {
