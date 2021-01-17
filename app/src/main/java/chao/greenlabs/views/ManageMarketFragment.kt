@@ -43,6 +43,11 @@ class ManageMarketFragment : Fragment() {
         loadData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clearSoldData()
+    }
+
     private fun getViewModel() {
         val factory = ManageMarketVMFactory(
             Repository(requireContext())
@@ -78,7 +83,7 @@ class ManageMarketFragment : Fragment() {
             searchedAdapter.setList(matchedList)
         })
 
-        viewModel.getSoldItems().observe(viewLifecycleOwner, Observer { soldList->
+        viewModel.getSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
             soldAdapter.setItem(soldList)
         })
     }
@@ -87,7 +92,7 @@ class ManageMarketFragment : Fragment() {
         et_search.addTextChangedListener(textWatcher)
     }
 
-    private fun loadData(){
+    private fun loadData() {
         viewModel.loadItemData()
         viewModel.loadSoldData()
     }

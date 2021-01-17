@@ -40,6 +40,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             repository.getItems().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
+                    itemList.clear()
                     itemList.addAll(list.reversed())
                 }
         )
@@ -55,6 +56,10 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                     soldItems.postValue(list as ArrayList<SoldData>?)
                 }
         )
+    }
+
+    fun clearSoldData() {
+        soldItems.postValue(arrayListOf())
     }
 
     fun onSearch(text: String) {

@@ -27,9 +27,9 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         Log.e("123", "price: $price")
 
         // save the image to file and keep the file name
-        val bm = (imageView.drawable as BitmapDrawable).bitmap
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
         try {
+            val bm = (imageView.drawable as BitmapDrawable).bitmap
+            val fileName = StringBuilder().append(name).append("_").append(price).toString()
             repository.saveImageToExternal(fileName, bm)
 
         } catch (e: Exception) {
