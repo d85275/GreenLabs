@@ -11,7 +11,7 @@ import io.reactivex.Single
 
 @Dao
 interface MarketDao {
-    @Query("SELECT * FROM marketdata ORDER BY id DESC")
+    @Query("SELECT * FROM marketdata ORDER BY date ASC")
     fun getAll(): Single<List<MarketData>>
 
     @Insert

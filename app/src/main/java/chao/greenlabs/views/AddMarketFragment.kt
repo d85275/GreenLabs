@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DateUtils
+import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import kotlinx.android.synthetic.main.fragment_add_market.*
@@ -31,6 +33,7 @@ class AddMarketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModel()
+        registerObservers()
         showKeyboard()
         setDate()
         setListeners()
@@ -41,6 +44,15 @@ class AddMarketFragment : Fragment() {
             Repository(requireContext())
         )
         viewModel = ViewModelProvider(this, factory).get(AddMarketViewModel::class.java)
+    }
+
+    private fun registerObservers() {
+        viewModel.getMessage().observe(viewLifecycleOwner, Observer { msg ->
+            ToastUtils.show(requireContext(), msg)
+            et_name.text.clear()
+            et_price.text.clear()
+            et_name.requestFocus()
+        })
     }
 
     private fun showKeyboard() {
