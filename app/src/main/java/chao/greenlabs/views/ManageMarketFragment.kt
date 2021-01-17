@@ -53,7 +53,7 @@ class ManageMarketFragment : Fragment() {
     private fun setViews() {
         val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
             et_search.text.clear()
-            soldAdapter.addItem(item)
+            viewModel.onSearchItemClicked(item)
         }
         searchedAdapter = SearchedItemAdapter(viewModel, onClickedListener)
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
@@ -73,8 +73,12 @@ class ManageMarketFragment : Fragment() {
             tv_market_price.text = data.price
         })
 
-        viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { list ->
-            searchedAdapter.setList(list)
+        viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
+            searchedAdapter.setList(matchedList)
+        })
+
+        viewModel.getSoldItems().observe(viewLifecycleOwner, Observer { soldList->
+            soldAdapter.setItem(soldList)
         })
     }
 
