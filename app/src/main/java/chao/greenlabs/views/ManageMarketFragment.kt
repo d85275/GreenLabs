@@ -67,12 +67,10 @@ class ManageMarketFragment : Fragment() {
     }
 
     private fun registerObservers() {
-        viewModel.getMarketName().observe(viewLifecycleOwner, Observer { name ->
-            tv_market_name.text = name
-        })
-
-        viewModel.getMarketDate().observe(viewLifecycleOwner, Observer { date ->
-            tv_market_date.text = date
+        viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
+            tv_market_name.text = data.name
+            tv_market_date.text = data.date
+            tv_market_price.text = data.price
         })
 
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { list ->

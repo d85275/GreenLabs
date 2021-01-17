@@ -20,18 +20,15 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         loadItemData()
     }
 
-    private val marketName = MutableLiveData<String>()
-    private val marketDate = MutableLiveData<String>()
+    private val marketData = MutableLiveData<MarketData>()
 
     private val itemList = arrayListOf<ItemData>()
     private val matchedItems = MutableLiveData<List<ItemData>>()
 
-    fun getMarketName(): LiveData<String> = marketName
-    fun getMarketDate(): LiveData<String> = marketDate
+    fun getMarketData(): LiveData<MarketData> = marketData
 
-    fun setMarketData(name: String, date: String) {
-        marketName.value = name
-        marketDate.value = date
+    fun setMarketData(data: MarketData) {
+        marketData.value = data
     }
 
     fun getMatchedItems(): LiveData<List<ItemData>> = matchedItems
@@ -49,7 +46,11 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun onSearch(text: String) {
         val list =
-            itemList.filter { itemData -> itemData.name.contains(text) || itemData.price.contains(text) }
+            itemList.filter { itemData ->
+                itemData.name.contains(text) || itemData.price.contains(
+                    text
+                )
+            }
         matchedItems.value = list
     }
 

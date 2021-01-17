@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
+import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.MarketListVMFactory
@@ -55,8 +56,8 @@ class MarketListFragment : Fragment() {
     }
 
     private fun setViews() {
-        val onClickedListener: ((name: String, date: String) -> Unit) = { name, date ->
-            manageMarketViewModel.setMarketData(name, date)
+        val onClickedListener: ((data: MarketData) -> Unit) = { data ->
+            manageMarketViewModel.setMarketData(data)
             findNavController().navigate(R.id.action_marketListFragment_to_manageMarketFragment)
         }
         adapter = MarketAdapter(onClickedListener)
