@@ -8,13 +8,17 @@ import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import kotlinx.android.synthetic.main.item_searched_items.view.*
 
-class SearchedItemAdapter(private val viewModel: ManageMarketViewModel) :
+class SearchedItemAdapter(
+    private val viewModel: ManageMarketViewModel,
+    private val onClickedListener: ((data: ItemData) -> Unit)
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var itemList = arrayListOf<ItemData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_searched_items, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_searched_items, parent, false)
         return object : RecyclerView.ViewHolder(view) {}
     }
 
@@ -28,6 +32,7 @@ class SearchedItemAdapter(private val viewModel: ManageMarketViewModel) :
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
         holder.itemView.iv_image.setImageBitmap(bitmap)
+        holder.itemView.setOnClickListener { onClickedListener.invoke(itemList[position]) }
     }
 
     fun setList(items: List<ItemData>) {

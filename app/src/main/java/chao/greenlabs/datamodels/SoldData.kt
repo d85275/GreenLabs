@@ -9,11 +9,12 @@ data class SoldData(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo val name: String,
     @ColumnInfo val price: String,
+    @ColumnInfo val count: Int,
     @ColumnInfo val marketData: MarketData
 ) {
     companion object {
-        fun create(name: String, price: String, marketData: MarketData): SoldData {
-            return SoldData(0, name, price, marketData)
+        fun create(name: String, price: String, count: Int, marketData: MarketData): SoldData {
+            return SoldData(0, name, price, count, marketData)
         }
     }
 }

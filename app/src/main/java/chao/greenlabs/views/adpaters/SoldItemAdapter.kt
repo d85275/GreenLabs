@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import kotlinx.android.synthetic.main.item_searched_items.view.*
+import kotlinx.android.synthetic.main.item_sold_items.view.*
 
 class SoldItemAdapter(private val viewModel: ManageMarketViewModel) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -14,7 +14,8 @@ class SoldItemAdapter(private val viewModel: ManageMarketViewModel) :
     private var itemList = arrayListOf<ItemData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sold_items, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_sold_items, parent, false)
         return object : RecyclerView.ViewHolder(view) {}
     }
 
@@ -30,9 +31,8 @@ class SoldItemAdapter(private val viewModel: ManageMarketViewModel) :
         holder.itemView.iv_image.setImageBitmap(bitmap)
     }
 
-    fun setList(items: List<ItemData>) {
-        itemList.clear()
-        itemList.addAll(items)
+    fun addItem(item: ItemData) {
+        itemList.add(item)
         notifyDataSetChanged()
     }
 }

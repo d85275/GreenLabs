@@ -3,27 +3,21 @@ package chao.greenlabs.views
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
+import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import chao.greenlabs.viewmodels.factories.MarketListVMFactory
-import chao.greenlabs.viewmodels.MarketListViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
-import chao.greenlabs.views.adpaters.MarketAdapter
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_manage_market.*
-import kotlinx.android.synthetic.main.fragment_market_list.*
 
 class ManageMarketFragment : Fragment() {
 
@@ -57,7 +51,11 @@ class ManageMarketFragment : Fragment() {
     }
 
     private fun setViews() {
-        searchedAdapter = SearchedItemAdapter(viewModel)
+        val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
+            et_search.text.clear()
+            soldAdapter.addItem(item)
+        }
+        searchedAdapter = SearchedItemAdapter(viewModel, onClickedListener)
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
         rv_searched_items.setHasFixedSize(true)
         rv_searched_items.adapter = searchedAdapter
@@ -78,9 +76,6 @@ class ManageMarketFragment : Fragment() {
         })
 
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { list ->
-            list.forEach {
-                Log.e("123", "name: ${it.name}, price: ${it.price}")
-            }
             searchedAdapter.setList(list)
         })
     }
@@ -93,8 +88,10 @@ class ManageMarketFragment : Fragment() {
         override fun afterTextChanged(s: Editable?) {
             val text = s.toString()
             if (text.isEmpty()) {
+                rv_sold_items.visibility = View.VISIBLE
                 rv_searched_items.visibility = View.GONE
             } else {
+                rv_sold_items.visibility = View.GONE
                 rv_searched_items.visibility = View.VISIBLE
                 viewModel.onSearch(s.toString())
             }
