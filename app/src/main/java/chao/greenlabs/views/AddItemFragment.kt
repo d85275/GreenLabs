@@ -17,6 +17,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
@@ -52,6 +53,11 @@ class AddItemFragment : Fragment() {
         showKeyboard()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clearUpdatedItem()
+    }
+
     private fun showKeyboard() {
         et_name.requestFocus()
         val imm: InputMethodManager =
@@ -69,7 +75,7 @@ class AddItemFragment : Fragment() {
         val factory = AddItemVMFactory(
             Repository(requireContext())
         )
-        viewModel = ViewModelProvider(this, factory).get(AddItemViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), factory).get(AddItemViewModel::class.java)
     }
 
     private fun setListeners() {
@@ -78,7 +84,7 @@ class AddItemFragment : Fragment() {
         }
 
         bt_confirm.setOnClickListener {
-            viewModel.addItem(et_name.text.toString(), et_price.text.toString(), iv_image)
+            viewModel.onConfirmClicked(et_name.text.toString(), et_price.text.toString(), iv_image)
         }
     }
 
@@ -89,13 +95,23 @@ class AddItemFragment : Fragment() {
     }
 
     private fun registerObservers() {
-        viewModel.getIsSavingFinished().observe(viewLifecycleOwner, Observer { isSavingFinished ->
-            if (!isSavingFinished) return@Observer
-            resetData()
+        viewModel.getMessage().observe(viewLifecycleOwner, Observer { msg ->
+            if (msg.isEmpty()) return@Observer
+            if (viewModel.getIsUpdateMode()) {
+                findNavController().popBackStack()
+                viewModel.clearUpdatedItem()
+            } else {
+                resetData()
+            }
+            ToastUtils.show(requireContext(), msg)
         })
 
-        viewModel.getMessage().observe(viewLifecycleOwner, Observer { msg ->
-            ToastUtils.show(requireContext(), msg)
+        viewModel.getUpdatedItem().observe(viewLifecycleOwner, Observer { updatedItem ->
+            if (updatedItem == null) return@Observer
+            val bitmap = viewModel.getImage(updatedItem.name, updatedItem.price)
+            et_name.setText(updatedItem.name)
+            et_price.setText(updatedItem.price)
+            iv_image.setImageBitmap(bitmap)
         })
     }
 
@@ -134,7 +150,7 @@ class AddItemFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 BitmapUtils.loadBitmap(result, requireContext(), viewModel, iv_image)
-                    //..iv_image.setImageBitmap(image)
+                //..iv_image.setImageBitmap(image)
             }
         }
 }

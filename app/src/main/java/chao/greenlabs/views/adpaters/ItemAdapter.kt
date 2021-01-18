@@ -8,7 +8,10 @@ import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.viewmodels.ItemListViewModel
 import kotlinx.android.synthetic.main.item_items.view.*
 
-class ItemAdapter(private val listViewModel: ItemListViewModel) :
+class ItemAdapter(
+    private val listViewModel: ItemListViewModel,
+    private val onItemClickedAction: ((itemData: ItemData) -> Unit)
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var itemList = arrayListOf<ItemData>()
@@ -28,6 +31,9 @@ class ItemAdapter(private val listViewModel: ItemListViewModel) :
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
         holder.itemView.iv_image.setImageBitmap(bitmap)
+        holder.itemView.setOnClickListener {
+            onItemClickedAction.invoke(itemList[position])
+        }
     }
 
     fun setList(items: List<ItemData>) {

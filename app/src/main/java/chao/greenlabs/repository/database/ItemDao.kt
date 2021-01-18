@@ -1,9 +1,6 @@
 package chao.greenlabs.repository.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import chao.greenlabs.datamodels.ItemData
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -15,6 +12,9 @@ interface ItemDao {
 
     @Insert
     fun insert(item: ItemData): Completable
+
+    @Update
+    fun update(item: ItemData): Completable
 
     @Delete
     fun delete(item: ItemData): Completable

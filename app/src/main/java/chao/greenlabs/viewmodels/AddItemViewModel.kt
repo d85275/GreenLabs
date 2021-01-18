@@ -1,5 +1,6 @@
 package chao.greenlabs.viewmodels
 
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.ImageView
@@ -17,14 +18,30 @@ import java.lang.Exception
 class AddItemViewModel(private val repository: Repository) : ViewModel() {
 
     private val msg = MutableLiveData<String>()
-    private val isSavingFinished = MutableLiveData(false)
+    private val updatedItem = MutableLiveData<ItemData>()
+
+    private var isUpdateMode = false
 
     fun getMessage(): LiveData<String> = msg
-    fun getIsSavingFinished(): LiveData<Boolean> = isSavingFinished
+    fun getUpdatedItem(): LiveData<ItemData> = updatedItem
 
-    fun addItem(name: String, price: String, imageView: ImageView) {
+    fun getIsUpdateMode(): Boolean {
+        return isUpdateMode
+    }
+
+    fun setUpdatedItem(itemData: ItemData) {
+        updatedItem.value = itemData
+        isUpdateMode = true
+    }
+
+    fun clearUpdatedItem() {
+        updatedItem.value = null
+        isUpdateMode = false
+        msg.value = ""
+    }
+
+    fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         if (name.isEmpty() || price.isEmpty()) return
-        Log.e("123", "price: $price")
 
         // save the image to file and keep the file name
         try {
@@ -39,17 +56,36 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
 
         val data = ItemData(name, price)
 
-        isSavingFinished.postValue(true)
         // create an item data and save it into our database
 
-        repository.addItem(data).doOnComplete {
-            Log.e("123", "the data is saved")
-            msg.postValue("Item is saved")
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+        val updatedItem = updatedItem.value
+        when {
+            updatedItem == null -> {
+                repository.addItem(data).doOnComplete {
+                    msg.postValue("Item is saved")
+                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+            }
+            updatedItem.name == data.name -> {
+                repository.updateItem(data).doOnComplete {
+                    msg.postValue("Item is updated")
+                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+            }
+            else -> {
+                repository.deleteItem(updatedItem).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe()
+                repository.addItem(data).doOnComplete {
+                    msg.postValue("Item is changed")
+                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+            }
+        }
     }
 
     fun getTmpPath(): File? {
         return repository.getTmpPath()
     }
 
+    fun getImage(name: String, price: String): Bitmap {
+        val fileName = StringBuilder().append(name).append("_").append(price).toString()
+        return repository.getSavedImage(fileName)
+    }
 }

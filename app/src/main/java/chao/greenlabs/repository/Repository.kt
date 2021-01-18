@@ -47,6 +47,10 @@ class Repository(private val context: Context) {
         return db.itemDao().getAll()
     }
 
+    fun updateItem(itemData: ItemData): Completable {
+        return db.itemDao().update(itemData)
+    }
+
     fun getSoldItems(marketData: MarketData): Single<List<SoldData>> {
         return db.soldDao().getAll(marketData)
     }
