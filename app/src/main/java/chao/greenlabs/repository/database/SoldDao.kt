@@ -12,7 +12,13 @@ import io.reactivex.Single
 @Dao
 interface SoldDao {
     @Query("SELECT * FROM solddata WHERE marketData IN (:marketData)")
-    fun getAll(marketData: MarketData): Single<List<SoldData>>
+    fun getItems(marketData: MarketData): Single<List<SoldData>>
+
+    @Query("SELECT * FROM solddata WHERE name IN (:itemName)")
+    fun getItemsByItemName(itemName: String): Single<List<SoldData>>
+
+    @Query("UPDATE solddata SET price=:newPrice, name=:newName WHERE name=:oldName")
+    fun updateByItemName(oldName: String, newName: String, newPrice: String): Completable
 
     @Update
     fun update(soldData: SoldData): Completable

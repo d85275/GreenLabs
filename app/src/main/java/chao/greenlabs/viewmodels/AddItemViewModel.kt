@@ -66,11 +66,15 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
                 }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
             }
             updatedItem.name == data.name -> {
+                repository.updateSoldItemByName(updatedItem.name, data.name, data.price)
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
                 repository.updateItem(data).doOnComplete {
                     msg.postValue("Item is updated")
                 }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
             }
             else -> {
+                repository.updateSoldItemByName(updatedItem.name, data.name, data.price)
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
                 repository.deleteItem(updatedItem).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe()
                 repository.addItem(data).doOnComplete {

@@ -52,7 +52,18 @@ class Repository(private val context: Context) {
     }
 
     fun getSoldItems(marketData: MarketData): Single<List<SoldData>> {
-        return db.soldDao().getAll(marketData)
+        return db.soldDao().getItems(marketData)
+    }
+
+    fun getSoldItemsByItemName(itemName: String): Single<List<SoldData>> {
+        return db.soldDao().getItemsByItemName(itemName)
+    }
+
+    fun updateSoldItemByName(oldName: String, newName: String, newPrice: String): Completable {
+        Log.e("123", "oldName: $oldName")
+        Log.e("123", "newName: $newName")
+        Log.e("123", "newPrice: $newPrice")
+        return db.soldDao().updateByItemName(oldName, newName, newPrice)
     }
 
     fun insertSoldItem(soldData: SoldData): Completable {
@@ -65,6 +76,7 @@ class Repository(private val context: Context) {
 
     fun getSavedImage(imgName: String): Bitmap {
         val imageFile = getImagePath(imgName) ?: throw Exception("cannot get the path")
+        Log.e("123","savedImagePath: ${imageFile?.absolutePath}")
         return BitmapFactory.decodeFile(imageFile.absolutePath)
     }
 
