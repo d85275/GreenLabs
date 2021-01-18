@@ -40,6 +40,7 @@ class MarketListFragment : Fragment() {
         setViews()
         registerObservers()
         listViewModel.loadMarketData()
+        manageMarketViewModel.loadItemData()
     }
 
     private fun getViewModel() {

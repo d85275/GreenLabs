@@ -93,7 +93,6 @@ class ManageMarketFragment : Fragment() {
     }
 
     private fun loadData() {
-        viewModel.loadItemData()
         viewModel.loadSoldData()
     }
 
