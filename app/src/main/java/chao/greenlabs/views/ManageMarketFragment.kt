@@ -86,6 +86,11 @@ class ManageMarketFragment : Fragment() {
 
         viewModel.getSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
             soldAdapter.setItem(soldList)
+            viewModel.calculateTotalPrice(soldList)
+        })
+        viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { totalPrice ->
+            val price = getString(R.string.total_price, totalPrice.toString())
+            tv_total_price.text = price
         })
     }
 

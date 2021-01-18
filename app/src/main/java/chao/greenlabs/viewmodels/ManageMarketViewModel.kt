@@ -23,6 +23,9 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     private val itemList = arrayListOf<ItemData>()
     private val matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private val soldItems = MutableLiveData(arrayListOf<SoldData>())
+    private val totalPrice = MutableLiveData(0)
+
+    fun getTotalPrice(): LiveData<Int> = totalPrice
 
     fun getMarketData(): LiveData<MarketData> = marketData
 
@@ -60,6 +63,15 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun clearSoldData() {
         soldItems.postValue(arrayListOf())
+    }
+
+    fun calculateTotalPrice(list: List<SoldData>) {
+        val marketData = marketData.value ?: return
+        var total = 0 - marketData.price.toInt()
+        list.forEach { soldItem ->
+            total += soldItem.price.toInt()
+        }
+        totalPrice.value = total
     }
 
     fun onSearch(text: String) {
