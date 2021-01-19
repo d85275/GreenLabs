@@ -69,7 +69,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         val marketData = marketData.value ?: return
         var total = 0 - marketData.price.toInt()
         list.forEach { soldItem ->
-            total += soldItem.price.toInt()
+            total += (soldItem.price.toInt() * soldItem.count)
         }
         totalPrice.value = total
     }
@@ -129,6 +129,28 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                 Log.e(TAG, "on error: $t")
             }
         )
+    }
+
+    fun getCopyData(): String {
+        val stringBuilder = StringBuilder()
+        val marketData = this.marketData.value ?: return ""
+        val totalPrice = this.totalPrice.value ?: (0 - marketData.price.toInt())
+        val soldList: ArrayList<SoldData> = soldItems.value ?: arrayListOf()
+        val marketName = marketData.name
+        val marketDate = marketData.date
+        val marketPrice = marketData.price
+        stringBuilder.append(marketName).append(" ").append(marketDate).append("\n總收入: ").append(totalPrice).append("\n\n")
+
+        stringBuilder.append("攤位費 ")
+            .append(marketPrice).append("\n\n")
+
+        soldList.forEach { soldItem ->
+            stringBuilder.append(soldItem.name).append(" * ").append(soldItem.count).append(" ")
+                .append((soldItem.count * soldItem.price.toInt())).append("\n")
+        }
+
+        Log.e("123", stringBuilder.toString())
+        return stringBuilder.toString()
     }
 
 }

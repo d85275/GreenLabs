@@ -13,6 +13,15 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="75dp" />
 
+    <ImageView
+        android:id="@+id/iv_copy"
+        android:layout_width="@dimen/market_icon_size"
+        android:layout_height="@dimen/market_icon_size"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/icon_copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="80dp"
         android:layout_height="wrap_content"
@@ -20,7 +29,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@id/ll_market_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/ll_market_name">
 
         <ImageView
             android:layout_width="@dimen/market_icon_size"
@@ -71,7 +80,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ll_market_name"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/ll_market_name">
 
         <ImageView
             android:layout_width="@dimen/market_icon_size"
@@ -128,7 +137,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:background="@drawable/round_bg"
         android:translationY="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -141,12 +150,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="7.5dp"
+            android:gravity="center"
             android:textColor="@android:color/white"
+            android:drawableStart="@drawable/icon_white_money"
             android:textStyle="bold"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Total Price $ 1500" />
+            tools:text="1500" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

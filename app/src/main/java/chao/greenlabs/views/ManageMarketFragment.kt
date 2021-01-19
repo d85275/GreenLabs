@@ -1,5 +1,8 @@
 package chao.greenlabs.views
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
@@ -88,14 +92,22 @@ class ManageMarketFragment : Fragment() {
             soldAdapter.setItem(soldList)
             viewModel.calculateTotalPrice(soldList)
         })
+
         viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { totalPrice ->
-            val price = getString(R.string.total_price, totalPrice.toString())
-            tv_total_price.text = price
+            tv_total_price.text = totalPrice.toString()
         })
     }
 
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
+        iv_copy.setOnClickListener {
+            val copyData = viewModel.getCopyData()
+            if (copyData.isEmpty()) return@setOnClickListener
+            val myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClip: ClipData = ClipData.newPlainText("note_copy", copyData)
+            myClipboard.setPrimaryClip(myClip)
+            ToastUtils.show(requireContext(), "Data is copied")
+        }
     }
 
     private fun loadData() {
