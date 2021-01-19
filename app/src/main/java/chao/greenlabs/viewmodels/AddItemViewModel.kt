@@ -40,6 +40,13 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         msg.value = ""
     }
 
+    fun deleteUpdatedData() {
+        val updatedItem = updatedItem.value ?: return
+        repository.deleteItem(updatedItem).doOnComplete {
+            msg.postValue("Data is deleted")
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+    }
+
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         if (name.isEmpty() || price.isEmpty()) return
 
@@ -67,14 +74,16 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
             }
             updatedItem.name == data.name -> {
                 repository.updateSoldItemByName(updatedItem.name, data.name, data.price)
-                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
                 repository.updateItem(data).doOnComplete {
                     msg.postValue("Item is updated")
                 }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
             }
             else -> {
                 repository.updateSoldItemByName(updatedItem.name, data.name, data.price)
-                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
                 repository.deleteItem(updatedItem).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe()
                 repository.addItem(data).doOnComplete {

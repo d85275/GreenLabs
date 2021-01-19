@@ -46,6 +46,7 @@ class AddItemFragment : Fragment() {
         setListeners()
         setDefaultImage()
         registerObservers()
+        initView()
     }
 
     override fun onResume() {
@@ -113,6 +114,14 @@ class AddItemFragment : Fragment() {
             et_price.setText(updatedItem.price)
             iv_image.setImageBitmap(bitmap)
         })
+    }
+
+    private fun initView() {
+        if (!viewModel.getIsUpdateMode()) return
+        ll_delete.visibility = View.VISIBLE
+        ll_delete.setOnClickListener {
+            DialogUtils.showDelete(requireContext()) { viewModel.deleteUpdatedData() }
+        }
     }
 
     private fun resetData() {

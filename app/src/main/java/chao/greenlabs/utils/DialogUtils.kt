@@ -13,6 +13,11 @@ import chao.greenlabs.views.MainFragment
 
 object DialogUtils {
 
+    fun showDelete(context: Context, confirmAction: (() -> Unit)) {
+        val msg = context.getString(R.string.delete_msg)
+        showDialog(context, null, msg, null, null, confirmAction, null, true)
+    }
+
     fun showPickImage(context: Context, cameraAction: (() -> Unit), galleryAction: (() -> Unit)) {
         val msg = context.getString(R.string.image_source)
         val confirmString = context.getString(R.string.camera)
