@@ -69,7 +69,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         when {
             updatedItem == null -> {
                 repository.addItem(data).doOnComplete {
-                    msg.postValue("Item is saved")
+                    msg.postValue("品項已儲存")
                 }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
             }
             updatedItem.name == data.name -> {
@@ -77,7 +77,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
                 repository.updateItem(data).doOnComplete {
-                    msg.postValue("Item is updated")
+                    msg.postValue("品項已更新")
                 }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
             }
             else -> {
@@ -87,7 +87,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
                 repository.deleteItem(updatedItem).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe()
                 repository.addItem(data).doOnComplete {
-                    msg.postValue("Item is changed")
+                    msg.postValue("品項已更新")
                 }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
             }
         }

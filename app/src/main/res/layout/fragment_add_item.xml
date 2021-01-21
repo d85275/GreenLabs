@@ -90,9 +90,9 @@
         android:id="@+id/ll_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="30dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,26 +100,28 @@
         app:layout_constraintTop_toBottomOf="@id/mc_image">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="Name" />
+            android:text="@string/item_name"
+            android:textColor="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_location"
+        android:id="@+id/ll_price"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="30dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,10 +129,11 @@
         app:layout_constraintTop_toBottomOf="@id/ll_name">
 
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="Price" />
+            android:text="@string/item_price"
+            android:textColor="@color/colorPrimaryDark" />
 
         <EditText
             android:id="@+id/et_price"
@@ -138,7 +141,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:inputType="numberDecimal"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <Button
@@ -146,10 +150,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:onClick="addItem"
-        android:text="confirm"
+        android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_location" />
+        app:layout_constraintTop_toBottomOf="@id/ll_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
