@@ -75,5 +75,9 @@ class ItemListFragment : Fragment() {
         ll_back.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        ll_add.setOnClickListener {
+            findNavController().navigate(R.id.action_itemListFragment_to_addItemFragment)
+        }
     }
 }

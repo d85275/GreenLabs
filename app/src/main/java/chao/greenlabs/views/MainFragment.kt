@@ -26,12 +26,6 @@ class MainFragment : Fragment() {
     }
 
     private fun setListeners() {
-        bt_add_item.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_addItemFragment)
-        }
-        bt_add_market.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_addMarketFragment)
-        }
         bt_manage_item.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_ItemListFragment)
         }

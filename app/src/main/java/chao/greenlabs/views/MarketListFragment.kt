@@ -78,5 +78,9 @@ class MarketListFragment : Fragment() {
         ll_back.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        ll_add.setOnClickListener {
+            findNavController().navigate(R.id.action_marketListFragment_to_addMarketFragment)
+        }
     }
 }

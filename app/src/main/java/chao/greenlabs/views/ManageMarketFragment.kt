@@ -100,7 +100,7 @@ class ManageMarketFragment : Fragment() {
 
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
-        ll_delete.setOnClickListener {
+        ll_copy.setOnClickListener {
             val copyData = viewModel.getCopyData()
             val myClipboard =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

@@ -11,12 +11,6 @@
         android:label="Blank"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_mainFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_addMarketFragment"
-            app:destination="@id/addMarketFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_ItemListFragment"
             app:destination="@id/itemListFragment" />
         <action
@@ -39,7 +33,7 @@
         android:id="@+id/itemListFragment"
         android:name="chao.greenlabs.views.ItemListFragment"
         android:label="ItemListFragment"
-        tools:layout="@layout/fragment_item_list" >
+        tools:layout="@layout/fragment_item_list">
         <action
             android:id="@+id/action_itemListFragment_to_addItemFragment"
             app:destination="@id/addItemFragment" />
@@ -52,6 +46,9 @@
         <action
             android:id="@+id/action_marketListFragment_to_manageMarketFragment"
             app:destination="@id/manageMarketFragment" />
+        <action
+            android:id="@+id/action_marketListFragment_to_addMarketFragment"
+            app:destination="@id/addMarketFragment" />
     </fragment>
     <fragment
         android:id="@+id/manageMarketFragment"
