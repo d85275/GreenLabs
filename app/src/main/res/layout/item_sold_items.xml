@@ -3,61 +3,104 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="80dp"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/round_bg_sub">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mc_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mc_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="15dp"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+    </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
-        </com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="2"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/main_text_color"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/mc_image"
+        app:layout_constraintTop_toTopOf="@id/mc_image"
+        tools:text="Earring" />
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:ellipsize="end"
-            android:maxLines="1"
-            tools:text="Earring" />
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
+        android:textColor="@color/main_text_color"
+        app:layout_constraintBottom_toBottomOf="@id/mc_image"
+        app:layout_constraintStart_toEndOf="@id/mc_image"
+        tools:text="$ 500" />
 
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:ellipsize="end"
-            android:gravity="end"
-            android:maxLines="1"
-            tools:text="$ 500" />
 
-        <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="end"
-            android:maxLines="1"
-            tools:text="1" />
+    <LinearLayout
+        android:id="@+id/ll_minus"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/circle_bg_white"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/mc_image"
+        app:layout_constraintEnd_toStartOf="@id/tv_count"
+        app:layout_constraintTop_toTopOf="@id/mc_image">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_minus" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
+        android:textColor="@color/main_text_color"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/mc_image"
+        app:layout_constraintEnd_toStartOf="@id/ll_plus"
+        app:layout_constraintTop_toTopOf="@id/mc_image"
+        tools:text="1" />
+
+    <LinearLayout
+        android:id="@+id/ll_plus"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/circle_bg_white"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/mc_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mc_image">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_plus" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
