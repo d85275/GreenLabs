@@ -17,4 +17,8 @@
     <string name="add_item">新增商品</string>
     <string name="edit_item">修改商品</string>
     <string name="add_market">新增市集</string>
+    <string name="market_name">市集名稱</string>
+    <string name="market_price">攤位費用</string>
+    <string name="market_location">市集地點</string>
+    <string name="market_date">市集日期</string>
 </resources>

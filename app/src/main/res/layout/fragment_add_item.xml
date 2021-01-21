@@ -114,7 +114,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_price"
+        android:id="@+id/ll_location"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
@@ -150,6 +150,6 @@
         android:text="confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_price" />
+        app:layout_constraintTop_toBottomOf="@id/ll_location" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
