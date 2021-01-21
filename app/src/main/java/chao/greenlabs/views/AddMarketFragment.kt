@@ -36,9 +36,9 @@ class AddMarketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getViewModel()
         registerObservers()
-        KeyboardUtils.showKeyboard(requireContext())
         setDate()
         setListeners()
+        showKeyboard()
     }
 
     private fun getViewModel() {
@@ -85,5 +85,10 @@ class AddMarketFragment : Fragment() {
             tv_date.text = DateUtils.onDateChanged(year, month, dayOfMonth)
         }
         datePicker.show()
+    }
+
+    private fun showKeyboard() {
+        et_name.requestFocus()
+        KeyboardUtils.showKeyboard(requireContext())
     }
 }
