@@ -26,8 +26,10 @@ class MarketAdapter(private val onClickedListener: ((data: MarketData) -> Unit))
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val name = marketList[position].name
         val date = marketList[position].date
+        val location = marketList[position].location
         holder.itemView.tv_name.text = name
         holder.itemView.tv_date.text = date
+        holder.itemView.tv_location.text = location
         holder.itemView.setOnClickListener {
             onClickedListener.invoke(marketList[position])
         }

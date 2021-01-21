@@ -40,7 +40,6 @@ class SoldItemAdapter(
 
     private fun setListeners(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.ll_minus.setOnClickListener {
-            Log.e("123", "minus clicked")
             if (itemList[position].count - 1 <= 0) {
                 val confirmAction: (() -> Unit) = {
                     viewModel.deleteSoldItem(position)
@@ -52,7 +51,6 @@ class SoldItemAdapter(
         }
 
         holder.itemView.ll_plus.setOnClickListener {
-            Log.e("123", "plus clicked")
             viewModel.updateCount(position, 1)
         }
     }

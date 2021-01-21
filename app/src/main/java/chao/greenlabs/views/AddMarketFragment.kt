@@ -1,12 +1,10 @@
 package chao.greenlabs.views
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +17,7 @@ import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import kotlinx.android.synthetic.main.fragment_add_market.*
+import kotlinx.android.synthetic.main.fragment_add_market.tv_date
 
 class AddMarketFragment : Fragment() {
 
@@ -52,6 +51,7 @@ class AddMarketFragment : Fragment() {
         viewModel.getMessage().observe(viewLifecycleOwner, Observer { msg ->
             ToastUtils.show(requireContext(), msg)
             et_name.text.clear()
+            et_location.text.clear()
             et_price.text.clear()
             et_name.requestFocus()
         })
@@ -70,7 +70,8 @@ class AddMarketFragment : Fragment() {
             val name = et_name.text.toString()
             val price = et_price.text.toString()
             val date = tv_date.text.toString()
-            viewModel.addMarket(name, price, date)
+            val location = et_location.text.toString()
+            viewModel.addMarket(name, price, location, date)
         }
 
         ll_back.setOnClickListener {

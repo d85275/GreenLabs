@@ -14,12 +14,12 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun getMessage(): LiveData<String> = message
 
-    fun addMarket(name: String, price: String, date: String) {
+    fun addMarket(name: String, price: String, location: String, date: String) {
         if (name.isEmpty() || price.isEmpty() || date.isEmpty()) {
             message.postValue("Please fill in all the fields")
             return
         }
-        val marketData = MarketData.create(name, price, date)
+        val marketData = MarketData.create(name, price, location, date)
         repository.addMarket(marketData).doOnComplete {
             message.postValue("Market is saved")
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
