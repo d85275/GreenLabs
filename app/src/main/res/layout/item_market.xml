@@ -21,6 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
             tools:text="Great Market" />
 
         <TextView
@@ -29,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
+            android:textColor="@color/colorPrimaryDark"
             tools:text="2021-02-14" />
     </LinearLayout>
 
