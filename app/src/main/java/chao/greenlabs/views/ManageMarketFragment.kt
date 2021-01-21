@@ -106,7 +106,7 @@ class ManageMarketFragment : Fragment() {
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("note_copy", copyData)
             myClipboard.setPrimaryClip(myClip)
-            ToastUtils.show(requireContext(), "Data is copied")
+            ToastUtils.show(requireContext(), getString(R.string.data_copied))
         }
 
         ll_back.setOnClickListener {
@@ -122,10 +122,10 @@ class ManageMarketFragment : Fragment() {
         override fun afterTextChanged(s: Editable?) {
             val text = s.toString()
             if (text.isEmpty()) {
-                ll_sold_items.visibility = View.VISIBLE
+                rv_sold_items.visibility = View.VISIBLE
                 rv_searched_items.visibility = View.GONE
             } else {
-                ll_sold_items.visibility = View.GONE
+                rv_sold_items.visibility = View.GONE
                 rv_searched_items.visibility = View.VISIBLE
                 viewModel.onSearch(s.toString())
             }

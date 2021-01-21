@@ -181,27 +181,36 @@
             tools:hint="請輸入售出商品品名或價格" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/tv_sold_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:drawableStart="@drawable/icon_sold_item"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:text="@string/sold_items"
+        android:textColor="@color/main_bg_color"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_top" />
 
-    <LinearLayout
-        android:id="@+id/ll_sold_items"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_sold_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_top">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sold_items"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp" />
-    </LinearLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_sold_item"
+        android:layout_margin="10dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_searched_items"

@@ -10,4 +10,6 @@
     <string name="total_price">銷售總額</string>
     <string name="delete_msg">Do you want to delete the data?</string>
     <string name="sold_item_hint">請輸入售出商品品名或價格</string>
+    <string name="data_copied">已複製市集資料</string>
+    <string name="sold_items">售出商品</string>
 </resources>

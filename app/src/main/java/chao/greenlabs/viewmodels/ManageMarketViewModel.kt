@@ -139,7 +139,8 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         val marketName = marketData.name
         val marketDate = marketData.date
         val marketPrice = marketData.price
-        stringBuilder.append(marketName).append(" ").append(marketDate).append("\n總收入: ").append(totalPrice).append("\n\n")
+        stringBuilder.append(marketName).append(" ").append(marketDate).append("\n總收入: ")
+            .append(totalPrice).append("\n\n")
 
         stringBuilder.append("攤位費 ")
             .append(marketPrice).append("\n\n")
@@ -149,7 +150,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                 .append((soldItem.count * soldItem.price.toInt())).append("\n")
         }
 
-        Log.e("123", stringBuilder.toString())
         return stringBuilder.toString()
     }
 
