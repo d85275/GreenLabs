@@ -81,7 +81,7 @@ class ManageMarketFragment : Fragment() {
         viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
             tv_title.text = data.name
             tv_market_date.text = data.date
-            tv_market_price.text = getString(R.string.price, data.price)
+            tv_market_price.text = data.price
         })
 
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->

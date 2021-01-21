@@ -137,7 +137,7 @@
             <ImageView
                 android:layout_width="@dimen/market_icon_size"
                 android:layout_height="@dimen/market_icon_size"
-                android:background="@drawable/icon_market" />
+                android:background="@drawable/icon_white_money" />
 
             <TextView
                 android:id="@+id/tv_market_price"
@@ -147,7 +147,7 @@
                 android:textColor="@color/main_text_color"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:text="$ 1000" />
+                tools:text="1000" />
         </LinearLayout>
 
         <LinearLayout
@@ -171,14 +171,12 @@
                 android:id="@+id/tv_total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:drawableStart="@drawable/icon_white_money"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxWidth="150dp"
                 android:maxLines="1"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
