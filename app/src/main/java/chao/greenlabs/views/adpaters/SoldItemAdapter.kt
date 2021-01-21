@@ -1,14 +1,19 @@
 package chao.greenlabs.views.adpaters
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.SoldData
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import kotlinx.android.synthetic.main.item_sold_items.view.*
 
-class SoldItemAdapter(private val viewModel: ManageMarketViewModel) :
+class SoldItemAdapter(
+    private val viewModel: ManageMarketViewModel
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var itemList = arrayListOf<SoldData>()
@@ -30,6 +35,26 @@ class SoldItemAdapter(private val viewModel: ManageMarketViewModel) :
         holder.itemView.tv_price.text = price
         holder.itemView.tv_count.text = itemList[position].count.toString()
         holder.itemView.iv_image.setImageBitmap(bitmap)
+        setListeners(holder, position)
+    }
+
+    private fun setListeners(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.itemView.ll_minus.setOnClickListener {
+            Log.e("123", "minus clicked")
+            if (itemList[position].count - 1 <= 0) {
+                val confirmAction: (() -> Unit) = {
+                    viewModel.deleteSoldItem(position)
+                }
+                DialogUtils.showDelete(holder.itemView.context, confirmAction)
+            } else {
+                viewModel.updateCount(position, -1)
+            }
+        }
+
+        holder.itemView.ll_plus.setOnClickListener {
+            Log.e("123", "plus clicked")
+            viewModel.updateCount(position, 1)
+        }
     }
 
     fun setItem(soldList: List<SoldData>) {

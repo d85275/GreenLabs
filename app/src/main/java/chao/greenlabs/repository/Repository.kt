@@ -59,6 +59,10 @@ class Repository(private val context: Context) {
         return db.soldDao().getItemsByItemName(itemName)
     }
 
+    fun deleteSoldItem(soldData: SoldData): Completable {
+        return db.soldDao().delete(soldData)
+    }
+
     fun updateSoldItemByName(oldName: String, newName: String, newPrice: String): Completable {
         Log.e("123", "oldName: $oldName")
         Log.e("123", "newName: $newName")
@@ -76,7 +80,6 @@ class Repository(private val context: Context) {
 
     fun getSavedImage(imgName: String): Bitmap {
         val imageFile = getImagePath(imgName) ?: throw Exception("cannot get the path")
-        Log.e("123","savedImagePath: ${imageFile?.absolutePath}")
         return BitmapFactory.decodeFile(imageFile.absolutePath)
     }
 

@@ -37,6 +37,9 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun getSoldItems(): LiveData<ArrayList<SoldData>> = soldItems
 
+    var compositeDisposable = CompositeDisposable()
+
+
     fun loadItemData() {
         val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
@@ -57,12 +60,14 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
                     soldItems.postValue(list as ArrayList<SoldData>?)
+                    Log.e("123","sold list size: ${list.size}")
                 }
         )
     }
 
     fun clearSoldData() {
         soldItems.postValue(arrayListOf())
+        //compositeDisposable.dispose()
     }
 
     fun calculateTotalPrice(list: List<SoldData>) {
@@ -85,6 +90,34 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         matchedItems.value = list as ArrayList<ItemData>
     }
 
+    fun deleteSoldItem(position: Int) {
+        val list = soldItems.value ?: return
+        val item = list[position]
+        list.removeAt(position)
+        val disposable = repository.deleteSoldItem(item).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                soldItems.value = list
+            }, {
+                Log.e("123", "error: $it")
+            })
+        compositeDisposable.add(disposable)
+    }
+
+    fun updateCount(position: Int, count: Int) {
+        val list = soldItems.value ?: return
+        val item = list[position]
+        item.count += count
+        val disposable = repository.updateSoldItem(item).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                {
+                    soldItems.value = list
+                }, {
+                    Log.e("123", "error: $it")
+                }
+            )
+        compositeDisposable.add(disposable)
+    }
+
     fun getImage(name: String, price: String): Bitmap {
         val fileName = StringBuilder().append(name).append("_").append(price).toString()
         return repository.getSavedImage(fileName)
@@ -96,7 +129,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         var isExist = false
         for (i in list.indices) {
             val soldData = list[i]
-            if (soldData.name == itemData.name || soldData.price == itemData.price) {
+            if (soldData.name == itemData.name && soldData.price == itemData.price) {
                 isExist = true
                 soldData.count++
                 repository.updateSoldItem(soldData).subscribeOn(Schedulers.io())
