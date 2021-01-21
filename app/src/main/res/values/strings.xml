@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">GreenLabs</string>
 
-    <string name="image_source">Please select the image source</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="confirm">confirm</string>
-    <string name="cancel">Cancel</string>
+    <string name="image_source">請選擇圖片來源</string>
+    <string name="camera">相機</string>
+    <string name="gallery">相簿</string>
+    <string name="confirm">確定</string>
+    <string name="cancel">取消</string>
     <string name="price">$ %1$s</string>
     <string name="total_price">銷售總額</string>
-    <string name="delete_msg">Do you want to delete the data?</string>
+    <string name="delete_msg">是否要將資料刪除？</string>
     <string name="sold_item_hint">請輸入售出商品品名或價格</string>
     <string name="data_copied">已複製市集資料</string>
     <string name="sold_items">售出商品</string>

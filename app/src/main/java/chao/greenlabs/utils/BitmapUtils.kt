@@ -3,7 +3,6 @@ package chao.greenlabs.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult

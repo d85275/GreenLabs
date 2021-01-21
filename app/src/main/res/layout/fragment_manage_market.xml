@@ -8,9 +8,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_top"
         android:layout_width="0dp"
-        android:layout_height="230dp"
+        android:layout_height="255dp"
         android:background="@drawable/round_bg_pink"
-        android:translationY="-10dp"
+        android:translationY="-13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,7 +20,7 @@
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="23dp"
             android:background="@drawable/circle_bg_white"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
             android:id="@+id/ll_delete"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="23dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/circle_bg_white"
             android:gravity="center"
@@ -72,7 +72,7 @@
             android:id="@+id/ll_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/ll_back"
@@ -98,11 +98,11 @@
             android:id="@+id/ll_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/ll_delete"
-            app:layout_constraintTop_toBottomOf="@id/tv_title">
+            app:layout_constraintStart_toStartOf="@id/ll_date"
+            app:layout_constraintTop_toBottomOf="@id/ll_date">
 
             <ImageView
                 android:layout_width="@dimen/market_icon_size"
@@ -128,11 +128,11 @@
             android:id="@+id/ll_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/ll_back"
-            app:layout_constraintTop_toBottomOf="@id/ll_date">
+            app:layout_constraintTop_toBottomOf="@id/ll_price">
 
             <ImageView
                 android:layout_width="@dimen/market_icon_size"
