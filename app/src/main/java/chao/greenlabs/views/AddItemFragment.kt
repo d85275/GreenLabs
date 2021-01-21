@@ -97,6 +97,7 @@ class AddItemFragment : Fragment() {
         viewModel.getMessage().observe(viewLifecycleOwner, Observer { msg ->
             if (msg.isEmpty()) return@Observer
             if (viewModel.getIsUpdateMode()) {
+                KeyboardUtils.hideKeyboard(requireContext(), view)
                 findNavController().popBackStack()
                 viewModel.clearUpdatedItem()
             } else {
