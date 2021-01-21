@@ -6,13 +6,13 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
@@ -81,7 +81,7 @@ class ManageMarketFragment : Fragment() {
         viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
             tv_market_name.text = data.name
             tv_market_date.text = data.date
-            tv_market_price.text = data.price
+            tv_market_price.text = getString(R.string.price, data.price)
         })
 
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
@@ -100,13 +100,17 @@ class ManageMarketFragment : Fragment() {
 
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
-        iv_copy.setOnClickListener {
+        ll_copy.setOnClickListener {
             val copyData = viewModel.getCopyData()
-            if (copyData.isEmpty()) return@setOnClickListener
-            val myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("note_copy", copyData)
             myClipboard.setPrimaryClip(myClip)
             ToastUtils.show(requireContext(), "Data is copied")
+        }
+
+        ll_back.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -118,10 +122,10 @@ class ManageMarketFragment : Fragment() {
         override fun afterTextChanged(s: Editable?) {
             val text = s.toString()
             if (text.isEmpty()) {
-                rv_sold_items.visibility = View.VISIBLE
+                ll_sold_items.visibility = View.VISIBLE
                 rv_searched_items.visibility = View.GONE
             } else {
-                rv_sold_items.visibility = View.GONE
+                ll_sold_items.visibility = View.GONE
                 rv_searched_items.visibility = View.VISIBLE
                 viewModel.onSearch(s.toString())
             }

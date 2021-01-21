@@ -7,6 +7,7 @@
     <string name="confirm">confirm</string>
     <string name="cancel">Cancel</string>
     <string name="price">$ %1$s</string>
-    <string name="total_price">Total $ %1$s</string>
+    <string name="total_price">銷售總額</string>
     <string name="delete_msg">Do you want to delete the data?</string>
+    <string name="sold_item_hint">請輸入售出商品品名或價格</string>
 </resources>
