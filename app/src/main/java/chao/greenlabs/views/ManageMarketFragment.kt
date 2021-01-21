@@ -50,7 +50,7 @@ class ManageMarketFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.clearSoldData()
+        viewModel.clearMarketSoldData()
     }
 
     private fun getViewModel() {
@@ -89,13 +89,9 @@ class ManageMarketFragment : Fragment() {
             searchedAdapter.setList(matchedList)
         })
 
-        viewModel.getSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
+        viewModel.getMarketSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
             soldAdapter.setItem(soldList)
-            viewModel.calculateTotalPrice(soldList)
-        })
-
-        viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { totalPrice ->
-            tv_total_price.text = totalPrice.toString()
+            tv_total_price.text = viewModel.getTotalPrice(soldList).toString()
         })
     }
 
@@ -116,7 +112,7 @@ class ManageMarketFragment : Fragment() {
     }
 
     private fun loadData() {
-        viewModel.loadSoldData()
+        viewModel.loadMarketSoldData()
     }
 
     private val textWatcher = object : TextWatcher {

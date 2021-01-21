@@ -51,6 +51,10 @@ class Repository(private val context: Context) {
         return db.itemDao().update(itemData)
     }
 
+    fun getSoldItems(): Single<List<SoldData>> {
+        return db.soldDao().getItems()
+    }
+
     fun getSoldItems(marketData: MarketData): Single<List<SoldData>> {
         return db.soldDao().getItems(marketData)
     }

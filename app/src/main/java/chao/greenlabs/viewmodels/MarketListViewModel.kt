@@ -29,4 +29,12 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
                 }
         )
     }
+
+    fun getAllMarketCost(marketList: List<MarketData>): Int {
+        var total = 0
+        marketList.forEach { marketData ->
+            total -= marketData.price.toInt()
+        }
+        return total
+    }
 }

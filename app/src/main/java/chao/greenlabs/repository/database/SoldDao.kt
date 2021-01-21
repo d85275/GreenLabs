@@ -11,6 +11,9 @@ interface SoldDao {
     @Query("SELECT * FROM solddata WHERE marketData IN (:marketData)")
     fun getItems(marketData: MarketData): Single<List<SoldData>>
 
+    @Query("SELECT * FROM solddata")
+    fun getItems(): Single<List<SoldData>>
+
     @Query("SELECT * FROM solddata WHERE name IN (:itemName)")
     fun getItemsByItemName(itemName: String): Single<List<SoldData>>
 

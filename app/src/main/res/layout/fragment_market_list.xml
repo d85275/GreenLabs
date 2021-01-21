@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_top"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="@drawable/round_bg_main"
+        android:layout_height="140dp"
+        android:background="@drawable/round_bg_main_gradient"
         android:translationY="-10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +68,25 @@
                 android:background="@drawable/icon_add" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_market_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/main_text_color"
+            app:layout_constraintStart_toStartOf="@id/ll_back"
+            app:layout_constraintTop_toBottomOf="@id/ll_back"
+            tools:text="已參加 1 個市集" />
+
+        <TextView
+            android:id="@+id/tv_market_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/main_text_color"
+            app:layout_constraintStart_toStartOf="@id/ll_back"
+            app:layout_constraintTop_toBottomOf="@id/tv_market_count"
+            tools:text="總收益 1000" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -74,8 +94,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
