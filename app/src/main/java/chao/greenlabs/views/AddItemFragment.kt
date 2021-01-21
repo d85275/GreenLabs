@@ -22,6 +22,7 @@ import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import chao.greenlabs.viewmodels.AddItemViewModel
@@ -61,15 +62,7 @@ class AddItemFragment : Fragment() {
 
     private fun showKeyboard() {
         et_name.requestFocus()
-        val imm: InputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
-    }
-
-    private fun hideKeyboard() {
-        val imm: InputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+        KeyboardUtils.showKeyboard(requireContext())
     }
 
     private fun getViewModel() {
@@ -86,6 +79,11 @@ class AddItemFragment : Fragment() {
 
         bt_confirm.setOnClickListener {
             viewModel.onConfirmClicked(et_name.text.toString(), et_price.text.toString(), iv_image)
+        }
+
+        ll_back.setOnClickListener {
+            KeyboardUtils.hideKeyboard(requireContext(), view)
+            findNavController().popBackStack()
         }
     }
 
@@ -122,6 +120,7 @@ class AddItemFragment : Fragment() {
         ll_delete.setOnClickListener {
             DialogUtils.showDelete(requireContext()) { viewModel.deleteUpdatedData() }
         }
+        tv_title.text = getString(R.string.edit_item)
     }
 
     private fun resetData() {
@@ -136,7 +135,7 @@ class AddItemFragment : Fragment() {
             val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             takePicture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(viewModel.getTmpPath()))
             openActivityForResult(takePicture)
-            hideKeyboard()
+            KeyboardUtils.hideKeyboard(requireContext(), view)
         }
 
         val galleryAction = {
@@ -145,7 +144,7 @@ class AddItemFragment : Fragment() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             )
             openActivityForResult(pickPhoto)
-            hideKeyboard()
+            KeyboardUtils.hideKeyboard(requireContext(), view)
         }
 
         DialogUtils.showPickImage(requireContext(), cameraAction, galleryAction)

@@ -10,9 +10,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DateUtils
+import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.viewmodels.AddMarketViewModel
@@ -34,7 +36,7 @@ class AddMarketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getViewModel()
         registerObservers()
-        showKeyboard()
+        KeyboardUtils.showKeyboard(requireContext())
         setDate()
         setListeners()
     }
@@ -55,13 +57,6 @@ class AddMarketFragment : Fragment() {
         })
     }
 
-    private fun showKeyboard() {
-        et_name.requestFocus()
-        val imm: InputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
-    }
-
     private fun setDate() {
         tv_date.text = DateUtils.getCurrentDate()
     }
@@ -76,6 +71,11 @@ class AddMarketFragment : Fragment() {
             val price = et_price.text.toString()
             val date = tv_date.text.toString()
             viewModel.addMarket(name, price, date)
+        }
+
+        ll_back.setOnClickListener {
+            KeyboardUtils.hideKeyboard(requireContext(), view)
+            findNavController().popBackStack()
         }
     }
 

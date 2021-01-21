@@ -79,7 +79,7 @@ class ManageMarketFragment : Fragment() {
 
     private fun registerObservers() {
         viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
-            tv_market_name.text = data.name
+            tv_title.text = data.name
             tv_market_date.text = data.date
             tv_market_price.text = getString(R.string.price, data.price)
         })
@@ -100,7 +100,7 @@ class ManageMarketFragment : Fragment() {
 
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
-        ll_copy.setOnClickListener {
+        ll_delete.setOnClickListener {
             val copyData = viewModel.getCopyData()
             val myClipboard =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

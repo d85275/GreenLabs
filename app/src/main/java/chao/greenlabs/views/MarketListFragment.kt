@@ -39,6 +39,7 @@ class MarketListFragment : Fragment() {
         getViewModel()
         setViews()
         registerObservers()
+        setListeners()
         listViewModel.loadMarketData()
         manageMarketViewModel.loadItemData()
     }
@@ -71,5 +72,11 @@ class MarketListFragment : Fragment() {
         listViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
         })
+    }
+
+    private fun setListeners() {
+        ll_back.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }

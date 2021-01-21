@@ -40,6 +40,7 @@ class ItemListFragment : Fragment() {
         getViewModel()
         setViews()
         registerObservers()
+        setListeners()
         listViewModel.loadItemData()
     }
 
@@ -49,7 +50,8 @@ class ItemListFragment : Fragment() {
         listViewModel = ViewModelProvider(this, factory).get(ItemListViewModel::class.java)
 
         val addItemFactory = AddItemVMFactory(repository)
-        addItemViewModel = ViewModelProvider(requireActivity(), addItemFactory).get(AddItemViewModel::class.java)
+        addItemViewModel =
+            ViewModelProvider(requireActivity(), addItemFactory).get(AddItemViewModel::class.java)
     }
 
     private fun setViews() {
@@ -67,5 +69,11 @@ class ItemListFragment : Fragment() {
         listViewModel.getItemList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
         })
+    }
+
+    private fun setListeners() {
+        ll_back.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }

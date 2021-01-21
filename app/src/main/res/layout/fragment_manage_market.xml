@@ -33,7 +33,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_market_name"
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -45,14 +45,14 @@
             android:textColor="@color/main_text_color"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ll_copy"
-            app:layout_constraintEnd_toStartOf="@id/ll_copy"
+            app:layout_constraintBottom_toBottomOf="@id/ll_delete"
+            app:layout_constraintEnd_toStartOf="@id/ll_delete"
             app:layout_constraintStart_toEndOf="@id/ll_back"
-            app:layout_constraintTop_toTopOf="@id/ll_copy"
+            app:layout_constraintTop_toTopOf="@id/ll_delete"
             tools:text="水水市集" />
 
         <LinearLayout
-            android:id="@+id/ll_copy"
+            android:id="@+id/ll_delete"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
@@ -76,7 +76,7 @@
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/ll_back"
-            app:layout_constraintTop_toBottomOf="@id/tv_market_name">
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <ImageView
                 android:layout_width="@dimen/market_icon_size"
@@ -93,6 +93,36 @@
                 android:textStyle="bold"
                 tools:text="2020-02-14" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/ll_delete"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <ImageView
+                android:layout_width="@dimen/market_icon_size"
+                android:layout_height="@dimen/market_icon_size"
+                android:background="@drawable/icon_location" />
+
+            <TextView
+                android:id="@+id/tv_market_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/market_icon_margin"
+                android:ellipsize="end"
+                android:maxWidth="120dp"
+                android:maxLines="1"
+                android:text="四四南村"
+                android:textColor="@color/main_text_color"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_price"
@@ -126,7 +156,7 @@
             android:gravity="end"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/ll_price"
-            app:layout_constraintEnd_toEndOf="@id/ll_copy">
+            app:layout_constraintEnd_toEndOf="@id/ll_delete">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -175,7 +205,7 @@
             android:textColor="@color/black"
             android:textColorHint="@color/colorPrimary"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/ll_copy"
+            app:layout_constraintEnd_toEndOf="@id/ll_delete"
             app:layout_constraintStart_toStartOf="@id/ll_back"
             app:layout_constraintTop_toBottomOf="@id/ll_price"
             tools:hint="請輸入售出商品品名或價格" />
@@ -203,14 +233,14 @@
         android:id="@+id/rv_sold_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sold_item"
-        android:layout_margin="10dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sold_item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_searched_items"
