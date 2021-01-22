@@ -1,7 +1,6 @@
 package chao.greenlabs.views
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,7 @@ class MarketListFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        manageMarketViewModel.clearMarketSoldData()
+        listViewModel.clearMarketData()
     }
 
     private fun getViewModel() {
@@ -77,12 +76,10 @@ class MarketListFragment : Fragment() {
         listViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
             tv_market_count.text = getString(R.string.joined_market, list.size)
-            val marketCost = listViewModel.getAllMarketCost(list)
-            manageMarketViewModel.addAllSoldPrice(marketCost)
         })
 
-        manageMarketViewModel.getAllSoldPrice().observe(viewLifecycleOwner, Observer { price ->
-            tv_market_income.text = getString(R.string.total_market_income, price)
+        listViewModel.getTotalIncome().observe(viewLifecycleOwner, Observer { income ->
+            tv_market_income.text = getString(R.string.total_market_income, income)
         })
     }
 
@@ -99,6 +96,5 @@ class MarketListFragment : Fragment() {
     private fun loadData() {
         listViewModel.loadMarketData()
         manageMarketViewModel.loadItemData()
-        manageMarketViewModel.loadAllSoldPrice()
     }
 }

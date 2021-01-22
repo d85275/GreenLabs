@@ -23,7 +23,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     private val itemList = arrayListOf<ItemData>()
     private val matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private val marketSoldItems = MutableLiveData(arrayListOf<SoldData>())
-    private val allSoldPrice = MutableLiveData(0)
 
     private var totalPrice = 0
 
@@ -37,8 +36,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun getMarketSoldItems(): LiveData<ArrayList<SoldData>> = marketSoldItems
 
-    fun getAllSoldPrice(): LiveData<Int> = allSoldPrice
-
     var compositeDisposable = CompositeDisposable()
 
 
@@ -50,25 +47,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                 .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
                     itemList.clear()
                     itemList.addAll(list.reversed())
-                }
-        )
-    }
-
-    fun addAllSoldPrice(price: Int) {
-        allSoldPrice.value = allSoldPrice.value!! + price
-    }
-
-    fun loadAllSoldPrice() {
-        val compositeDisposable = CompositeDisposable()
-        compositeDisposable.add(
-            repository.getSoldItems().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
-                    var total = 0
-                    list.forEach { soldData ->
-                        total += (soldData.price.toInt() * soldData.count)
-                    }
-                    allSoldPrice.value = allSoldPrice.value!! + total
                 }
         )
     }
@@ -88,7 +66,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun clearMarketSoldData() {
         marketSoldItems.postValue(arrayListOf())
-        allSoldPrice.value = 0
         //compositeDisposable.dispose()
     }
 
