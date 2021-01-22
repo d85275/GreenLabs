@@ -2,13 +2,8 @@ package chao.greenlabs.utils
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
-import android.provider.MediaStore
 import android.view.Window
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.fragment.app.Fragment
 import chao.greenlabs.R
-import chao.greenlabs.views.MainFragment
 
 
 object DialogUtils {

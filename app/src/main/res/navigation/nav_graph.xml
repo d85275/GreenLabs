@@ -3,20 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/marketListFragment">
 
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="chao.greenlabs.views.MainFragment"
-        android:label="Blank"
-        tools:layout="@layout/fragment_main">
-        <action
-            android:id="@+id/action_mainFragment_to_ItemListFragment"
-            app:destination="@id/itemListFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_MarketListFragment"
-            app:destination="@id/marketListFragment" />
-    </fragment>
 
     <fragment
         android:id="@+id/addItemFragment"
@@ -49,6 +37,9 @@
         <action
             android:id="@+id/action_marketListFragment_to_addMarketFragment"
             app:destination="@id/addMarketFragment" />
+        <action
+            android:id="@+id/action_marketListFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
     </fragment>
     <fragment
         android:id="@+id/manageMarketFragment"

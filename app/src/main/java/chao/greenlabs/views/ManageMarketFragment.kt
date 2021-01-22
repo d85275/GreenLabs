@@ -25,7 +25,9 @@ import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_manage_market.*
 import kotlinx.android.synthetic.main.fragment_manage_market.ll_back
+import kotlinx.android.synthetic.main.fragment_manage_market.tv_market_income
 import kotlinx.android.synthetic.main.fragment_manage_market.tv_title
+import kotlinx.android.synthetic.main.fragment_market_list.*
 
 class ManageMarketFragment : Fragment() {
 
@@ -117,8 +119,8 @@ class ManageMarketFragment : Fragment() {
             ToastUtils.show(requireContext(), getString(R.string.data_copied))
         }
 
-        ll_back.setOnClickListener {
-            findNavController().popBackStack()
+        ll_add_items.setOnClickListener {
+            findNavController().navigate(R.id.action_marketListFragment_to_itemListFragment)
         }
 
         ll_delete.setOnClickListener {

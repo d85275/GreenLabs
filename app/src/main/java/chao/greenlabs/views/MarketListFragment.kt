@@ -45,6 +45,7 @@ class MarketListFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        manageMarketViewModel.clearMarketSoldData()
         listViewModel.clearMarketData()
     }
 
@@ -84,8 +85,8 @@ class MarketListFragment : Fragment() {
     }
 
     private fun setListeners() {
-        ll_back.setOnClickListener {
-            findNavController().popBackStack()
+        ll_add_items.setOnClickListener {
+            findNavController().navigate(R.id.action_marketListFragment_to_itemListFragment)
         }
 
         ll_add.setOnClickListener {
