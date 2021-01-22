@@ -20,6 +20,9 @@ interface SoldDao {
     @Query("UPDATE solddata SET price=:newPrice, name=:newName WHERE name=:oldName")
     fun updateByItemName(oldName: String, newName: String, newPrice: String): Completable
 
+    @Query("DELETE FROM solddata WHERE marketName IN (:marketName) AND marketDate IN (:marketDate)")
+    fun delete(marketName: String, marketDate: String): Completable
+
     @Update
     fun update(soldData: SoldData): Completable
 

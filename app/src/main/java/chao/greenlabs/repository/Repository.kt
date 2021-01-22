@@ -67,6 +67,10 @@ class Repository(private val context: Context) {
         return db.soldDao().getItemsByItemName(itemName)
     }
 
+    fun deleteSoldItem(marketName: String, marketDate: String): Completable {
+        return db.soldDao().delete(marketName, marketDate)
+    }
+
     fun deleteSoldItem(soldData: SoldData): Completable {
         return db.soldDao().delete(soldData)
     }

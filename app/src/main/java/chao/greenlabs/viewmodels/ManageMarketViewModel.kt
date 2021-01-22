@@ -106,13 +106,25 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun deleteMarket() {
         val marketData = marketData.value ?: return
-        val disposable = repository.deleteMarket(marketData).subscribeOn(Schedulers.io())
+        val soldDisposable =
+            repository.deleteSoldItem(marketData.name, marketData.date).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    deleteMarket(marketData)
+                }, {
+                    Log.e(TAG, "error: $it")
+                })
+
+        compositeDisposable.add(soldDisposable)
+    }
+
+    private fun deleteMarket(marketData: MarketData) {
+        val marketDisposable = repository.deleteMarket(marketData).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 isMarketDeleted.value = true
             }, {
                 Log.e(TAG, "error: $it")
             })
-        compositeDisposable.add(disposable)
+        compositeDisposable.add(marketDisposable)
     }
 
     fun deleteSoldItem(position: Int) {
