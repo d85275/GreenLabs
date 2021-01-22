@@ -27,15 +27,16 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
         compositeDisposable.add(
             repository.getMarkets().subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()
-            ).doOnError { e -> Log.e(TAG, "Error when loading saved markets: $e") }
-                .subscribe { list ->
-                    marketList.postValue(list)
-                    list.forEach { marketData ->
-                        totalIncome += marketData.income.toInt()
-                    }
-                    this.totalIncome.value = totalIncome
-                    //getAllSoldPrice(totalMarketFee)
+            ).subscribe({ list ->
+                marketList.value = list
+                list.forEach { marketData ->
+                    totalIncome += marketData.income.toInt()
                 }
+                this.totalIncome.value = totalIncome
+                //getAllSoldPrice(totalMarketFee)
+            }, { t ->
+                Log.e(TAG, "Error when loading saved markets: $t")
+            })
         )
     }
 

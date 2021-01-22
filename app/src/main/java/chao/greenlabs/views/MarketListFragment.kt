@@ -1,6 +1,7 @@
 package chao.greenlabs.views
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,6 +78,13 @@ class MarketListFragment : Fragment() {
         listViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
             tv_market_count.text = getString(R.string.joined_market, list.size)
+            if (list.isNotEmpty()) {
+                rv_markets.visibility = View.VISIBLE
+                ll_no_market.visibility = View.GONE
+            } else {
+                ll_no_market.visibility = View.VISIBLE
+                rv_markets.visibility = View.GONE
+            }
         })
 
         listViewModel.getTotalIncome().observe(viewLifecycleOwner, Observer { income ->
