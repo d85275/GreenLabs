@@ -71,7 +71,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun clearMarketSoldData() {
-        marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
+        marketSoldItems = MutableLiveData()
         //compositeDisposable.dispose()
     }
 
