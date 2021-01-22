@@ -32,8 +32,8 @@
         android:id="@+id/iv_location"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:translationY="3dp"
         android:background="@drawable/icon_white_location"
+        android:translationY="3dp"
         app:layout_constraintBottom_toBottomOf="@id/tv_location"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_location" />
@@ -67,8 +67,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
         android:layout_weight="1"
         android:textColor="@color/main_text_color"
         android:textSize="12sp"
@@ -77,17 +77,18 @@
         tools:text="2021-01-30" />
 
     <TextView
-        android:id="@+id/tv_price"
+        android:id="@+id/tv_income"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:drawableStart="@drawable/icon_white_money"
         android:gravity="end"
-        android:text="$ 1000"
         android:textColor="@color/main_text_color"
-        android:textSize="20sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1000" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,6 +31,10 @@ class Repository(private val context: Context) {
         return db.marketDao().delete(marketData)
     }
 
+    fun updateMarket(marketData: MarketData): Completable {
+        return db.marketDao().update(marketData)
+    }
+
     fun getMarkets(): Single<List<MarketData>> {
         return db.marketDao().getAll()
     }
@@ -55,8 +59,8 @@ class Repository(private val context: Context) {
         return db.soldDao().getItems()
     }
 
-    fun getSoldItems(marketData: MarketData): Single<List<SoldData>> {
-        return db.soldDao().getItems(marketData)
+    fun getSoldItems(marketName: String, marketDate: String): Single<List<SoldData>> {
+        return db.soldDao().getItems(marketName, marketDate)
     }
 
     fun getSoldItemsByItemName(itemName: String): Single<List<SoldData>> {
@@ -68,9 +72,6 @@ class Repository(private val context: Context) {
     }
 
     fun updateSoldItemByName(oldName: String, newName: String, newPrice: String): Completable {
-        Log.e("123", "oldName: $oldName")
-        Log.e("123", "newName: $newName")
-        Log.e("123", "newPrice: $newPrice")
         return db.soldDao().updateByItemName(oldName, newName, newPrice)
     }
 

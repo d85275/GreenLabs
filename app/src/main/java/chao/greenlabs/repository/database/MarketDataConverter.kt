@@ -13,7 +13,8 @@ class MarketDataConverter {
             put("name", marketData.name)
             put("date", marketData.date)
             put("location", marketData.location)
-            put("price", marketData.price)
+            put("fee", marketData.fee)
+            put("income", marketData.income)
         }.toString()
     }
 
@@ -22,9 +23,10 @@ class MarketDataConverter {
         val json = JSONObject(data)
         val id = json.get("id").toString()
         val name = json.get("name").toString()
-        val price = json.get("price").toString()
+        val fee = json.get("fee").toString()
+        val income = json.get("income").toString()
         val date = json.get("date").toString()
         val location = json.get("location").toString()
-        return MarketData(id, name, price, location, date)
+        return MarketData(id, name, fee, income, location, date)
     }
 }

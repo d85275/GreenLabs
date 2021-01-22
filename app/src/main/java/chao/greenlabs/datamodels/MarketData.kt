@@ -7,14 +7,15 @@ import androidx.room.PrimaryKey
 data class MarketData(
     @PrimaryKey val id: String,
     val name: String,
-    val price: String,
+    val fee: String,
+    var income: String,
     val location: String,
     val date: String
 ) {
 
     companion object {
-        fun create(name: String, price: String, location: String, date: String): MarketData {
-            return MarketData("$name-$date", name, price, location, date)
+        fun create(name: String, fee: String, location: String, date: String): MarketData {
+            return MarketData("$name-$date", name, fee, "-$fee", location, date)
         }
     }
 }

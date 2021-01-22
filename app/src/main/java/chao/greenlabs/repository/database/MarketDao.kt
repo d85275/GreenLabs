@@ -1,9 +1,6 @@
 package chao.greenlabs.repository.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
 import io.reactivex.Completable
@@ -19,4 +16,7 @@ interface MarketDao {
 
     @Delete
     fun delete(market: MarketData): Completable
+
+    @Update
+    fun update(market: MarketData): Completable
 }

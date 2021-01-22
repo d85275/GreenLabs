@@ -18,7 +18,6 @@ object BitmapUtils {
         val selectedImage: Uri? = result.data?.data
         if (selectedImage == null){
             // camera
-            Log.e("123","camera, path: ${viewModel.getTmpPath()}")
             Glide.with(context).load(viewModel.getTmpPath()).skipMemoryCache(true).diskCacheStrategy(
                 DiskCacheStrategy.NONE).into(imageView)
         } else{

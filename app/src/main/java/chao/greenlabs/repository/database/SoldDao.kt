@@ -8,8 +8,8 @@ import io.reactivex.Single
 
 @Dao
 interface SoldDao {
-    @Query("SELECT * FROM solddata WHERE marketData IN (:marketData)")
-    fun getItems(marketData: MarketData): Single<List<SoldData>>
+    @Query("SELECT * FROM solddata WHERE marketName IN (:marketName) AND marketDate IN (:marketDate)")
+    fun getItems(marketName: String, marketDate: String): Single<List<SoldData>>
 
     @Query("SELECT * FROM solddata")
     fun getItems(): Single<List<SoldData>>

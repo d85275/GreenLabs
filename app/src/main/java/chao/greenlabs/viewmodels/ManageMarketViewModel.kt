@@ -22,9 +22,9 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     private val itemList = arrayListOf<ItemData>()
     private val matchedItems = MutableLiveData(arrayListOf<ItemData>())
-    private val marketSoldItems = MutableLiveData(arrayListOf<SoldData>())
+    private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
 
-    private var totalPrice = 0
+    private var totalIncome = 0
 
     fun getMarketData(): LiveData<MarketData> = marketData
 
@@ -55,28 +55,35 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         val marketData = this.marketData.value ?: return
         val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
-            repository.getSoldItems(marketData).subscribeOn(Schedulers.io())
+            repository.getSoldItems(marketData.name, marketData.date).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
                     marketSoldItems.postValue(list as ArrayList<SoldData>?)
-                    Log.e("123", "sold list size: ${list.size}")
                 }
         )
     }
 
     fun clearMarketSoldData() {
-        marketSoldItems.postValue(arrayListOf())
+        marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
         //compositeDisposable.dispose()
     }
 
-    fun getTotalPrice(list: List<SoldData>): Int {
-        val marketData = marketData.value ?: return 0
-        var total = 0 - marketData.price.toInt()
+    fun updateMarketIncome(list: List<SoldData>) {
+        val marketData = marketData.value ?: return
+        var total = 0 - marketData.fee.toInt()
         list.forEach { soldItem ->
             total += (soldItem.price.toInt() * soldItem.count)
         }
-        totalPrice = total
-        return total
+        totalIncome = total
+        marketData.income = totalIncome.toString()
+
+        val disposable = repository.updateMarket(marketData).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                this.marketData.value = marketData
+            }, {
+                Log.e("ManageMarketVM", "error: $it")
+            })
+        compositeDisposable.add(disposable)
     }
 
     fun onSearch(text: String) {
@@ -167,11 +174,11 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     fun getCopyData(): String {
         val stringBuilder = StringBuilder()
         val marketData = this.marketData.value ?: return ""
-        val totalPrice = this.totalPrice
+        val totalPrice = marketData.income
         val soldList: ArrayList<SoldData> = marketSoldItems.value ?: arrayListOf()
         val marketName = marketData.name
         val marketDate = marketData.date
-        val marketPrice = marketData.price
+        val marketPrice = marketData.fee
         stringBuilder.append(marketName).append(" ").append(marketDate).append("\n總收入: ")
             .append(totalPrice).append("\n\n")
 

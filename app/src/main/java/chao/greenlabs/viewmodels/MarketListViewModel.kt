@@ -23,7 +23,7 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
     fun getMarketList(): LiveData<List<MarketData>> = marketList
 
     fun loadMarketData() {
-        var totalMarketFee = 0
+        var totalIncome = 0
         compositeDisposable.add(
             repository.getMarkets().subscribeOn(Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()
@@ -31,9 +31,10 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
                 .subscribe { list ->
                     marketList.postValue(list)
                     list.forEach { marketData ->
-                        totalMarketFee += marketData.price.toInt()
+                        totalIncome += marketData.income.toInt()
                     }
-                    getAllSoldPrice(totalMarketFee)
+                    this.totalIncome.value = totalIncome
+                    //getAllSoldPrice(totalMarketFee)
                 }
         )
     }
@@ -54,7 +55,7 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
         compositeDisposable.add(disposable)
     }
 
-    fun clearMarketData(){
+    fun clearMarketData() {
         compositeDisposable.clear()
     }
 }

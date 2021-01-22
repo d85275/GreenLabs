@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,8 @@ import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_manage_market.*
+import kotlinx.android.synthetic.main.fragment_manage_market.ll_back
+import kotlinx.android.synthetic.main.fragment_manage_market.tv_title
 
 class ManageMarketFragment : Fragment() {
 
@@ -81,7 +84,8 @@ class ManageMarketFragment : Fragment() {
         viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
             tv_title.text = data.name
             tv_market_date.text = data.date
-            tv_market_price.text = data.price
+            tv_market_fee.text = data.fee
+            tv_market_income.text = data.income
             tv_market_location.text = data.location
         })
 
@@ -91,7 +95,7 @@ class ManageMarketFragment : Fragment() {
 
         viewModel.getMarketSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
             soldAdapter.setItem(soldList)
-            tv_total_price.text = viewModel.getTotalPrice(soldList).toString()
+            viewModel.updateMarketIncome(soldList)
         })
     }
 

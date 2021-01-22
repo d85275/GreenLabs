@@ -140,7 +140,7 @@
                 android:background="@drawable/icon_white_money" />
 
             <TextView
-                android:id="@+id/tv_market_price"
+                android:id="@+id/tv_market_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/market_icon_margin"
@@ -168,7 +168,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_total_price"
+                android:id="@+id/tv_market_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

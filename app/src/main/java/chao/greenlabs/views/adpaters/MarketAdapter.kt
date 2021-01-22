@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.MarketData
-import kotlinx.android.synthetic.main.item_items.view.*
 import kotlinx.android.synthetic.main.item_market.view.*
 import kotlinx.android.synthetic.main.item_market.view.tv_name
 
@@ -27,9 +26,11 @@ class MarketAdapter(private val onClickedListener: ((data: MarketData) -> Unit))
         val name = marketList[position].name
         val date = marketList[position].date
         val location = marketList[position].location
+        val income = marketList[position].income
         holder.itemView.tv_name.text = name
         holder.itemView.tv_date.text = date
         holder.itemView.tv_location.text = location
+        holder.itemView.tv_income.text = income
         holder.itemView.setOnClickListener {
             onClickedListener.invoke(marketList[position])
         }

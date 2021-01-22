@@ -9,7 +9,8 @@ data class SoldData(
     val name: String,
     val price: String,
     var count: Int,
-    val marketData: MarketData
+    val marketName: String,
+    val marketDate: String
 ) {
     companion object {
         fun create(name: String, price: String, marketData: MarketData): SoldData {
@@ -18,8 +19,13 @@ data class SoldData(
                 name,
                 price,
                 1,
-                marketData
+                marketData.name,
+                marketData.date
             )
         }
+    }
+
+    fun getSoldDataId(): String {
+        return "$name-$marketName-$marketDate"
     }
 }
