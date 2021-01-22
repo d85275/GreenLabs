@@ -39,22 +39,6 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
         )
     }
 
-    private fun getAllSoldPrice(totalMarketFee: Int) {
-        var totalIncome = 0 - totalMarketFee
-        val disposable =
-            repository.getSoldItems().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({ list ->
-                    list.forEach { soldData ->
-                        totalIncome += (soldData.count * soldData.price.toInt())
-                    }
-                    this.totalIncome.value = totalIncome
-
-                }, {
-                    Log.e("MarketListVM", "error $it")
-                })
-        compositeDisposable.add(disposable)
-    }
-
     fun clearMarketData() {
         compositeDisposable.clear()
     }

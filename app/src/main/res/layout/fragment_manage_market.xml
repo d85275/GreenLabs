@@ -45,14 +45,14 @@
             android:textColor="@color/main_text_color"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ll_copy"
-            app:layout_constraintEnd_toStartOf="@id/ll_copy"
+            app:layout_constraintBottom_toBottomOf="@id/ll_delete"
+            app:layout_constraintEnd_toStartOf="@id/ll_delete"
             app:layout_constraintStart_toEndOf="@id/ll_back"
-            app:layout_constraintTop_toTopOf="@id/ll_copy"
+            app:layout_constraintTop_toTopOf="@id/ll_delete"
             tools:text="水水市集" />
 
         <LinearLayout
-            android:id="@+id/ll_copy"
+            android:id="@+id/ll_delete"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginTop="23dp"
@@ -65,7 +65,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/icon_copy" />
+                android:background="@drawable/icon_delete" />
         </LinearLayout>
 
         <LinearLayout
@@ -156,7 +156,7 @@
             android:gravity="end"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/ll_location"
-            app:layout_constraintEnd_toEndOf="@id/ll_copy">
+            app:layout_constraintEnd_toEndOf="@id/ll_delete">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
             android:textColor="@color/black"
             android:textColorHint="@color/colorPrimary"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/ll_copy"
+            app:layout_constraintEnd_toEndOf="@id/ll_delete"
             app:layout_constraintStart_toStartOf="@id/ll_back"
             app:layout_constraintTop_toBottomOf="@id/ll_location"
             tools:hint="請輸入售出商品品名或價格" />
@@ -225,13 +225,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_top" />
 
+    <LinearLayout
+        android:id="@+id/ll_copy"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/circle_bg_main"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/tv_sold_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_sold_item">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/icon_white_copy" />
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sold_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
-        android:padding="10dp"
         android:layout_marginBottom="5dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

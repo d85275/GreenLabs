@@ -18,13 +18,20 @@ private const val TAG = "ManageMarketViewModel"
 
 class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
-    private val marketData = MutableLiveData<MarketData>()
+    private var marketData = MutableLiveData<MarketData>()
 
     private val itemList = arrayListOf<ItemData>()
     private val matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
+    private val isMarketDeleted = MutableLiveData(false)
 
     private var totalIncome = 0
+
+    fun getIsMarketDeleted(): LiveData<Boolean> = isMarketDeleted
+
+    fun setIsMarketDeleted(state: Boolean) {
+        isMarketDeleted.value = state
+    }
 
     fun getMarketData(): LiveData<MarketData> = marketData
 
@@ -81,7 +88,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 this.marketData.value = marketData
             }, {
-                Log.e("ManageMarketVM", "error: $it")
+                Log.e(TAG, "error: $it")
             })
         compositeDisposable.add(disposable)
     }
@@ -95,6 +102,17 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             }
 
         matchedItems.value = list as ArrayList<ItemData>
+    }
+
+    fun deleteMarket() {
+        val marketData = marketData.value ?: return
+        val disposable = repository.deleteMarket(marketData).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                isMarketDeleted.value = true
+            }, {
+                Log.e(TAG, "error: $it")
+            })
+        compositeDisposable.add(disposable)
     }
 
     fun deleteSoldItem(position: Int) {
@@ -119,7 +137,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                 {
                     marketSoldItems.value = list
                 }, {
-                    Log.e("123", "error: $it")
+                    Log.e(TAG, "error: $it")
                 }
             )
         compositeDisposable.add(disposable)

@@ -11,7 +11,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
@@ -31,8 +30,6 @@ import kotlinx.android.synthetic.main.fragment_add_item.et_name
 import kotlinx.android.synthetic.main.fragment_add_item.et_price
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
 import kotlinx.android.synthetic.main.fragment_add_item.tv_title
-import kotlinx.android.synthetic.main.fragment_add_market.*
-import kotlinx.android.synthetic.main.fragment_manage_market.*
 
 
 class AddItemFragment : Fragment() {

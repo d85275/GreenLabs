@@ -43,7 +43,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     fun deleteUpdatedData() {
         val updatedItem = updatedItem.value ?: return
         repository.deleteItem(updatedItem).doOnComplete {
-            msg.postValue("Data is deleted")
+            msg.postValue("資料已刪除")
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
     }
 
@@ -55,7 +55,8 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
             repository.saveImageToExternal(fileName, bm)
 
         } catch (e: Exception) {
-            msg.postValue("Error when saving the item image")
+            Log.e("AddItemVM", "error: $e")
+            msg.postValue("儲存圖片時發生錯誤")
             return
         }
 

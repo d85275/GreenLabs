@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
@@ -97,6 +97,13 @@ class ManageMarketFragment : Fragment() {
             soldAdapter.setItem(soldList)
             viewModel.updateMarketIncome(soldList)
         })
+
+        viewModel.getIsMarketDeleted().observe(viewLifecycleOwner, Observer { isMarketDeleted ->
+            if (isMarketDeleted) {
+                findNavController().popBackStack()
+                viewModel.setIsMarketDeleted(false)
+            }
+        })
     }
 
     private fun setListeners() {
@@ -112,6 +119,11 @@ class ManageMarketFragment : Fragment() {
 
         ll_back.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        ll_delete.setOnClickListener {
+            val confirmAction: (() -> Unit) = { viewModel.deleteMarket() }
+            DialogUtils.showDelete(requireContext(), confirmAction)
         }
     }
 
