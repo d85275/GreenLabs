@@ -48,8 +48,6 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
-        if (name.isEmpty() || price.isEmpty()) return
-
         // save the image to file and keep the file name
         try {
             val bm = (imageView.drawable as BitmapDrawable).bitmap

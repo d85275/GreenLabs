@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +22,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.BitmapUtils
-import chao.greenlabs.utils.DialogUtils
-import chao.greenlabs.utils.KeyboardUtils
-import chao.greenlabs.utils.ToastUtils
+import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import chao.greenlabs.viewmodels.AddItemViewModel
 import kotlinx.android.synthetic.main.fragment_add_item.*
+import kotlinx.android.synthetic.main.fragment_add_item.bt_confirm
+import kotlinx.android.synthetic.main.fragment_add_item.et_name
+import kotlinx.android.synthetic.main.fragment_add_item.et_price
+import kotlinx.android.synthetic.main.fragment_add_item.ll_back
+import kotlinx.android.synthetic.main.fragment_add_item.tv_title
+import kotlinx.android.synthetic.main.fragment_add_market.*
+import kotlinx.android.synthetic.main.fragment_manage_market.*
 
 
 class AddItemFragment : Fragment() {
@@ -78,13 +84,20 @@ class AddItemFragment : Fragment() {
         }
 
         bt_confirm.setOnClickListener {
-            viewModel.onConfirmClicked(et_name.text.toString(), et_price.text.toString(), iv_image)
+            val name = et_name.text.toString()
+            val price = et_price.text.toString()
+            if (InputChecker.validItem(name, price)) {
+                viewModel.onConfirmClicked(name, price, iv_image)
+            } else {
+                DialogUtils.showWrongFormat(requireContext())
+            }
         }
 
         ll_back.setOnClickListener {
             KeyboardUtils.hideKeyboard(requireContext(), view)
             findNavController().popBackStack()
         }
+        et_price.addTextChangedListener(textWatcher)
     }
 
     private fun setDefaultImage() {
@@ -162,4 +175,21 @@ class AddItemFragment : Fragment() {
                 //..iv_image.setImageBitmap(image)
             }
         }
+
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            var text = s.toString()
+            if (text.contains(".")) {
+                text = text.replace(".", "")
+                et_price.setText(text)
+                et_price.setSelection(et_price.text.length)
+            }
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+    }
 }

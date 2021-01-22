@@ -13,6 +13,11 @@ import chao.greenlabs.views.MainFragment
 
 object DialogUtils {
 
+    fun showWrongFormat(context: Context) {
+        val msg = context.getString(R.string.wrong_format)
+        showDialog(context, null, msg, null, null, null, null, false)
+    }
+
     fun showDelete(context: Context, confirmAction: (() -> Unit)) {
         val msg = context.getString(R.string.delete_msg)
         showDialog(context, null, msg, null, null, confirmAction, null, true)
