@@ -10,16 +10,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateUtils
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.*
 import java.util.*
 
 class AddMarketSetDateFragment : Fragment() {
 
     private lateinit var viewModel: AddMarketViewModel
+    private lateinit var bottomSheetController: BottomSheetController<ViewSetMarketInfo>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +73,9 @@ class AddMarketSetDateFragment : Fragment() {
         ccv_market_calendar.displayOtherMonthDays(true)
         ccv_market_calendar.shouldSelectFirstDayOfMonthOnScroll(false)
         ccv_market_calendar.shouldDrawIndicatorsBelowSelectedDays(true)
+
+        bottomSheetController = BottomSheetController(v_set_market_info)
+        v_set_market_info.setBottomSheetController(bottomSheetController)
     }
 
     private fun getCalendarListener(): CompactCalendarView.CompactCalendarViewListener {
@@ -78,6 +84,8 @@ class AddMarketSetDateFragment : Fragment() {
                 if (dateClicked == null) return
                 //selectedDay.value = dateClicked
                 Log.e("123", "on day clicked: ${DateUtils.getDateString(dateClicked)}")
+                v_set_market_info.setDate(DateUtils.getDateString(dateClicked))
+                bottomSheetController.show()
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date?) {
