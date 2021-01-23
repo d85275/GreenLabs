@@ -16,7 +16,6 @@ import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.viewmodels.AddMarketViewModel
-import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_market.*
 import kotlinx.android.synthetic.main.fragment_add_market.bt_confirm
 import kotlinx.android.synthetic.main.fragment_add_market.et_name
@@ -100,7 +99,7 @@ class AddMarketFragment : Fragment() {
     private fun showDatePicker() {
         val datePicker = DatePickerDialog(requireContext())
         datePicker.setOnDateSetListener { _, year, month, dayOfMonth ->
-            tv_date.text = DateUtils.onDateChanged(year, month, dayOfMonth)
+            tv_date.text = DateUtils.getDateString(year, month, dayOfMonth)
         }
         datePicker.show()
     }

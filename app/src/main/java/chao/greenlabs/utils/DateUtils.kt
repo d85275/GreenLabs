@@ -6,16 +6,33 @@ import java.util.*
 
 object DateUtils {
     private val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val monthFormat = SimpleDateFormat(
+        "yyyy  MMM" +
+                "", Locale.getDefault()
+    )
 
     fun getCurrentDate(): String {
         val date = Calendar.getInstance().time
         return format.format(date)
     }
 
-    fun onDateChanged(year: Int, month: Int, dayOfMonth: Int): String {
+    fun getDateString(year: Int, month: Int, dayOfMonth: Int): String {
         val currentDate = StringBuilder()
         currentDate.append(year).append("-").append(month + 1).append("-").append(dayOfMonth)
         val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return format.format(format.parse(currentDate.toString())!!)
+    }
+
+    fun getDateString(date: Date): String {
+        return format.format(date)
+    }
+
+    fun getMonthString(date: Date): String {
+        return monthFormat.format(date)
+    }
+
+    fun getCurrentMonth(): String {
+        val date = Calendar.getInstance().time
+        return monthFormat.format(date)
     }
 }
