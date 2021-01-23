@@ -10,7 +10,9 @@ import io.reactivex.schedulers.Schedulers
 
 class AddMarketViewModel(private val repository: Repository) : ViewModel() {
 
-    private val message = MutableLiveData<String>()
+    private var message = MutableLiveData<String>()
+    var marketName = ""
+    var marketLocation = ""
 
     fun getMessage(): LiveData<String> = message
 
@@ -23,5 +25,11 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
         repository.addMarket(marketData).doOnComplete {
             message.postValue("Market is saved")
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+    }
+
+    fun resetData() {
+        marketName = ""
+        marketLocation = ""
+        message = MutableLiveData<String>()
     }
 }

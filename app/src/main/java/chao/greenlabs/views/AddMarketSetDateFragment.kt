@@ -6,14 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
+import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DateUtils
+import chao.greenlabs.viewmodels.AddMarketViewModel
+import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.*
 import java.util.*
 
 class AddMarketSetDateFragment : Fragment() {
+
+    private lateinit var viewModel: AddMarketViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,20 +36,35 @@ class AddMarketSetDateFragment : Fragment() {
         setListeners()
     }
 
-    private fun getViewModels() {
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.resetData()
+    }
 
+    private fun getViewModels() {
+        val factory = AddMarketVMFactory(
+            Repository(requireContext())
+        )
+        viewModel =
+            ViewModelProvider(requireActivity(), factory).get(AddMarketViewModel::class.java)
     }
 
     private fun setListeners() {
+        ll_back.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         ll_done.setOnClickListener {
             // todo: to check the input dates
             findNavController().popBackStack(R.id.marketListFragment, false)
         }
-        
+
         ccv_market_calendar.setListener(getCalendarListener())
     }
 
     private fun initViews() {
+        tv_title.text = viewModel.marketName
+        tv_location.text = viewModel.marketLocation
         tv_calendar_month.text =
             DateUtils.getMonthString(ccv_market_calendar.firstDayOfCurrentMonth)
         ccv_market_calendar.displayOtherMonthDays(true)

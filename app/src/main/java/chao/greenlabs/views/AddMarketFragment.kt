@@ -48,7 +48,8 @@ class AddMarketFragment : Fragment() {
         val factory = AddMarketVMFactory(
             Repository(requireContext())
         )
-        viewModel = ViewModelProvider(this, factory).get(AddMarketViewModel::class.java)
+        viewModel =
+            ViewModelProvider(requireActivity(), factory).get(AddMarketViewModel::class.java)
     }
 
     private fun registerObservers() {
@@ -88,9 +89,17 @@ class AddMarketFragment : Fragment() {
         }
 
         ll_next.setOnClickListener {
-            // todo: to check the input value first
-            KeyboardUtils.hideKeyboard(requireContext(), view)
-            findNavController().navigate(R.id.action_addMarketFragment_to_addMarketSetDateFragment)
+            val name = et_name.text.toString()
+            val location = et_location.text.toString()
+            if (InputChecker.validInput(name, location)) {
+                viewModel.marketName = name
+                viewModel.marketLocation = location
+                KeyboardUtils.hideKeyboard(requireContext(), view)
+                findNavController().navigate(R.id.action_addMarketFragment_to_addMarketSetDateFragment)
+            } else {
+                DialogUtils.showWrongFormat(requireContext())
+            }
+
         }
 
         et_fee.addTextChangedListener(textWatcher)

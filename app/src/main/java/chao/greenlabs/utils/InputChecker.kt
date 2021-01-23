@@ -13,4 +13,11 @@ object InputChecker {
         if (fee.length >= 7) return false
         return true
     }
+
+    fun validInput(vararg input:String): Boolean {
+        input.forEach {
+            if (it.isEmpty()) return false
+        }
+        return true
+    }
 }
