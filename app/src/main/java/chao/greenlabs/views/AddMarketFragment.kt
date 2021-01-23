@@ -76,7 +76,7 @@ class AddMarketFragment : Fragment() {
             val fee = et_fee.text.toString()
             val date = tv_date.text.toString()
             val location = et_location.text.toString()
-            if (InputChecker.validMarketItem(name,location,fee)){
+            if (InputChecker.validMarketItem(name, location, fee)) {
                 viewModel.addMarket(name, fee, location, date)
             } else {
                 DialogUtils.showWrongFormat(requireContext())
@@ -86,6 +86,12 @@ class AddMarketFragment : Fragment() {
         ll_back.setOnClickListener {
             KeyboardUtils.hideKeyboard(requireContext(), view)
             findNavController().popBackStack()
+        }
+
+        ll_next.setOnClickListener {
+            // todo: to check the input value first
+            KeyboardUtils.hideKeyboard(requireContext(), view)
+            findNavController().navigate(R.id.action_addMarketFragment_to_addMarketSetDateFragment)
         }
 
         et_fee.addTextChangedListener(textWatcher)

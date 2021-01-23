@@ -16,7 +16,11 @@
         android:id="@+id/addMarketFragment"
         android:name="chao.greenlabs.views.AddMarketFragment"
         android:label="AddMarketFragment"
-        tools:layout="@layout/fragment_add_market" />
+        tools:layout="@layout/fragment_add_market">
+        <action
+            android:id="@+id/action_addMarketFragment_to_addMarketSetDateFragment"
+            app:destination="@id/addMarketSetDateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemListFragment"
         android:name="chao.greenlabs.views.ItemListFragment"
@@ -46,5 +50,10 @@
         android:name="chao.greenlabs.views.ManageMarketFragment"
         android:label="ManageMarketFragment"
         tools:layout="@layout/fragment_manage_market" />
+    <fragment
+        android:id="@+id/addMarketSetDateFragment"
+        android:name="chao.greenlabs.views.AddMarketSetDateFragment"
+        android:label="AddMarketSetDateFragment"
+        tools:layout="@layout/fragment_add_market_set_date" />
 
 </navigation>
