@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/round_bg_light"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/main_text_color"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_start"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Great Market" />
+
+    <ImageView
+        android:id="@+id/iv_start"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/icon_time_on_white"
+        android:translationY="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_start" />
+
+    <TextView
+        android:id="@+id/tv_start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="1"
+        android:textColor="@color/main_text_color"
+        android:textSize="12sp"
+        android:translationY="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/gl_middle"
+        app:layout_constraintStart_toEndOf="@id/iv_start"
+        app:layout_constraintTop_toTopOf="@id/gl_middle"
+        tools:text="Great Market" />
+
+    <ImageView
+        android:id="@+id/iv_end"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/icon_time_off_white"
+        app:layout_constraintBottom_toBottomOf="@id/tv_end"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_end" />
+
+    <TextView
+        android:id="@+id/tv_end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="1"
+        android:textColor="@color/main_text_color"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/iv_end"
+        app:layout_constraintTop_toBottomOf="@id/tv_start"
+        tools:text="2021-01-30" />
+
+    <TextView
+        android:id="@+id/tv_fee"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/icon_white_money"
+        android:gravity="end"
+        android:textColor="@color/main_text_color"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1000" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

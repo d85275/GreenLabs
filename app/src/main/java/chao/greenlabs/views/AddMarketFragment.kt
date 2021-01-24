@@ -63,7 +63,7 @@ class AddMarketFragment : Fragment() {
     }
 
     private fun setDate() {
-        tv_date.text = DateUtils.getCurrentDate()
+        tv_date.text = DateTimeUtils.getCurrentDate()
     }
 
     private fun setListeners() {
@@ -108,7 +108,7 @@ class AddMarketFragment : Fragment() {
     private fun showDatePicker() {
         val datePicker = DatePickerDialog(requireContext())
         datePicker.setOnDateSetListener { _, year, month, dayOfMonth ->
-            tv_date.text = DateUtils.getDateString(year, month, dayOfMonth)
+            tv_date.text = DateTimeUtils.getDateString(year, month, dayOfMonth)
         }
         datePicker.show()
     }

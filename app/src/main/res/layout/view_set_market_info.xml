@@ -7,30 +7,97 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@android:color/white">
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_bg" />
 
         <View
             android:id="@+id/v_bg"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="170dp"
             android:background="@drawable/round_bg_set_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/tv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:minWidth="40dp"
+            android:text="@string/add"
+            android:textColor="@color/main_text_color"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:gravity="center"
+            android:minWidth="40dp"
+            android:text="@string/cancel"
+            android:textColor="@color/main_text_color"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:letterSpacing="0.3"
             android:textColor="@color/main_text_color"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/v_bg"
+            android:text="@string/add_market"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/v_bg"
+            app:layout_constraintTop_toTopOf="@id/v_bg" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/icon_date"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textColor="@color/main_text_color"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="2020-01-31" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/icon_location"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textColor="@color/main_text_color"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            tools:text="松菸工廠" />
 
         <TextView
             android:id="@+id/tv_start_title"
@@ -123,17 +190,6 @@
             app:layout_constraintTop_toTopOf="@id/tv_fee_title"
             app:layout_constraintVertical_bias="0.0"
             tools:text="1000" />
-
-        <Button
-            android:id="@+id/bt_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/confirm"
-            app:layout_constraintBottom_toBottomOf="@id/tv_start_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_start_title" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

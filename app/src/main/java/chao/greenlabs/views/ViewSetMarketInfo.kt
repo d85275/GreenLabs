@@ -3,17 +3,31 @@ package chao.greenlabs.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
 import chao.greenlabs.databinding.ViewSetMarketInfoBinding
 import chao.greenlabs.utils.BottomSheetController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import chao.greenlabs.utils.DateTimeUtils
+import chao.greenlabs.utils.InputChecker
+import chao.greenlabs.utils.KeyboardUtils
+import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
 import kotlinx.android.synthetic.main.view_set_market_info.view.*
 
 open class ViewSetMarketInfo : LinearLayout {
 
     private lateinit var binding: ViewSetMarketInfoBinding
     private lateinit var bottomSheetController: BottomSheetController<ViewSetMarketInfo>
+    private lateinit var viewModel: AddMarketSetDateViewModel
+
+    fun init(
+        date: String,
+        controller: BottomSheetController<ViewSetMarketInfo>,
+        viewModel: AddMarketSetDateViewModel
+    ) {
+        binding.tvDate.text = date
+        binding.tvLocation.text = viewModel.marketLocation
+        bottomSheetController = controller
+        this.viewModel = viewModel
+    }
 
     constructor(context: Context?) : super(context) {
         onViewCreated()
@@ -36,23 +50,33 @@ open class ViewSetMarketInfo : LinearLayout {
     private fun setListeners() {
         binding.tvStart.setOnClickListener { }
         binding.tvEnd.setOnClickListener { }
-        binding.btConfirm.setOnClickListener {
-            // todo: to check if we should add the data
-            bottomSheetController.hide()
+        binding.tvAdd.setOnClickListener {
+            addMarket()
         }
+    }
+
+    private fun addMarket() {
+        // todo: to check if we should add the data
+        val startTime = binding.tvStart.text.toString()
+        val endTime = binding.tvEnd.toString()
+        val fee = binding.tvFee.text.toString()
+        val date = binding.tvDate.text.toString()
+        if (InputChecker.validInput(startTime, endTime, fee, date)) {
+            viewModel.addMarket(date, startTime, endTime, fee)
+        }
+        KeyboardUtils.hideKeyboard(context, this)
+        bottomSheetController.hide()
     }
 
     private fun initView() {
         val inflater = LayoutInflater.from(context)
         binding = ViewSetMarketInfoBinding.inflate(inflater, this, true)
+        binding.tvStart.text = DateTimeUtils.getCurrentTime()
+        binding.tvEnd.text = DateTimeUtils.getCurrentTime()
     }
 
     fun setDate(date: String) {
         tv_date.text = date
-    }
-
-    fun setBottomSheetController(controller: BottomSheetController<ViewSetMarketInfo>) {
-        bottomSheetController = controller
     }
 
 }

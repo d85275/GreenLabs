@@ -2,9 +2,11 @@ package chao.greenlabs.utils
 
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-object DateUtils {
+object DateTimeUtils {
     private val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val monthFormat = SimpleDateFormat(
         "yyyy  MMM" +
@@ -34,5 +36,10 @@ object DateUtils {
     fun getCurrentMonth(): String {
         val date = Calendar.getInstance().time
         return monthFormat.format(date)
+    }
+
+    fun getCurrentTime(): String {
+        val date = Calendar.getInstance().time
+        return SimpleDateFormat("HH : mm", Locale.getDefault()).format(date)
     }
 }

@@ -10,12 +10,21 @@ data class MarketData(
     val fee: String,
     var income: String,
     val location: String,
-    val date: String
+    val date: String,
+    val startTime: String,
+    val endTime: String
 ) {
 
     companion object {
-        fun create(name: String, fee: String, location: String, date: String): MarketData {
-            return MarketData("$name-$date", name, fee, "-$fee", location, date)
+        fun create(
+            name: String,
+            fee: String,
+            location: String,
+            date: String,
+            startTime: String,
+            endTime: String
+        ): MarketData {
+            return MarketData("$name-$date", name, fee, "-$fee", location, date, startTime, endTime)
         }
     }
 }
