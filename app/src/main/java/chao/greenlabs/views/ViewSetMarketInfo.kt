@@ -2,6 +2,8 @@ package chao.greenlabs.views
 
 import android.app.TimePickerDialog
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -95,6 +97,7 @@ open class ViewSetMarketInfo : LinearLayout {
         binding = ViewSetMarketInfoBinding.inflate(inflater, this, true)
         binding.tvStart.text = DateTimeUtils.getCurrentTime()
         binding.tvEnd.text = DateTimeUtils.getCurrentTime()
+        binding.etFee.addTextChangedListener(textWatcher)
     }
 
     fun setDate(date: String) {
@@ -111,5 +114,22 @@ open class ViewSetMarketInfo : LinearLayout {
 
     fun isViewShown(): Boolean {
         return bottomSheetController.isShown()
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            var text = s.toString()
+            if (text.contains(".")) {
+                text = text.replace(".", "")
+                binding.etFee.setText(text)
+                binding.etFee.setSelection(binding.etFee.text.length)
+            }
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
     }
 }
