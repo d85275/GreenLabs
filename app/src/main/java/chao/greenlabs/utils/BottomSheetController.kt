@@ -11,6 +11,19 @@ class BottomSheetController<T : View?>(view: T) {
         bottomSheetBehavior.isHideable = true
         bottomSheetBehavior.peekHeight = 0
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN ||
+                    bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED
+                ) {
+                    KeyboardUtils.hideKeyboard(bottomSheet.context, bottomSheet)
+                }
+            }
+        })
     }
 
     fun hide() {
@@ -26,4 +39,5 @@ class BottomSheetController<T : View?>(view: T) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
+
 }

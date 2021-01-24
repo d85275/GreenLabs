@@ -1,6 +1,7 @@
 package chao.greenlabs.views
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateTimeUtils
+import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
@@ -108,7 +110,9 @@ class AddMarketSetDateFragment : Fragment() {
                 //selectedDay.value = dateClicked
                 Log.e("123", "on day clicked: ${DateTimeUtils.getDateString(dateClicked)}")
                 v_set_market_info.setDate(DateTimeUtils.getDateString(dateClicked))
-                bottomSheetController.show()
+                v_set_market_info.requireFocus()
+                KeyboardUtils.showKeyboard(requireContext())
+                Handler(requireContext().mainLooper).postDelayed({ bottomSheetController.show() }, 50)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date?) {

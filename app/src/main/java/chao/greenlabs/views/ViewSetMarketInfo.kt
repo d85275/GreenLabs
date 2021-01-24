@@ -1,7 +1,9 @@
 package chao.greenlabs.views
 
 import android.content.Context
+import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import chao.greenlabs.databinding.ViewSetMarketInfoBinding
@@ -53,18 +55,19 @@ open class ViewSetMarketInfo : LinearLayout {
         binding.tvAdd.setOnClickListener {
             addMarket()
         }
+        binding.tvCancel.setOnClickListener {
+            bottomSheetController.hide()
+        }
     }
 
     private fun addMarket() {
         // todo: to check if we should add the data
         val startTime = binding.tvStart.text.toString()
-        val endTime = binding.tvEnd.toString()
-        val fee = binding.tvFee.text.toString()
+        val endTime = binding.tvEnd.text.toString()
+        Log.e("view", "endTime: $endTime")
+        val fee = binding.etFee.text.toString()
         val date = binding.tvDate.text.toString()
-        if (InputChecker.validInput(startTime, endTime, fee, date)) {
-            viewModel.addMarket(date, startTime, endTime, fee)
-        }
-        KeyboardUtils.hideKeyboard(context, this)
+        viewModel.addMarket(date, startTime, endTime, fee)
         bottomSheetController.hide()
     }
 
@@ -76,7 +79,11 @@ open class ViewSetMarketInfo : LinearLayout {
     }
 
     fun setDate(date: String) {
-        tv_date.text = date
+        binding.tvDate.text = date
+    }
+
+    fun requireFocus() {
+        binding.etFee.requestFocus()
     }
 
 }
