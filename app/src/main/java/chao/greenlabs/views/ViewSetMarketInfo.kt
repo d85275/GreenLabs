@@ -64,7 +64,6 @@ open class ViewSetMarketInfo : LinearLayout {
         // todo: to check if we should add the data
         val startTime = binding.tvStart.text.toString()
         val endTime = binding.tvEnd.text.toString()
-        Log.e("view", "endTime: $endTime")
         val fee = binding.etFee.text.toString()
         val date = binding.tvDate.text.toString()
         viewModel.addMarket(date, startTime, endTime, fee)

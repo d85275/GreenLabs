@@ -18,6 +18,10 @@ object DateTimeUtils {
         return format.format(date)
     }
 
+    fun getCurrentDate(date: String): Date? {
+        return format.parse(date)
+    }
+
     fun getDateString(year: Int, month: Int, dayOfMonth: Int): String {
         val currentDate = StringBuilder()
         currentDate.append(year).append("-").append(month + 1).append("-").append(dayOfMonth)

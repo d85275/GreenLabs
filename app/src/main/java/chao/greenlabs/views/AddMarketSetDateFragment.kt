@@ -1,5 +1,6 @@
 package chao.greenlabs.views
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -22,6 +23,7 @@ import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
 import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.views.adpaters.AddMarketAdapter
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.github.sundeepk.compactcalendarview.domain.Event
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.*
 import java.util.*
 
@@ -83,6 +85,12 @@ class AddMarketSetDateFragment : Fragment() {
         setDateViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
         })
+
+        setDateViewModel.getNewMarketData().observe(viewLifecycleOwner, Observer { marketData ->
+            val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return@Observer
+            val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
+            ccv_market_calendar.addEvents(listOf(event))
+        })
     }
 
     private fun initViews() {
@@ -95,7 +103,11 @@ class AddMarketSetDateFragment : Fragment() {
         ccv_market_calendar.shouldDrawIndicatorsBelowSelectedDays(true)
 
         bottomSheetController = BottomSheetController(v_set_market_info)
-        v_set_market_info.init(DateTimeUtils.getCurrentDate(), bottomSheetController, setDateViewModel)
+        v_set_market_info.init(
+            DateTimeUtils.getCurrentDate(),
+            bottomSheetController,
+            setDateViewModel
+        )
 
         adapter = AddMarketAdapter()
         rv_market_date.layoutManager = LinearLayoutManager(requireContext())
@@ -112,7 +124,10 @@ class AddMarketSetDateFragment : Fragment() {
                 v_set_market_info.setDate(DateTimeUtils.getDateString(dateClicked))
                 v_set_market_info.requireFocus()
                 KeyboardUtils.showKeyboard(requireContext())
-                Handler(requireContext().mainLooper).postDelayed({ bottomSheetController.show() }, 50)
+                Handler(requireContext().mainLooper).postDelayed(
+                    { bottomSheetController.show() },
+                    50
+                )
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date?) {

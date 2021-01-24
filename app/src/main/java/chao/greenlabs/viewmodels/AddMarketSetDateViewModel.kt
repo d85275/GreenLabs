@@ -14,7 +14,11 @@ class AddMarketSetDateViewModel(
 ) : ViewModel() {
     private val marketList = MutableLiveData<List<MarketData>>(arrayListOf())
 
+    private val newMarketData = MutableLiveData<MarketData>()
+
     fun getMarketList(): LiveData<List<MarketData>> = marketList
+
+    fun getNewMarketData(): LiveData<MarketData> = newMarketData
 
     fun addMarket(date: String, startTime: String, endTime: String, fee: String) {
         if (InputChecker.validInput(date, startTime, endTime, fee)) {
@@ -25,6 +29,7 @@ class AddMarketSetDateViewModel(
             val list = arrayListOf<MarketData>()
             list.add(marketData)
             list.addAll(curData)
+            newMarketData.value = marketData
             marketList.value = list.sortedBy { it.date }
         }
     }
