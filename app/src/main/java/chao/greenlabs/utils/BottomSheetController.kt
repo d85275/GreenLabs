@@ -26,6 +26,10 @@ class BottomSheetController<T : View?>(view: T) {
         })
     }
 
+    fun isShown(): Boolean {
+        return bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+    }
+
     fun hide() {
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN

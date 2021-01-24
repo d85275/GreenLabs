@@ -1,11 +1,12 @@
 package chao.greenlabs.views
 
+import android.app.TimePickerDialog
 import android.content.Context
-import android.os.Handler
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import android.widget.TextView
 import chao.greenlabs.databinding.ViewSetMarketInfoBinding
 import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateTimeUtils
@@ -47,14 +48,36 @@ open class ViewSetMarketInfo : LinearLayout {
     }
 
     private fun setListeners() {
-        binding.tvStart.setOnClickListener { }
-        binding.tvEnd.setOnClickListener { }
+        binding.tvStart.setOnClickListener {
+            showTimePicker(binding.tvStart)
+        }
+        binding.tvEnd.setOnClickListener {
+            showTimePicker(binding.tvEnd)
+        }
         binding.tvAdd.setOnClickListener {
             addMarket()
         }
         binding.tvCancel.setOnClickListener {
             dismiss()
         }
+    }
+
+    private fun showTimePicker(textView: TextView) {
+        val hour = textView.text.split(":")[0].trim()
+        val min = textView.text.split(":")[1].trim()
+        val timePickerDialog = TimePickerDialog(
+            context,
+            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                val h = if (hourOfDay > 10) hourOfDay.toString() else "0$hourOfDay"
+                val m = if (minute > 10) minute.toString() else "0$minute"
+                textView.text = "$h : $m"
+            },
+            hour.toInt(),
+            min.toInt(),
+            true
+        )
+
+        timePickerDialog.show()
     }
 
     private fun addMarket() {
@@ -82,7 +105,11 @@ open class ViewSetMarketInfo : LinearLayout {
         binding.etFee.requestFocus()
     }
 
-    fun dismiss(){
+    fun dismiss() {
         bottomSheetController.hide()
+    }
+
+    fun isViewShown(): Boolean {
+        return bottomSheetController.isShown()
     }
 }

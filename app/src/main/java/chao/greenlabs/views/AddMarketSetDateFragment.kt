@@ -44,9 +44,12 @@ class AddMarketSetDateFragment : Fragment() {
             requireActivity(),
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    v_set_market_info.dismiss()
+                    if (v_set_market_info.isViewShown()) {
+                        v_set_market_info.dismiss()
+                    } else {
+                        findNavController().popBackStack()
+                    }
                 }
-
             })
         return inflater.inflate(R.layout.fragment_add_market_set_date, container, false)
     }
