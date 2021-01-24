@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
@@ -39,6 +40,14 @@ class AddMarketSetDateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(),
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    v_set_market_info.dismiss()
+                }
+
+            })
         return inflater.inflate(R.layout.fragment_add_market_set_date, container, false)
     }
 
@@ -119,8 +128,6 @@ class AddMarketSetDateFragment : Fragment() {
         return object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
                 if (dateClicked == null) return
-                //selectedDay.value = dateClicked
-                Log.e("123", "on day clicked: ${DateTimeUtils.getDateString(dateClicked)}")
                 v_set_market_info.setDate(DateTimeUtils.getDateString(dateClicked))
                 v_set_market_info.requireFocus()
                 KeyboardUtils.showKeyboard(requireContext())
@@ -132,7 +139,6 @@ class AddMarketSetDateFragment : Fragment() {
 
             override fun onMonthScroll(firstDayOfNewMonth: Date?) {
                 if (firstDayOfNewMonth == null) return
-                Log.e("123", "on Month Scroll")
                 tv_calendar_month.text = DateTimeUtils.getMonthString(firstDayOfNewMonth)
             }
         }

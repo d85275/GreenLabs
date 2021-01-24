@@ -9,10 +9,7 @@ import android.widget.LinearLayout
 import chao.greenlabs.databinding.ViewSetMarketInfoBinding
 import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateTimeUtils
-import chao.greenlabs.utils.InputChecker
-import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
-import kotlinx.android.synthetic.main.view_set_market_info.view.*
 
 open class ViewSetMarketInfo : LinearLayout {
 
@@ -56,7 +53,7 @@ open class ViewSetMarketInfo : LinearLayout {
             addMarket()
         }
         binding.tvCancel.setOnClickListener {
-            bottomSheetController.hide()
+            dismiss()
         }
     }
 
@@ -67,7 +64,7 @@ open class ViewSetMarketInfo : LinearLayout {
         val fee = binding.etFee.text.toString()
         val date = binding.tvDate.text.toString()
         viewModel.addMarket(date, startTime, endTime, fee)
-        bottomSheetController.hide()
+        dismiss()
     }
 
     private fun initView() {
@@ -85,4 +82,7 @@ open class ViewSetMarketInfo : LinearLayout {
         binding.etFee.requestFocus()
     }
 
+    fun dismiss(){
+        bottomSheetController.hide()
+    }
 }

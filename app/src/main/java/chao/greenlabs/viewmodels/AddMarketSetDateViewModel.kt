@@ -26,8 +26,7 @@ class AddMarketSetDateViewModel(
                 MarketData.create(marketName, fee, marketLocation, date, startTime, endTime)
 
             val curData: List<MarketData> = marketList.value!!
-            val list = arrayListOf<MarketData>()
-            list.add(marketData)
+            val list = arrayListOf(marketData)
             list.addAll(curData)
             newMarketData.value = marketData
             marketList.value = list.sortedBy { it.date }
