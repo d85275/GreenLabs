@@ -42,15 +42,8 @@ class AddMarketSetDateFragment : Fragment() {
     ): View? {
         requireActivity().onBackPressedDispatcher.addCallback(
             requireActivity(),
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (v_set_market_info != null && v_set_market_info.isViewShown()) {
-                        v_set_market_info.dismiss()
-                    } else {
-                        findNavController().popBackStack()
-                    }
-                }
-            })
+            backPressedCallback
+        )
         return inflater.inflate(R.layout.fragment_add_market_set_date, container, false)
     }
 
@@ -65,6 +58,7 @@ class AddMarketSetDateFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.resetData()
+        backPressedCallback.remove()
     }
 
     private fun getViewModels() {
@@ -149,6 +143,16 @@ class AddMarketSetDateFragment : Fragment() {
             override fun onMonthScroll(firstDayOfNewMonth: Date?) {
                 if (firstDayOfNewMonth == null) return
                 tv_calendar_month.text = DateTimeUtils.getMonthString(firstDayOfNewMonth)
+            }
+        }
+    }
+
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (v_set_market_info.isViewShown()) {
+                v_set_market_info.dismiss()
+            } else {
+                findNavController().popBackStack()
             }
         }
     }
