@@ -32,6 +32,9 @@ import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import kotlinx.android.synthetic.main.fragment_add_item.*
+import kotlinx.android.synthetic.main.fragment_add_item.ll_back
+import kotlinx.android.synthetic.main.fragment_add_item.tv_title
+import kotlinx.android.synthetic.main.fragment_item_list.*
 
 
 private const val MIN_ZOOM: Float = 1f
@@ -97,7 +100,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun setListeners() {
-        iv_image.setOnClickListener {
+        ll_add_photo.setOnClickListener {
             showImagePicker()
         }
 
@@ -128,6 +131,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
         //setImageCenter()
     }
 
+    // todo: still needs to find out how to set the image to the centre
     private fun setImageCenter() {
         val drawable: Drawable = iv_image.drawable
         val rectDrawable: Rect = drawable.bounds
