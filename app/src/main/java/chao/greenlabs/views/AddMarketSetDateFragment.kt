@@ -1,9 +1,7 @@
 package chao.greenlabs.views
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +15,7 @@ import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateTimeUtils
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
 import chao.greenlabs.viewmodels.AddMarketViewModel
@@ -76,12 +75,20 @@ class AddMarketSetDateFragment : Fragment() {
 
     private fun setListeners() {
         ll_back.setOnClickListener {
-            findNavController().popBackStack()
+            showBackWarningDialog()
         }
 
         ll_done.setOnClickListener {
-            setDateViewModel.onDoneClicked()
-            //findNavController().popBackStack(R.id.marketListFragment, false)
+            if (setDateViewModel.getMarketListSize() <= 0) {
+                val msg = getString(R.string.no_market_warning)
+                DialogUtils.showQuestion(
+                    requireContext(),
+                    msg
+                ) { findNavController().popBackStack(R.id.marketListFragment, false) }
+            } else {
+                setDateViewModel.addMarketList()
+                findNavController().popBackStack(R.id.marketListFragment, false)
+            }
         }
 
         ccv_market_calendar.setListener(getCalendarListener())
@@ -147,12 +154,17 @@ class AddMarketSetDateFragment : Fragment() {
         }
     }
 
+    private fun showBackWarningDialog() {
+        val msg = getString(R.string.back_warning)
+        DialogUtils.showQuestion(requireContext(), msg) { findNavController().popBackStack() }
+    }
+
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (v_set_market_info.isViewShown()) {
                 v_set_market_info.dismiss()
             } else {
-                findNavController().popBackStack()
+                showBackWarningDialog()
             }
         }
     }

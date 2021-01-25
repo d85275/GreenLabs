@@ -43,7 +43,11 @@ class AddMarketSetDateViewModel(
         }
     }
 
-    fun onDoneClicked() {
+    fun getMarketListSize(): Int {
+        return marketList.value?.size ?: 0
+    }
+
+    fun addMarketList() {
         val marketList = marketList.value ?: arrayListOf()
         val disposable = repository.addMarketList(marketList).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({

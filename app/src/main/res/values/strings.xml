@@ -31,4 +31,6 @@
     <string name="no_market">尚未參加任何市集</string>
     <string name="start_time">開始時間</string>
     <string name="end_time">結束時間</string>
+    <string name="back_warning">是否回到上一頁？目前頁面的資料尚未儲存</string>
+    <string name="no_market_warning">未加入任何日期，是否取消編輯並回到首頁？</string>
 </resources>
