@@ -44,7 +44,7 @@ class AddMarketSetDateFragment : Fragment() {
             requireActivity(),
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (v_set_market_info.isViewShown()) {
+                    if (v_set_market_info != null && v_set_market_info.isViewShown()) {
                         v_set_market_info.dismiss()
                     } else {
                         findNavController().popBackStack()
@@ -86,14 +86,20 @@ class AddMarketSetDateFragment : Fragment() {
         }
 
         ll_done.setOnClickListener {
-            // todo: to check the input dates
-            findNavController().popBackStack(R.id.marketListFragment, false)
+            setDateViewModel.onDoneClicked()
+            //findNavController().popBackStack(R.id.marketListFragment, false)
         }
 
         ccv_market_calendar.setListener(getCalendarListener())
     }
 
     private fun registerObservers() {
+        setDateViewModel.getAddDone().observe(viewLifecycleOwner, Observer { isAddDone ->
+            if (isAddDone) {
+                findNavController().popBackStack(R.id.marketListFragment, false)
+            }
+        })
+
         setDateViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
         })

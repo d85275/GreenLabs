@@ -14,6 +14,9 @@ interface MarketDao {
     @Insert
     fun insert(market: MarketData): Completable
 
+    @Insert
+    fun insertAll(marketList: List<MarketData>): Completable
+
     @Delete
     fun delete(market: MarketData): Completable
 

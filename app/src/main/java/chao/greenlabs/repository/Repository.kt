@@ -27,6 +27,10 @@ class Repository(private val context: Context) {
         return db.marketDao().insert(marketData)
     }
 
+    fun addMarketList(marketList: List<MarketData>): Completable {
+        return db.marketDao().insertAll(marketList)
+    }
+
     fun deleteMarket(marketData: MarketData): Completable {
         return db.marketDao().delete(marketData)
     }
