@@ -34,4 +34,5 @@
     <string name="end_time">結束時間</string>
     <string name="back_warning">是否回到上一頁？目前頁面的資料尚未儲存</string>
     <string name="no_market_warning">未加入任何日期，是否取消編輯並回到首頁？</string>
+    <string name="permission_denied">請到設定中開啟app所需的權限</string>
 </resources>

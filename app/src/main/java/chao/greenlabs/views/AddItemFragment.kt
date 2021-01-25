@@ -34,7 +34,6 @@ import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
 import kotlinx.android.synthetic.main.fragment_add_item.tv_title
-import kotlinx.android.synthetic.main.fragment_item_list.*
 
 
 private const val MIN_ZOOM: Float = 1f

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         for (i in permissions.indices) {
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                 runOnUiThread {
-                    ToastUtils.show(this, "Please turn on permissions in Settings")
+                    ToastUtils.show(this, getString(R.string.permission_denied))
                     finish()
                 }
             }

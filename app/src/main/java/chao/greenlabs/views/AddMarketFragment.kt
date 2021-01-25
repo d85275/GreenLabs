@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
@@ -33,7 +32,6 @@ class AddMarketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModel()
-        registerObservers()
         setListeners()
         showKeyboard()
     }
@@ -46,28 +44,8 @@ class AddMarketFragment : Fragment() {
             ViewModelProvider(requireActivity(), factory).get(AddMarketViewModel::class.java)
     }
 
-    private fun registerObservers() {
-        viewModel.getMessage().observe(viewLifecycleOwner, Observer { msg ->
-            ToastUtils.show(requireContext(), msg)
-            et_name.text.clear()
-            et_location.text.clear()
-            et_name.requestFocus()
-        })
-    }
-
     private fun setListeners() {
         bt_confirm.setOnClickListener {
-            /*
-            val name = et_name.text.toString()
-            val fee = et_fee.text.toString()
-            val date = tv_date.text.toString()
-            val location = et_location.text.toString()
-            if (InputChecker.validMarketItem(name, location, fee)) {
-                viewModel.addMarket(name, fee, location, date)
-            } else {
-                DialogUtils.showWrongFormat(requireContext())
-            }
-             */
             goNext()
         }
 
