@@ -107,6 +107,7 @@ class AddMarketSetDateFragment : Fragment() {
 
         setDateViewModel.getNewMarketData().observe(viewLifecycleOwner, Observer { marketData ->
             val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return@Observer
+            if (ccv_market_calendar.getEvents(date).isNotEmpty()) return@Observer
             val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
             ccv_market_calendar.addEvents(listOf(event))
         })
@@ -138,7 +139,16 @@ class AddMarketSetDateFragment : Fragment() {
         return object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
                 if (dateClicked == null) return
-                v_set_market_info.setDate(DateTimeUtils.getDateString(dateClicked))
+                val event = ccv_market_calendar.getEvents(dateClicked)
+                val date = DateTimeUtils.getDateString(dateClicked)
+                if (event.isNotEmpty()) {
+                    // update
+                    v_set_market_info.setConfirmButtonText(getString(R.string.update))
+                    v_set_market_info.setFee(setDateViewModel.getMarketFee(date))
+                } else {
+                    v_set_market_info.setConfirmButtonText(getString(R.string.confirm))
+                }
+                v_set_market_info.setDate(date)
                 v_set_market_info.requireFocus()
                 KeyboardUtils.showKeyboard(requireContext())
                 Handler(requireContext().mainLooper).postDelayed(

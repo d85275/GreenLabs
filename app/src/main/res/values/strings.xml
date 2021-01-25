@@ -7,6 +7,7 @@
     <string name="confirm">確定</string>
     <string name="next">下一步</string>
     <string name="add">新增</string>
+    <string name="update">更新</string>
     <string name="cancel">取消</string>
     <string name="price">$ %1$s</string>
     <string name="total_price">銷售總額</string>

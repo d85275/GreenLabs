@@ -56,7 +56,7 @@ open class ViewSetMarketInfo : LinearLayout {
         binding.tvEnd.setOnClickListener {
             showTimePicker(binding.tvEnd)
         }
-        binding.tvAdd.setOnClickListener {
+        binding.tvConfirm.setOnClickListener {
             addMarket()
         }
         binding.tvCancel.setOnClickListener {
@@ -114,6 +114,14 @@ open class ViewSetMarketInfo : LinearLayout {
 
     fun isViewShown(): Boolean {
         return bottomSheetController.isShown()
+    }
+
+    fun setConfirmButtonText(text: String) {
+        binding.tvConfirm.text = text
+    }
+
+    fun setFee(fee: String) {
+        binding.etFee.setText(fee)
     }
 
     private val textWatcher = object : TextWatcher {

@@ -10,6 +10,7 @@ import chao.greenlabs.utils.InputChecker
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class AddMarketSetDateViewModel(
     val marketName: String,
@@ -56,5 +57,10 @@ class AddMarketSetDateViewModel(
                 Log.e("AddMarketSetDateVM", "error when add market list: $it")
             })
         compositeDisposable.add(disposable)
+    }
+
+    fun getMarketFee(date: String): String {
+        val marketList = marketList.value ?: return ""
+        return marketList.find { it.date == date }?.fee ?: ""
     }
 }
