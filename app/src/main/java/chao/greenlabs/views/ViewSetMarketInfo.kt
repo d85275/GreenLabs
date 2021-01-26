@@ -12,6 +12,7 @@ import android.widget.TextView
 import chao.greenlabs.databinding.ViewSetMarketInfoBinding
 import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateTimeUtils
+import chao.greenlabs.utils.InputChecker
 import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
 
 open class ViewSetMarketInfo : LinearLayout {
@@ -88,7 +89,9 @@ open class ViewSetMarketInfo : LinearLayout {
         val endTime = binding.tvEnd.text.toString()
         val fee = binding.etFee.text.toString()
         val date = binding.tvDate.text.toString()
-        viewModel.addMarket(date, startTime, endTime, fee)
+        if (InputChecker.validInput(date, startTime, endTime, fee)) {
+            viewModel.addMarket(date, startTime, endTime, fee)
+        }
         dismiss()
     }
 

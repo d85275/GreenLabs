@@ -32,16 +32,24 @@ class AddMarketSetDateViewModel(
     fun getNewMarketData(): LiveData<MarketData> = newMarketData
 
     fun addMarket(date: String, startTime: String, endTime: String, fee: String) {
-        if (InputChecker.validInput(date, startTime, endTime, fee)) {
-            val marketData =
+        val curData: List<MarketData> = marketList.value!!
+        val marketData: MarketData
+        val list = arrayListOf<MarketData>()
+        if (curData.any { it.date == date }) {
+            marketData = curData.first { it.date == date }
+            marketData.startTime = startTime
+            marketData.endTime = endTime
+            marketData.fee = fee
+            list.add(marketData)
+            list.addAll(curData.filterNot { it.date == date })
+        } else {
+            marketData =
                 MarketData.create(marketName, fee, marketLocation, date, startTime, endTime)
-
-            val curData: List<MarketData> = marketList.value!!
-            val list = arrayListOf(marketData)
+            list.add(marketData)
             list.addAll(curData)
             newMarketData.value = marketData
-            marketList.value = list.sortedBy { it.date }
         }
+        marketList.value = list.sortedBy { it.date }
     }
 
     fun getMarketListSize(): Int {

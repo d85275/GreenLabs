@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 data class MarketData(
     @PrimaryKey val id: String,
     val name: String,
-    val fee: String,
+    var fee: String,
     var income: String,
     val location: String,
     val date: String,
-    val startTime: String,
-    val endTime: String
+    var startTime: String,
+    var endTime: String
 ) {
 
     companion object {

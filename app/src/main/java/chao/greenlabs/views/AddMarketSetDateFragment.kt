@@ -107,7 +107,6 @@ class AddMarketSetDateFragment : Fragment() {
 
         setDateViewModel.getNewMarketData().observe(viewLifecycleOwner, Observer { marketData ->
             val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return@Observer
-            if (ccv_market_calendar.getEvents(date).isNotEmpty()) return@Observer
             val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
             ccv_market_calendar.addEvents(listOf(event))
         })
