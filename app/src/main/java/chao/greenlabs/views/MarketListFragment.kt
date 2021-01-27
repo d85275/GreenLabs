@@ -79,11 +79,13 @@ class MarketListFragment : Fragment() {
             adapter.setList(list)
             tv_market_count.text = getString(R.string.joined_market, list.size)
             if (list.isNotEmpty()) {
+                tv_joined_markets.visibility =  View.VISIBLE
                 rv_markets.visibility = View.VISIBLE
                 ll_no_market.visibility = View.GONE
             } else {
                 ll_no_market.visibility = View.VISIBLE
                 rv_markets.visibility = View.GONE
+                tv_joined_markets.visibility =  View.GONE
             }
         })
 

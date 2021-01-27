@@ -8,4 +8,8 @@
     <color name="main_bg_color">#2B6D99</color>
     <color name="black">#000000</color>
     <color name="light">#4E87A6</color>
+    <color name="market_list_bg_blue">#E4F6FA</color>
+    <color name="market_list_bg_white">#FFFFFF</color>
+
+    <color name="market_list">#444444</color>
 </resources>
