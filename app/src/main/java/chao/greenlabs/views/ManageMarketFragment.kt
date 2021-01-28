@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
-import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
@@ -129,10 +127,6 @@ class ManageMarketFragment : Fragment() {
         }
 
         ll_detail.setOnClickListener {
-            /*
-            val confirmAction: (() -> Unit) = { viewModel.deleteMarket() }
-            DialogUtils.showDelete(requireContext(), confirmAction)
-             */
             showMarketDetailAction.invoke()
         }
 

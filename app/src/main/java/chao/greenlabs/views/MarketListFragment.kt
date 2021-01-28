@@ -10,20 +10,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.TouchCallbackUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.MarketListVMFactory
 import chao.greenlabs.viewmodels.MarketListViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.MarketAdapter
 import kotlinx.android.synthetic.main.fragment_market_list.*
-
-private const val SWIPE_THRESHOLD = 0.7f
 
 class MarketListFragment : Fragment() {
 
@@ -74,13 +72,26 @@ class MarketListFragment : Fragment() {
             findNavController().navigate(R.id.action_marketListFragment_to_manageMarketFragment)
         }
 
-        val itemTouchHelper = ItemTouchHelper(getItemTouchHelperCallback())
+        val itemTouchHelper =
+            ItemTouchHelper(TouchCallbackUtils.getItemTouchHelperCallback { position ->
+                onItemSwipedAction.invoke(position)
+            })
         itemTouchHelper.attachToRecyclerView(rv_markets)
 
         adapter = MarketAdapter(onClickedListener)
         rv_markets.layoutManager = LinearLayoutManager(requireContext())
         rv_markets.setHasFixedSize(true)
         rv_markets.adapter = adapter
+    }
+
+    private val onItemSwipedAction: ((position: Int) -> Unit) = { position ->
+        val confirmAction: (() -> Unit) = {
+            listViewModel.deleteMarket(position)
+        }
+        val cancelAction: (() -> Unit) = {
+            adapter.notifyDataSetChanged()
+        }
+        DialogUtils.showDelete(requireContext(), confirmAction, cancelAction)
     }
 
     private fun registerObservers() {
@@ -118,30 +129,4 @@ class MarketListFragment : Fragment() {
         listViewModel.loadMarketData()
         manageMarketViewModel.loadItemData()
     }
-
-    private fun getItemTouchHelperCallback() =
-        object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // viewHolder.adapterPosition
-                // delete things here
-                val confirmAction: (() -> Unit) = {
-                    listViewModel.deleteMarket(viewHolder.adapterPosition)
-                }
-                val cancelAction: (() -> Unit) = {
-                    adapter.notifyDataSetChanged()
-                }
-                DialogUtils.showDelete(requireContext(), confirmAction, cancelAction)
-            }
-
-            override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
-                return SWIPE_THRESHOLD
-            }
-        }
 }
