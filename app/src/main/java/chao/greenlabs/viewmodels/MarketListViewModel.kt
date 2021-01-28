@@ -40,6 +40,30 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
         )
     }
 
+    fun deleteMarket(position: Int) {
+        val marketList = marketList.value ?: return
+        if (position >= marketList.size) return
+        val soldDisposable =
+            repository.deleteSoldItem(marketList[position].name, marketList[position].date).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    deleteMarket(marketList[position])
+                }, {
+                    Log.e(TAG, "error: $it")
+                })
+
+        compositeDisposable.add(soldDisposable)
+    }
+
+    private fun deleteMarket(marketData: MarketData) {
+        val marketDisposable = repository.deleteMarket(marketData).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                loadMarketData()
+            }, {
+                Log.e(TAG, "error: $it")
+            })
+        compositeDisposable.add(marketDisposable)
+    }
+
     fun clearMarketData() {
         compositeDisposable.clear()
     }

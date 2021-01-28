@@ -18,6 +18,20 @@ object DialogUtils {
         showQuestion(context, msg, confirmAction)
     }
 
+    fun showDelete(context: Context, confirmAction: (() -> Unit), cancelAction: (() -> Unit)?) {
+        val msg = context.getString(R.string.delete_msg)
+        showQuestion(context, msg, confirmAction, cancelAction)
+    }
+
+    private fun showQuestion(
+        context: Context,
+        msg: String,
+        confirmAction: (() -> Unit),
+        cancelAction: (() -> Unit)?
+    ) {
+        showDialog(context, null, msg, null, null, confirmAction, cancelAction, true)
+    }
+
     fun showQuestion(context: Context, msg: String, confirmAction: (() -> Unit)) {
         showDialog(context, null, msg, null, null, confirmAction, null, true)
     }
