@@ -3,10 +3,9 @@ package chao.greenlabs.views
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.PointF
-import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -127,24 +126,33 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
         val bitmap =
             AppCompatResources.getDrawable(requireContext(), R.mipmap.ic_launcher)?.toBitmap()
         iv_image.setImageBitmap(bitmap)
-        //setImageCenter()
+        setImageCenter(bitmap)
     }
 
     // todo: still needs to find out how to set the image to the centre
-    private fun setImageCenter() {
-        val drawable: Drawable = iv_image.drawable
-        val rectDrawable: Rect = drawable.bounds
-        Log.e("123", "imageview width: ${iv_image.measuredWidth}")
-        Log.e("123", "rectDrawable width: ${rectDrawable.width()}")
-        val leftOffset: Float = (iv_image.measuredWidth - rectDrawable.width()) / 2f
-        val topOffset: Float = (iv_image.measuredHeight - rectDrawable.height()) / 2f
+    private fun setImageCenter(bitmap: Bitmap?) {
+        if (bitmap == null) return
 
-        Log.e("123", "topOffset: $topOffset")
-        Log.e("123", "leftOffset: $leftOffset")
+        val bHeight = bitmap.height
+        val bWidth = bitmap.width
 
-        val matrix: Matrix = iv_image.getImageMatrix()
-        matrix.postTranslate(leftOffset, topOffset)
-        iv_image.setImageMatrix(matrix)
+        Log.e("123", "bHeight: $bHeight")
+        Log.e("123", "bWidth: $bWidth")
+
+        iv_image.measure(
+            View.MeasureSpec.makeMeasureSpec(cl_parent.width, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(cl_parent.height, View.MeasureSpec.UNSPECIFIED)
+        )
+
+        val xOffset = bWidth / 2
+        val yOffset = bHeight / 2
+
+        Log.e("123", "image height: ${iv_image.measuredWidth}")
+        Log.e("123", "image width: ${iv_image.measuredHeight}")
+
+        val matrix: Matrix = iv_image.imageMatrix
+        matrix.postTranslate(xOffset.toFloat(), yOffset.toFloat())
+        iv_image.imageMatrix = matrix
         iv_image.invalidate()
     }
 

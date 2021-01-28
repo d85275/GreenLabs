@@ -1,6 +1,7 @@
 package chao.greenlabs.viewmodels
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.ImageView
@@ -12,7 +13,6 @@ import chao.greenlabs.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.lang.Exception
 
 
 class AddItemViewModel(private val repository: Repository) : ViewModel() {

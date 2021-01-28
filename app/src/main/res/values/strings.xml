@@ -28,7 +28,7 @@
     <string name="item_name">商品名稱</string>
     <string name="item_price">商品價格</string>
     <string name="joined_market">已參加 %1$d 個市集</string>
-    <string name="total_market_income">總收益 %1$d</string>
+    <string name="total_market_income">市集收益 %1$d</string>
     <string name="wrong_format">資料格式錯誤</string>
     <string name="no_market">尚未參加任何市集</string>
     <string name="start_time">開始時間</string>

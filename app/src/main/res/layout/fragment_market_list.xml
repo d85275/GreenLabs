@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_top"
         android:layout_width="0dp"
-        android:layout_height="140dp"
+        android:layout_height="100dp"
         android:background="@drawable/round_bg_main_gradient"
         android:translationY="-10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,6 @@
                 android:background="@drawable/icon_add_items" />
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/ll_add"
             android:layout_width="34dp"
@@ -68,28 +67,67 @@
                 android:layout_height="20dp"
                 android:background="@drawable/icon_add" />
         </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="@drawable/circle_bg_white"
+        android:elevation="10dp"
+        android:minWidth="200dp"
+        android:translationX="-25dp"
+        android:translationY="-45dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_top">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="206dp" />
 
         <TextView
             android:id="@+id/tv_market_count"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/main_text_color"
+            android:layout_marginStart="25dp"
+            android:drawableTop="@drawable/icon_sub_market"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/gl_v_middle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="已參加 1 個市集" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="參加 10 個市集" />
 
         <TextView
             android:id="@+id/tv_market_income"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/main_text_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_market_count"
-            tools:text="總收益 1000" />
+            android:drawableTop="@drawable/icon_sub_money"
+            android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/gl_v_middle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="市集收益 101001010101" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -107,6 +145,7 @@
         android:text="@string/joined_markets"
         android:textColor="@color/main_bg_color"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_top" />
 
