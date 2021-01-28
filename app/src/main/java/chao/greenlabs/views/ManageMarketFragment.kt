@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.AnimUtils
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
@@ -79,11 +81,15 @@ class ManageMarketFragment : Fragment() {
         rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
         rv_sold_items.setHasFixedSize(true)
         rv_sold_items.adapter = soldAdapter
+
+        AnimUtils.initManageMarketDetailState(cl_parent, cl_market_detail)
     }
 
     private fun registerObservers() {
         viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
             tv_title.text = data.name
+            tv_start_time.text = data.startTime
+            tv_end_time.text = data.endTime
             tv_market_date.text = data.date
             tv_market_fee.text = data.fee
             tv_market_income.text = data.income
@@ -122,11 +128,30 @@ class ManageMarketFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        ll_delete.setOnClickListener {
+        ll_detail.setOnClickListener {
+            /*
             val confirmAction: (() -> Unit) = { viewModel.deleteMarket() }
             DialogUtils.showDelete(requireContext(), confirmAction)
+             */
+            showMarketDetailAction.invoke()
+        }
+
+        cl_market_detail.setOnClickListener {
+            showMarketDetailAction.invoke()
         }
     }
+
+    private val showMarketDetailAction = {
+        isMarketDetailShown = if (isMarketDetailShown) {
+            AnimUtils.hideManageMarketDetail(cl_parent, cl_market_detail)
+            false
+        } else {
+            AnimUtils.showManageMarketDetail(cl_parent, cl_market_detail)
+            true
+        }
+    }
+
+    private var isMarketDetailShown = false
 
     private fun loadData() {
         viewModel.loadMarketSoldData()

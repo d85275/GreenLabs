@@ -78,7 +78,7 @@ class MarketListFragment : Fragment() {
         listViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
             tv_market_count.text = getString(R.string.joined_market, list.size)
-            AnimUtils.showMarketDetail(cl_parent, cl_market_detail)
+            AnimUtils.showMarketListDetail(cl_parent, cl_market_detail)
             if (list.isNotEmpty()) {
                 tv_joined_markets.visibility =  View.VISIBLE
                 rv_markets.visibility = View.VISIBLE

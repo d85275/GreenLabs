@@ -6,7 +6,7 @@ object AnimUtils {
     private const val SHOW_DURATION_MS = 600L
     private const val OFFSET = -75f
 
-    fun showMarketDetail(parent: View, view: View) {
+    fun showMarketListDetail(parent: View, view: View) {
         view.measure(
             View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
@@ -15,6 +15,37 @@ object AnimUtils {
         view.visibility = View.VISIBLE
         view.animate()
             .translationX(OFFSET)
+            .setDuration(SHOW_DURATION_MS)
+            .start()
+    }
+
+    fun initManageMarketDetailState(parent: View, view: View) {
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
+        )
+        view.translationX = (2 * view.measuredWidth).toFloat()
+        view.visibility = View.VISIBLE
+    }
+
+    fun showManageMarketDetail(parent: View, view: View) {
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
+        )
+        view.animate()
+            .translationX(75f)
+            .setDuration(SHOW_DURATION_MS)
+            .start()
+    }
+
+    fun hideManageMarketDetail(parent: View, view: View) {
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
+        )
+        view.animate()
+            .translationX((2 * view.measuredWidth).toFloat())
             .setDuration(SHOW_DURATION_MS)
             .start()
     }
