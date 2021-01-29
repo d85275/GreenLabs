@@ -1,7 +1,6 @@
 package chao.greenlabs.viewmodels
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.ImageView

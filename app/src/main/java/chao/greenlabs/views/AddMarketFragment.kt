@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
-import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.viewmodels.AddMarketViewModel
+import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
 import kotlinx.android.synthetic.main.fragment_add_market.*
 import kotlinx.android.synthetic.main.fragment_add_market.bt_confirm
 import kotlinx.android.synthetic.main.fragment_add_market.et_name
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_add_market.ll_back
 
 class AddMarketFragment : Fragment() {
 
-    private lateinit var viewModel: AddMarketViewModel
+    private lateinit var addMarketViewModel: AddMarketViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +37,11 @@ class AddMarketFragment : Fragment() {
     }
 
     private fun getViewModel() {
-        val factory = AddMarketVMFactory(
+        val factory = AddMarketSetDateVMFactory(
             Repository(requireContext())
         )
-        viewModel =
+
+        addMarketViewModel =
             ViewModelProvider(requireActivity(), factory).get(AddMarketViewModel::class.java)
     }
 
@@ -63,8 +64,8 @@ class AddMarketFragment : Fragment() {
         val name = et_name.text.toString()
         val location = et_location.text.toString()
         if (InputChecker.validInput(name, location)) {
-            viewModel.marketName = name
-            viewModel.marketLocation = location
+            addMarketViewModel.marketName = name
+            addMarketViewModel.marketLocation = location
             KeyboardUtils.hideKeyboard(requireContext(), view)
             findNavController().navigate(R.id.action_addMarketFragment_to_addMarketSetDateFragment)
         } else {

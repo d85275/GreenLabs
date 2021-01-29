@@ -17,10 +17,8 @@ import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DateTimeUtils
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.KeyboardUtils
-import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
-import chao.greenlabs.viewmodels.factories.AddMarketVMFactory
 import chao.greenlabs.views.adpaters.AddMarketAdapter
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
@@ -33,7 +31,6 @@ import java.util.*
 class AddMarketSetDateFragment : Fragment() {
 
     private lateinit var viewModel: AddMarketViewModel
-    private lateinit var setDateViewModel: AddMarketSetDateViewModel
     private lateinit var bottomSheetController: BottomSheetController<ViewSetMarketInfo>
     private lateinit var adapter: AddMarketAdapter
 
@@ -59,21 +56,14 @@ class AddMarketSetDateFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.resetData()
         backPressedCallback.remove()
     }
 
     private fun getViewModels() {
         val repository = Repository(requireContext())
-        val factory = AddMarketVMFactory(repository)
+        val setDateFactory = AddMarketSetDateVMFactory(repository)
         viewModel =
-            ViewModelProvider(requireActivity(), factory).get(AddMarketViewModel::class.java)
-
-        val name = viewModel.marketName
-        val location = viewModel.marketLocation
-        val setDateFactory = AddMarketSetDateVMFactory(name, location, repository)
-        setDateViewModel =
-            ViewModelProvider(this, setDateFactory).get(AddMarketSetDateViewModel::class.java)
+            ViewModelProvider(requireActivity(), setDateFactory).get(AddMarketViewModel::class.java)
     }
 
     private fun setListeners() {
@@ -82,15 +72,14 @@ class AddMarketSetDateFragment : Fragment() {
         }
 
         ll_done.setOnClickListener {
-            if (setDateViewModel.getMarketListSize() <= 0) {
+            if (viewModel.getMarketListSize() <= 0) {
                 val msg = getString(R.string.no_market_warning)
                 DialogUtils.showQuestion(
                     requireContext(),
                     msg
                 ) { findNavController().popBackStack(R.id.marketListFragment, false) }
             } else {
-                setDateViewModel.addMarketList()
-                findNavController().popBackStack(R.id.marketListFragment, false)
+                viewModel.addMarketList()
             }
         }
 
@@ -98,17 +87,18 @@ class AddMarketSetDateFragment : Fragment() {
     }
 
     private fun registerObservers() {
-        setDateViewModel.getAddDone().observe(viewLifecycleOwner, Observer { isAddDone ->
+        viewModel.getAddDone().observe(viewLifecycleOwner, Observer { isAddDone ->
             if (isAddDone) {
+                viewModel.clear()
                 findNavController().popBackStack(R.id.marketListFragment, false)
             }
         })
 
-        setDateViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
+        viewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
         })
 
-        setDateViewModel.getNewMarketData().observe(viewLifecycleOwner, Observer { marketData ->
+        viewModel.getNewMarketData().observe(viewLifecycleOwner, Observer { marketData ->
             val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return@Observer
             val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
             ccv_market_calendar.addEvents(listOf(event))
@@ -128,7 +118,7 @@ class AddMarketSetDateFragment : Fragment() {
         v_set_market_info.init(
             DateTimeUtils.getCurrentDate(),
             bottomSheetController,
-            setDateViewModel
+            viewModel
         )
 
         adapter = AddMarketAdapter()
@@ -146,7 +136,7 @@ class AddMarketSetDateFragment : Fragment() {
                 if (event.isNotEmpty()) {
                     // update
                     v_set_market_info.setConfirmButtonText(getString(R.string.update))
-                    v_set_market_info.setFee(setDateViewModel.getMarketFee(date))
+                    v_set_market_info.setFee(viewModel.getMarketFee(date))
                 } else {
                     v_set_market_info.setConfirmButtonText(getString(R.string.confirm))
                 }

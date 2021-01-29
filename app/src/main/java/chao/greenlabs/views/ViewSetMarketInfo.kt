@@ -12,18 +12,18 @@ import chao.greenlabs.databinding.ViewSetMarketInfoBinding
 import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.InputChecker
-import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
+import chao.greenlabs.viewmodels.AddMarketViewModel
 
 open class ViewSetMarketInfo : LinearLayout {
 
     private lateinit var binding: ViewSetMarketInfoBinding
     private lateinit var bottomSheetController: BottomSheetController<ViewSetMarketInfo>
-    private lateinit var viewModel: AddMarketSetDateViewModel
+    private lateinit var viewModel: AddMarketViewModel
 
     fun init(
         date: String,
         controller: BottomSheetController<ViewSetMarketInfo>,
-        viewModel: AddMarketSetDateViewModel
+        viewModel: AddMarketViewModel
     ) {
         binding.tvDate.text = date
         binding.tvLocation.text = viewModel.marketLocation
