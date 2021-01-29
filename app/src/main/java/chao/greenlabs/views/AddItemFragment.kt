@@ -87,7 +87,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
 
     private fun showKeyboard() {
         et_name.requestFocus()
-        KeyboardUtils.showKeyboard(requireContext())
+        KeyboardUtils.showKeyboard(requireContext(), et_name)
     }
 
     private fun getViewModel() {

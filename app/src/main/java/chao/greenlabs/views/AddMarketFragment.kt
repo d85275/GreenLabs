@@ -74,6 +74,6 @@ class AddMarketFragment : Fragment() {
 
     private fun showKeyboard() {
         et_name.requestFocus()
-        KeyboardUtils.showKeyboard(requireContext())
+        KeyboardUtils.showKeyboard(requireContext(), et_name)
     }
 }

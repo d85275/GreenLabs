@@ -7,7 +7,6 @@ import chao.greenlabs.datamodels.MarketData
 import kotlinx.android.synthetic.main.item_market.view.*
 
 class MarketViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private lateinit var onClickedListener: ((data: MarketData) -> Unit)
 
     open fun bindView(
         position: Int,
