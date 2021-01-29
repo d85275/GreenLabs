@@ -1,6 +1,7 @@
 package chao.greenlabs.utils
 
 import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.view.Window
 import chao.greenlabs.R
@@ -95,5 +96,27 @@ object DialogUtils {
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isAllCaps = false
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
+    }
+
+
+    fun showTimePicker(
+        context: Context,
+        hour: String,
+        min: String,
+        onTimeSetAction: ((hour: String, min: String) -> Unit)
+    ) {
+        val timePickerDialog = TimePickerDialog(
+            context,
+            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                val h = if (hourOfDay > 10) hourOfDay.toString() else "0$hourOfDay"
+                val m = if (minute > 10) minute.toString() else "0$minute"
+                onTimeSetAction.invoke(h, m)
+            },
+            hour.toInt(),
+            min.toInt(),
+            true
+        )
+
+        timePickerDialog.show()
     }
 }

@@ -1,17 +1,16 @@
 package chao.greenlabs.views
 
-import android.app.TimePickerDialog
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import chao.greenlabs.R
 import chao.greenlabs.databinding.ViewSetMarketInfoBinding
 import chao.greenlabs.utils.BottomSheetController
-import chao.greenlabs.utils.DateTimeUtils
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.InputChecker
 import chao.greenlabs.viewmodels.AddMarketSetDateViewModel
 
@@ -68,19 +67,10 @@ open class ViewSetMarketInfo : LinearLayout {
     private fun showTimePicker(textView: TextView) {
         val hour = textView.text.split(":")[0].trim()
         val min = textView.text.split(":")[1].trim()
-        val timePickerDialog = TimePickerDialog(
-            context,
-            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                val h = if (hourOfDay > 10) hourOfDay.toString() else "0$hourOfDay"
-                val m = if (minute > 10) minute.toString() else "0$minute"
-                textView.text = "$h : $m"
-            },
-            hour.toInt(),
-            min.toInt(),
-            true
-        )
 
-        timePickerDialog.show()
+        DialogUtils.showTimePicker(context, hour, min) { h, m ->
+            textView.text = context.getString(R.string.market_time, h, m)
+        }
     }
 
     private fun addMarket() {
@@ -98,8 +88,8 @@ open class ViewSetMarketInfo : LinearLayout {
     private fun initView() {
         val inflater = LayoutInflater.from(context)
         binding = ViewSetMarketInfoBinding.inflate(inflater, this, true)
-        binding.tvStart.text = DateTimeUtils.getCurrentTime()
-        binding.tvEnd.text = DateTimeUtils.getCurrentTime()
+        binding.tvStart.text = context.getString(R.string.default_start_time)
+        binding.tvEnd.text = context.getString(R.string.default_end_time)
         binding.etFee.addTextChangedListener(textWatcher)
     }
 
