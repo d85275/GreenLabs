@@ -72,7 +72,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
         setListeners()
         setDefaultImage()
         registerObservers()
-        initView()
+        //initView()
     }
 
     override fun onResume() {

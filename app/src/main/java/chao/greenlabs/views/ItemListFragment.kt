@@ -1,7 +1,6 @@
 package chao.greenlabs.views
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.TouchCallbackUtils
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.ItemListVMFactory
 import chao.greenlabs.viewmodels.ItemListViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import chao.greenlabs.views.adpaters.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_item_list.*
+import kotlinx.android.synthetic.main.fragment_item_list.ll_add
 
 class ItemListFragment : Fragment() {
 
@@ -59,6 +62,13 @@ class ItemListFragment : Fragment() {
             addItemViewModel.setUpdatedItem(itemData)
             findNavController().navigate(R.id.action_itemListFragment_to_addItemFragment)
         }
+
+        val itemTouchHelper =
+            ItemTouchHelper(TouchCallbackUtils.getItemTouchHelperCallback { position ->
+                onItemSwipedAction.invoke(position)
+            })
+        itemTouchHelper.attachToRecyclerView(rv_items)
+
         adapter = ItemAdapter(listViewModel, onItemClickedAction)
         rv_items.layoutManager = LinearLayoutManager(requireContext())
         rv_items.setHasFixedSize(true)
@@ -79,5 +89,15 @@ class ItemListFragment : Fragment() {
         ll_add.setOnClickListener {
             findNavController().navigate(R.id.action_itemListFragment_to_addItemFragment)
         }
+    }
+
+    private val onItemSwipedAction: ((position: Int) -> Unit) = { position ->
+        val confirmAction: (() -> Unit) = {
+            listViewModel.deleteItem(position)
+        }
+        val cancelAction: (() -> Unit) = {
+            adapter.notifyDataSetChanged()
+        }
+        DialogUtils.showDelete(requireContext(), confirmAction, cancelAction)
     }
 }
