@@ -40,6 +40,7 @@ class AddMarketSetDateViewModel(
             marketData.startTime = startTime
             marketData.endTime = endTime
             marketData.fee = fee
+            marketData.income = "-$fee"
             list.add(marketData)
             list.addAll(curData.filterNot { it.date == date })
         } else {

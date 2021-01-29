@@ -33,7 +33,6 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
                     totalIncome += marketData.income.toInt()
                 }
                 this.totalIncome.value = totalIncome
-                //getAllSoldPrice(totalMarketFee)
             }, { t ->
                 Log.e(TAG, "Error when loading saved markets: $t")
             })
