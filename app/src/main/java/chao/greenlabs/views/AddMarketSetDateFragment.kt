@@ -10,13 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.BottomSheetController
-import chao.greenlabs.utils.DateTimeUtils
-import chao.greenlabs.utils.DialogUtils
-import chao.greenlabs.utils.KeyboardUtils
+import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
 import chao.greenlabs.views.adpaters.AddMarketAdapter
@@ -121,6 +119,12 @@ class AddMarketSetDateFragment : Fragment() {
             viewModel
         )
 
+        val itemTouchHelper =
+            ItemTouchHelper(TouchCallbackUtils.getItemTouchHelperCallback { position ->
+                onItemSwipedAction.invoke(position)
+            })
+        itemTouchHelper.attachToRecyclerView(rv_market_date)
+
         adapter = AddMarketAdapter()
         rv_market_date.layoutManager = LinearLayoutManager(requireContext())
         rv_market_date.setHasFixedSize(true)
@@ -169,5 +173,13 @@ class AddMarketSetDateFragment : Fragment() {
                 showBackWarningDialog()
             }
         }
+    }
+
+    private val onItemSwipedAction: ((position: Int) -> Unit) = { position ->
+        val marketDate = viewModel.getMarketData(position)
+        val date = DateTimeUtils.getCurrentDate(marketDate.date)!!
+        val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
+        ccv_market_calendar.removeEvent(event)
+        viewModel.deleteMarket(position)
     }
 }

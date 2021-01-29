@@ -51,6 +51,19 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
         marketList.value = list.sortedBy { it.date }
     }
 
+    fun deleteMarket(position: Int) {
+        val curData = marketList.value ?: arrayListOf()
+        val list = arrayListOf<MarketData>()
+        list.addAll(curData)
+        list.removeAt(position)
+        marketList.value = list
+    }
+
+    fun getMarketData(position: Int): MarketData {
+        val curData = marketList.value ?: arrayListOf()
+        return curData[position]
+    }
+
     fun getMarketListSize(): Int {
         return marketList.value?.size ?: 0
     }
