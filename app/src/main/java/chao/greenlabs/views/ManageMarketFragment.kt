@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,8 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
+import chao.greenlabs.utils.DateTimeUtils
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
@@ -130,8 +133,48 @@ class ManageMarketFragment : Fragment() {
             showMarketDetailAction.invoke()
         }
 
-        cl_market_detail.setOnClickListener {
-            showMarketDetailAction.invoke()
+        tv_title.setOnClickListener {
+            val name = tv_title.text.toString()
+            DialogUtils.showEditText(requireContext(), {
+                viewModel.updateMarketName(it)
+            }, name)
+        }
+
+        tv_market_location.setOnClickListener {
+            val location = tv_market_location.text.toString()
+            DialogUtils.showEditText(requireContext(), {
+                viewModel.updateMarketLocation(it)
+            }, location)
+        }
+
+        tv_market_fee.setOnClickListener {
+            val price = tv_market_fee.text.toString()
+            DialogUtils.showEditNumber(requireContext(), {
+                viewModel.updateMarketFee(it)
+            }, price)
+        }
+
+        tv_start_time.setOnClickListener {
+            val hour = tv_start_time.text.toString().split(":")[0].trim()
+            val min = tv_start_time.text.toString().split(":")[1].trim()
+            DialogUtils.showTimePicker(requireContext(), hour, min) { h, m ->
+                viewModel.updateMarketStartTime(h, m)
+            }
+        }
+
+        tv_end_time.setOnClickListener {
+            val hour = tv_end_time.text.toString().split(":")[0].trim()
+            val min = tv_end_time.text.toString().split(":")[1].trim()
+            DialogUtils.showTimePicker(requireContext(), hour, min) { h, m ->
+                viewModel.updateMarketEndTime(h, m)
+            }
+        }
+
+        tv_market_date.setOnClickListener {
+            val date = tv_market_date.text.toString()
+            DialogUtils.showDatePicker(requireContext(), date) {
+                viewModel.updateMarketDate(it)
+            }
         }
     }
 

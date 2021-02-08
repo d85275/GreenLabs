@@ -75,6 +75,56 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         //compositeDisposable.dispose()
     }
 
+    fun updateMarketName(name: String) {
+        val marketData = marketData.value ?: return
+        if (name.isEmpty()) return
+
+        marketData.name = name
+
+        updateMarket(marketData)
+    }
+
+    fun updateMarketLocation(location: String) {
+        val marketData = marketData.value ?: return
+        if (location.isEmpty()) return
+
+        marketData.location = location
+
+        updateMarket(marketData)
+    }
+
+    fun updateMarketFee(fee: String) {
+        val marketData = marketData.value ?: return
+        if (fee.isEmpty()) return
+
+        val diff = marketData.fee.toInt() - fee.toInt()
+        marketData.fee = fee
+        marketData.income = (marketData.income.toInt() + diff).toString()
+        updateMarket(marketData)
+    }
+
+    fun updateMarketDate(date: String) {
+        val marketData = marketData.value ?: return
+        if (date.isEmpty()) return
+
+        marketData.date = date
+        updateMarket(marketData)
+    }
+
+    fun updateMarketStartTime(hour: String, min: String) {
+        val marketData = marketData.value ?: return
+
+        marketData.startTime = "$hour : $min"
+        updateMarket(marketData)
+    }
+
+    fun updateMarketEndTime(hour: String, min: String) {
+        val marketData = marketData.value ?: return
+
+        marketData.endTime = "$hour : $min"
+        updateMarket(marketData)
+    }
+
     fun updateMarketIncome(list: List<SoldData>) {
         val marketData = marketData.value ?: return
         var total = 0 - marketData.fee.toInt()
@@ -84,6 +134,20 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         totalIncome = total
         marketData.income = totalIncome.toString()
 
+        updateMarket(marketData)
+
+        /*
+        val disposable = repository.updateMarket(marketData).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                setMarketData(marketData)
+            }, {
+                Log.e(TAG, "error: $it")
+            })
+        compositeDisposable.add(disposable)
+         */
+    }
+
+    fun updateMarket(marketData: MarketData) {
         val disposable = repository.updateMarket(marketData).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 this.marketData.value = marketData

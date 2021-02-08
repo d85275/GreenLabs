@@ -1,9 +1,16 @@
 package chao.greenlabs.utils
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
+import android.text.InputType
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.Window
+import android.widget.EditText
+import android.widget.TextView
 import chao.greenlabs.R
 
 
@@ -98,6 +105,21 @@ object DialogUtils {
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
     }
 
+    fun showDatePicker(context: Context, date: String, onDateSetAction: (date: String) -> Unit) {
+        val datePickerDialog = DatePickerDialog(context)
+        val year = date.split("-")[0].toInt()
+        val month = date.split("-")[1].toInt() - 1
+        val day = date.split("-")[2].toInt()
+        datePickerDialog.updateDate(year, month, day)
+
+        datePickerDialog.setOnDateSetListener { _, y, m, d ->
+            val setMonth = if (m + 1 < 10) "0${m + 1}" else (m + 1).toString()
+            val setDay = if (d + 1 < 10) "0${d + 1}" else (d + 1).toString()
+            onDateSetAction.invoke("$y-$setMonth-$setDay")
+        }
+
+        datePickerDialog.show()
+    }
 
     fun showTimePicker(
         context: Context,
@@ -118,5 +140,45 @@ object DialogUtils {
         )
 
         timePickerDialog.show()
+    }
+
+    fun showEditText(context: Context, confirmAction: (text: String) -> Unit, text: String) {
+        showEdit(context, confirmAction, text, false)
+    }
+
+    fun showEditNumber(context: Context, confirmAction: (text: String) -> Unit, text: String) {
+        showEdit(context, confirmAction, text, true)
+    }
+
+    private fun showEdit(
+        context: Context,
+        confirmAction: (text: String) -> Unit,
+        text: String,
+        isNumber: Boolean
+    ) {
+        val dialog = AlertDialog.Builder(context).create()
+        val layoutInflater = LayoutInflater.from(context)
+        val view = layoutInflater.inflate(R.layout.view_edit_text, null)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setView(view)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+        val confirmBtn = view.findViewById<TextView>(R.id.tv_confirm)
+        val etData = view.findViewById<EditText>(R.id.et_data)
+        confirmBtn.setOnClickListener {
+            confirmAction.invoke(etData.text.toString())
+            dialog.dismiss()
+        }
+
+        if (isNumber) {
+            etData.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        }
+
+        etData.setText(text)
+        etData.requestFocus()
+        dialog.show()
     }
 }

@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey
 @Entity
 data class MarketData(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val name: String,
+    var name: String,
     var fee: String,
     var income: String,
-    val location: String,
-    val date: String,
+    var location: String,
+    var date: String,
     var startTime: String,
     var endTime: String
 ) {

@@ -39,4 +39,5 @@
     <string name="default_start_time">12 : 00</string>
     <string name="default_end_time">18 : 30</string>
     <string name="market_time">%1$s : %2$s</string>
+    <string name="modify_data">修改資料</string>
 </resources>
