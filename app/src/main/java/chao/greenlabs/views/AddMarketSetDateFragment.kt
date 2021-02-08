@@ -26,6 +26,9 @@ import kotlinx.android.synthetic.main.fragment_add_market_set_date.tv_title
 import kotlinx.android.synthetic.main.view_set_market_info.*
 import java.util.*
 
+private const val VIEW_DISABLE = 0.5f
+private const val VIEW_ENABLE = 1.0f
+
 class AddMarketSetDateFragment : Fragment() {
 
     private lateinit var viewModel: AddMarketViewModel
@@ -66,10 +69,14 @@ class AddMarketSetDateFragment : Fragment() {
 
     private fun setListeners() {
         ll_back.setOnClickListener {
+            if (bottomSheetController.isShown()) return@setOnClickListener
+
             showBackWarningDialog()
         }
 
         ll_done.setOnClickListener {
+            if (bottomSheetController.isShown()) return@setOnClickListener
+
             if (viewModel.getMarketListSize() <= 0) {
                 val msg = getString(R.string.no_market_warning)
                 DialogUtils.showQuestion(
@@ -100,6 +107,11 @@ class AddMarketSetDateFragment : Fragment() {
             val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return@Observer
             val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
             ccv_market_calendar.addEvents(listOf(event))
+        })
+
+        bottomSheetController.getShownState().observe(viewLifecycleOwner, Observer { isShown ->
+            ll_back.alpha = if (isShown) VIEW_DISABLE else VIEW_ENABLE
+            ll_done.alpha = if (isShown) VIEW_DISABLE else VIEW_ENABLE
         })
     }
 

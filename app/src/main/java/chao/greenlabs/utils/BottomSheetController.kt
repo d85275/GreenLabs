@@ -2,10 +2,15 @@ package chao.greenlabs.utils
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class BottomSheetController<T : View?>(view: T) {
     private var bottomSheetBehavior: BottomSheetBehavior<T> = BottomSheetBehavior.from(view)
+    private val shownState = MutableLiveData(false)
+
+    fun getShownState(): LiveData<Boolean> = shownState
 
     init {
         bottomSheetBehavior.isHideable = true
@@ -22,6 +27,8 @@ class BottomSheetController<T : View?>(view: T) {
                 ) {
                     KeyboardUtils.hideKeyboard(bottomSheet.context, bottomSheet)
                 }
+
+                shownState.value = bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED
             }
         })
     }
