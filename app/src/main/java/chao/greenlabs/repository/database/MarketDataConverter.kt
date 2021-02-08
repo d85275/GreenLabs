@@ -23,7 +23,7 @@ class MarketDataConverter {
     @TypeConverter
     fun toMarketData(data: String): MarketData {
         val json = JSONObject(data)
-        val id = json.get("id").toString()
+        val id = json.get("id").toString().toInt()
         val name = json.get("name").toString()
         val fee = json.get("fee").toString()
         val income = json.get("income").toString()

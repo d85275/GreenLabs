@@ -63,16 +63,16 @@ class Repository(private val context: Context) {
         return db.soldDao().getItems()
     }
 
-    fun getSoldItems(marketName: String, marketDate: String): Single<List<SoldData>> {
-        return db.soldDao().getItems(marketName, marketDate)
+    fun getSoldItems(marketId: Int): Single<List<SoldData>> {
+        return db.soldDao().getItems(marketId)
     }
 
     fun getSoldItemsByItemName(itemName: String): Single<List<SoldData>> {
         return db.soldDao().getItemsByItemName(itemName)
     }
 
-    fun deleteSoldItem(marketName: String, marketDate: String): Completable {
-        return db.soldDao().delete(marketName, marketDate)
+    fun deleteSoldItem(marketId: Int): Completable {
+        return db.soldDao().delete(marketId)
     }
 
     fun deleteSoldItem(soldData: SoldData): Completable {

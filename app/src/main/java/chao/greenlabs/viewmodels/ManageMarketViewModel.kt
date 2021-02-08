@@ -62,7 +62,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         val marketData = this.marketData.value ?: return
         val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
-            repository.getSoldItems(marketData.name, marketData.date).subscribeOn(Schedulers.io())
+            repository.getSoldItems(marketData.id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
                     marketSoldItems.postValue(list as ArrayList<SoldData>?)
@@ -107,7 +107,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     fun deleteMarket() {
         val marketData = marketData.value ?: return
         val soldDisposable =
-            repository.deleteSoldItem(marketData.name, marketData.date).subscribeOn(Schedulers.io())
+            repository.deleteSoldItem(marketData.id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     deleteMarket(marketData)
                 }, {

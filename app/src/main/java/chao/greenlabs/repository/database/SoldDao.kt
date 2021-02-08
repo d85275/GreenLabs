@@ -8,8 +8,8 @@ import io.reactivex.Single
 
 @Dao
 interface SoldDao {
-    @Query("SELECT * FROM solddata WHERE marketName IN (:marketName) AND marketDate IN (:marketDate)")
-    fun getItems(marketName: String, marketDate: String): Single<List<SoldData>>
+    @Query("SELECT * FROM solddata WHERE marketId IN (:marketId)")
+    fun getItems(marketId: Int): Single<List<SoldData>>
 
     @Query("SELECT * FROM solddata")
     fun getItems(): Single<List<SoldData>>
@@ -20,8 +20,8 @@ interface SoldDao {
     @Query("UPDATE solddata SET price=:newPrice, name=:newName WHERE name=:oldName")
     fun updateByItemName(oldName: String, newName: String, newPrice: String): Completable
 
-    @Query("DELETE FROM solddata WHERE marketName IN (:marketName) AND marketDate IN (:marketDate)")
-    fun delete(marketName: String, marketDate: String): Completable
+    @Query("DELETE FROM solddata WHERE marketId IN (:marketId)")
+    fun delete(marketId: Int): Completable
 
     @Update
     fun update(soldData: SoldData): Completable

@@ -43,7 +43,7 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
         val marketList = marketList.value ?: return
         if (position >= marketList.size) return
         val soldDisposable =
-            repository.deleteSoldItem(marketList[position].name, marketList[position].date).subscribeOn(Schedulers.io())
+            repository.deleteSoldItem(marketList[position].id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     deleteMarket(marketList[position])
                 }, {
