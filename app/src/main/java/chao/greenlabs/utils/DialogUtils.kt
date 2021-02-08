@@ -114,7 +114,7 @@ object DialogUtils {
 
         datePickerDialog.setOnDateSetListener { _, y, m, d ->
             val setMonth = if (m + 1 < 10) "0${m + 1}" else (m + 1).toString()
-            val setDay = if (d + 1 < 10) "0${d + 1}" else (d + 1).toString()
+            val setDay = if (d < 10) "0$d" else d.toString()
             onDateSetAction.invoke("$y-$setMonth-$setDay")
         }
 
