@@ -145,18 +145,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_search" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_sold_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:minHeight="200dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/et_memo"
         app:layout_constraintTop_toBottomOf="@+id/tv_sold_item" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -176,19 +174,20 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round_bg_white_blue_bound"
+        android:gravity="top"
         android:hint="@string/memo_hint"
         android:padding="10dp"
         android:textColor="@color/black"
-        android:gravity="top"
         android:textColorHint="@color/colorPrimary"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:hint="@string/memo_hint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

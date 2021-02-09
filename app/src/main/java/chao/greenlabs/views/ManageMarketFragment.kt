@@ -15,9 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
+import chao.greenlabs.utils.DateTimeUtils
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.ToastUtils
+import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ManageMarketViewModel
+import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.CustomerAdapter
 import kotlinx.android.synthetic.main.fragment_manage_market.*
@@ -28,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_manage_market.tv_title
 class ManageMarketFragment : Fragment() {
 
     private lateinit var viewModel: ManageMarketViewModel
+    private lateinit var addCustomerViewModel: AddCustomerViewModel
     private lateinit var customerAdapter: CustomerAdapter
 
     override fun onCreateView(
@@ -50,20 +54,27 @@ class ManageMarketFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clearMarketSoldData()
+        addCustomerViewModel.clearData()
     }
 
     private fun getViewModel() {
-        val factory = ManageMarketVMFactory(
-            Repository(requireContext())
-        )
+        val factory = ManageMarketVMFactory(Repository(requireContext()))
+        val addCustomerFactory = AddCustomerVMFactory(Repository(requireContext()))
         viewModel =
             ViewModelProvider(requireActivity(), factory).get(ManageMarketViewModel::class.java)
+
+        addCustomerViewModel =
+            ViewModelProvider(
+                requireActivity(),
+                addCustomerFactory
+            ).get(AddCustomerViewModel::class.java)
     }
 
     private fun setViews() {
 
         customerAdapter = CustomerAdapter(viewModel) {
             findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
+            addCustomerViewModel.setCustomerId(DateTimeUtils.getCustomerId())
         }
         rv_customers.layoutManager = LinearLayoutManager(requireContext())
         rv_customers.setHasFixedSize(true)
@@ -81,6 +92,7 @@ class ManageMarketFragment : Fragment() {
             tv_market_fee.text = data.fee
             tv_market_income.text = data.income
             tv_market_location.text = data.location
+            addCustomerViewModel.setMarketData(data)
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
@@ -165,5 +177,6 @@ class ManageMarketFragment : Fragment() {
 
     private fun loadData() {
         viewModel.loadMarketSoldData()
+        addCustomerViewModel.loadItemData()
     }
 }

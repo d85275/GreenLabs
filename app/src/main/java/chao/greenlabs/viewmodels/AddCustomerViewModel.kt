@@ -19,15 +19,33 @@ private const val TAG = "AddCustomerViewModel"
 
 class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
-
     private var marketData = MutableLiveData<MarketData>()
 
     private val itemList = arrayListOf<ItemData>()
-    private val matchedItems = MutableLiveData(arrayListOf<ItemData>())
+    private var matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
-    private var totalIncome = 0
+    private var totalPrice = MutableLiveData(0)
+    private var customerId = ""
 
     var compositeDisposable = CompositeDisposable()
+
+    fun clearData() {
+        marketData = MutableLiveData()
+        itemList.clear()
+        matchedItems = MutableLiveData()
+        marketSoldItems = MutableLiveData()
+        totalPrice = MutableLiveData(0)
+    }
+
+    fun setCustomerId(id: String) {
+        customerId = id
+    }
+
+    fun setMarketData(marketData: MarketData) {
+        this.marketData.value = marketData
+    }
+
+    fun getTotalPrice(): LiveData<Int> = totalPrice
 
     fun getMatchedItems(): LiveData<ArrayList<ItemData>> = matchedItems
 
@@ -46,25 +64,17 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun updateMarketIncome(list: List<SoldData>) {
-        val marketData = marketData.value ?: return
-        var total = 0 - marketData.fee.toInt()
+        //val marketData = marketData.value ?: return
+        //var total = 0 - marketData.fee.toInt()
+        var total = 0
         list.forEach { soldItem ->
             total += (soldItem.price.toInt() * soldItem.count)
         }
-        totalIncome = total
-        marketData.income = totalIncome.toString()
+        totalPrice.value = total
+        //marketData.income = totalIncome.toString()
 
-        updateMarket(marketData)
+        //updateMarket(marketData)
 
-        /*
-        val disposable = repository.updateMarket(marketData).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                setMarketData(marketData)
-            }, {
-                Log.e(TAG, "error: $it")
-            })
-        compositeDisposable.add(disposable)
-         */
     }
 
     private fun updateMarket(marketData: MarketData) {
@@ -112,7 +122,8 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     @SuppressLint("CheckResult")
     fun onSearchItemClicked(itemData: ItemData) {
-        val list: ArrayList<SoldData> = marketSoldItems.value as ArrayList<SoldData>
+        val list: ArrayList<SoldData> =
+            if (marketSoldItems.value.isNullOrEmpty()) arrayListOf() else marketSoldItems.value as ArrayList<SoldData>
         var isExist = false
         for (i in list.indices) {
             val soldData = list[i]
@@ -138,7 +149,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         val name = itemData.name
         val price = itemData.price
         val marketData = this.marketData.value!!
-        val soldData = SoldData.create(name, price, marketData, DateTimeUtils.getCustomerId())
+        val soldData = SoldData.create(name, price, marketData, customerId)
         repository.insertSoldItem(soldData).doOnComplete {
 
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(

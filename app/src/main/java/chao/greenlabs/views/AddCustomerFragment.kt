@@ -3,6 +3,7 @@ package chao.greenlabs.views
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +19,6 @@ import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer.*
-import kotlinx.android.synthetic.main.fragment_add_customer.rv_searched_items
-import kotlinx.android.synthetic.main.fragment_add_customer.rv_sold_items
-import kotlinx.android.synthetic.main.fragment_add_customer.tv_sold_item
-import kotlinx.android.synthetic.main.fragment_add_customer.tv_title
-import kotlinx.android.synthetic.main.fragment_manage_market.*
 
 class AddCustomerFragment : Fragment() {
 
@@ -57,6 +53,7 @@ class AddCustomerFragment : Fragment() {
             et_search.text.clear()
             viewModel.onSearchItemClicked(item)
         }
+
         searchedAdapter = SearchedItemAdapter(viewModel, onClickedListener)
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
         rv_searched_items.setHasFixedSize(true)
@@ -65,7 +62,7 @@ class AddCustomerFragment : Fragment() {
         soldAdapter = SoldItemAdapter(viewModel)
         rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
         rv_sold_items.setHasFixedSize(true)
-        rv_sold_items.adapter = searchedAdapter
+        rv_sold_items.adapter = soldAdapter
     }
 
     private fun setListeners() {
@@ -81,6 +78,10 @@ class AddCustomerFragment : Fragment() {
         viewModel.getMarketSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
             soldAdapter.setItem(soldList)
             viewModel.updateMarketIncome(soldList)
+        })
+
+        viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { totalPrice ->
+            tv_total.text = totalPrice.toString()
         })
     }
 

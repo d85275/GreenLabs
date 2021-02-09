@@ -7,6 +7,7 @@ import android.media.MediaScannerConnection
 import android.os.Environment
 import android.util.Log
 import androidx.room.Room
+import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.datamodels.SoldData
@@ -22,6 +23,14 @@ class Repository(private val context: Context) {
     // local
 
     private val db = Room.databaseBuilder(context, AppDatabase::class.java, "database-name").build()
+
+    fun addCustomer(customerData: CustomerData): Completable {
+        return db.customerDao().insert(customerData)
+    }
+
+    fun getCustomers(): Single<List<CustomerData>>{
+        return db.customerDao().getAll()
+    }
 
     fun addMarket(marketData: MarketData): Completable {
         return db.marketDao().insert(marketData)
