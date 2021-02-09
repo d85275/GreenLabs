@@ -20,8 +20,6 @@ import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.CustomerAdapter
-import chao.greenlabs.views.adpaters.SearchedItemAdapter
-import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_manage_market.*
 import kotlinx.android.synthetic.main.fragment_manage_market.ll_back
 import kotlinx.android.synthetic.main.fragment_manage_market.tv_market_income
@@ -64,7 +62,9 @@ class ManageMarketFragment : Fragment() {
 
     private fun setViews() {
 
-        customerAdapter = CustomerAdapter(viewModel)
+        customerAdapter = CustomerAdapter(viewModel) {
+            findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
+        }
         rv_customers.layoutManager = LinearLayoutManager(requireContext())
         rv_customers.setHasFixedSize(true)
         rv_customers.adapter = customerAdapter
@@ -81,6 +81,10 @@ class ManageMarketFragment : Fragment() {
             tv_market_fee.text = data.fee
             tv_market_income.text = data.income
             tv_market_location.text = data.location
+        })
+
+        viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
+            customerAdapter.setCustomerList(customerList)
         })
     }
 

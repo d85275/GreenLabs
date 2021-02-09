@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.datamodels.SoldData
@@ -19,10 +20,12 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     private var marketData = MutableLiveData<MarketData>()
 
     private val itemList = arrayListOf<ItemData>()
-    private val matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
     private var totalIncome = 0
 
+    private val customerList = MutableLiveData<ArrayList<CustomerData>>()
+
+    fun getCustomerList(): LiveData<ArrayList<CustomerData>> = customerList
 
     fun getMarketData(): LiveData<MarketData> = marketData
 
@@ -52,9 +55,27 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             repository.getSoldItems(marketData.id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
-                    marketSoldItems.postValue(list as ArrayList<SoldData>?)
+                    getCustomerList(list)
                 }
         )
+    }
+
+    private fun getCustomerList(soldList: List<SoldData>) {
+        val list = arrayListOf<CustomerData>()
+        var curCustomer = ""
+        soldList.forEach { soldData ->
+            val customerId = soldData.customerId
+            if (curCustomer != customerId) {
+                val items = arrayListOf<SoldData>()
+                items.addAll(soldList.filter { it.customerId == customerId })
+                val customer = CustomerData(customerId, items, "")
+                list.add(customer)
+                curCustomer = customerId
+            }
+        }
+
+        list.add(CustomerData.createEmptyData())
+        customerList.value = list
     }
 
     fun clearMarketSoldData() {

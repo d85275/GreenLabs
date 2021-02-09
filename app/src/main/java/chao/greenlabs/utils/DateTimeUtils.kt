@@ -6,10 +6,16 @@ import java.util.*
 
 object DateTimeUtils {
     private val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val idFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     private val monthFormat = SimpleDateFormat(
         "yyyy  MMM" +
                 "", Locale.getDefault()
     )
+
+    fun getCustomerId():String{
+        val date = Calendar.getInstance().time
+        return idFormat.format(date)
+    }
 
     fun getCurrentDate(): String {
         val date = Calendar.getInstance().time

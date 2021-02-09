@@ -10,11 +10,13 @@ import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.DateTimeUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 private const val TAG = "AddCustomerViewModel"
+
 class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
 
@@ -136,7 +138,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         val name = itemData.name
         val price = itemData.price
         val marketData = this.marketData.value!!
-        val soldData = SoldData.create(name, price, marketData)
+        val soldData = SoldData.create(name, price, marketData, DateTimeUtils.getCustomerId())
         repository.insertSoldItem(soldData).doOnComplete {
 
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
@@ -148,6 +150,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
             }
         )
     }
+
     fun onSearch(text: String) {
         val list =
             itemList.filter { itemData ->
