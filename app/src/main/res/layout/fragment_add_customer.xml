@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_top"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:background="@drawable/round_bg_main_gradient"
+        android:translationY="-13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="23dp"
+            android:background="@drawable/circle_bg_white"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/market_icon_size"
+                android:layout_height="@dimen/market_icon_size"
+                android:background="@drawable/icon_back" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:letterSpacing="0.4"
+            android:maxLines="1"
+            android:text="@string/add_customer"
+            android:textColor="@color/main_text_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/ll_detail"
+            app:layout_constraintEnd_toStartOf="@id/ll_detail"
+            app:layout_constraintStart_toEndOf="@id/ll_back"
+            app:layout_constraintTop_toTopOf="@id/ll_detail" />
+
+        <LinearLayout
+            android:id="@+id/ll_detail"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/circle_bg_white"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/icon_done" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:drawableStart="@drawable/icon_white_money"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                tools:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_price"
+                android:textColor="@color/main_text_color"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/round_bg_white_blue_bound"
+        android:drawableStart="@drawable/icon_search"
+        android:drawablePadding="5dp"
+        android:ellipsize="end"
+        android:hint="@string/sold_item_hint"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_top"
+        tools:hint="請輸入售出商品品名或價格" />
+
+    <TextView
+        android:id="@+id/tv_sold_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:drawableStart="@drawable/icon_sold_item"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:text="@string/sold_items"
+        android:textColor="@color/main_bg_color"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_sold_items"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/et_memo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sold_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_searched_items"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sold_item" />
+
+    <EditText
+        android:id="@+id/et_memo"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_bg_white_blue_bound"
+        android:hint="@string/memo_hint"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:gravity="top"
+        android:textColorHint="@color/colorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:hint="@string/memo_hint" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

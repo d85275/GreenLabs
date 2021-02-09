@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
-import chao.greenlabs.viewmodels.ManageMarketViewModel
+import chao.greenlabs.viewmodels.AddCustomerViewModel
 import kotlinx.android.synthetic.main.item_searched_items.view.*
 
 class SearchedItemAdapter(
-    private val viewModel: ManageMarketViewModel,
+    private val viewModel: AddCustomerViewModel,
     private val onClickedListener: ((data: ItemData) -> Unit)
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -222,35 +222,12 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
-        android:id="@+id/et_search"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/round_bg_white_blue_bound"
-        android:drawableStart="@drawable/icon_search"
-        android:drawablePadding="5dp"
-        android:ellipsize="end"
-        android:hint="@string/sold_item_hint"
-        android:maxLines="1"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/colorPrimary"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_top"
-        tools:hint="請輸入售出商品品名或價格" />
-
     <TextView
         android:id="@+id/tv_sold_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
         android:drawableStart="@drawable/icon_sold_item"
@@ -261,7 +238,7 @@
         android:textColor="@color/main_bg_color"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_search" />
+        app:layout_constraintTop_toBottomOf="@id/cl_top" />
 
     <LinearLayout
         android:id="@+id/ll_copy"
@@ -281,7 +258,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_sold_items"
+        android:id="@+id/rv_customers"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="15dp"

@@ -40,4 +40,9 @@
     <string name="default_end_time">18 : 30</string>
     <string name="market_time">%1$s : %2$s</string>
     <string name="modify_data">修改資料</string>
+    <string name="add_customer">新增訂單</string>
+    <string name="receipt">交易明細</string>
+    <string name="customer_no">顧客 %1$s</string>
+    <string name="memo_hint">請輸入備註</string>
+    <string name="discount_title">折扣</string>
 </resources>

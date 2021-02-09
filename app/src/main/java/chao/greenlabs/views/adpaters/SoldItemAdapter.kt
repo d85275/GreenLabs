@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import kotlinx.android.synthetic.main.item_sold_items.view.*
 
 class SoldItemAdapter(
-    private val viewModel: ManageMarketViewModel
+    private val viewModel: AddCustomerViewModel
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
