@@ -63,6 +63,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     private fun getCustomerList(soldList: List<SoldData>) {
         val list = arrayListOf<CustomerData>()
         var curCustomer = ""
+        /*
         soldList.forEach { soldData ->
             val customerId = soldData.customerId
             if (curCustomer != customerId) {
@@ -73,6 +74,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                 curCustomer = customerId
             }
         }
+         */
 
         list.add(CustomerData.createEmptyData())
         customerList.value = list

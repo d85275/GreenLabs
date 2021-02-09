@@ -28,8 +28,16 @@ class Repository(private val context: Context) {
         return db.customerDao().insert(customerData)
     }
 
-    fun getCustomers(): Single<List<CustomerData>>{
+    fun updateCustomer(customerData: CustomerData): Completable {
+        return db.customerDao().update(customerData)
+    }
+
+    fun getCustomers(): Single<List<CustomerData>> {
         return db.customerDao().getAll()
+    }
+
+    fun getCustomer(customerId: String) {
+
     }
 
     fun addMarket(marketData: MarketData): Completable {

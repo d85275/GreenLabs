@@ -24,7 +24,7 @@ class CustomerAdapter(
     private val customerList = arrayListOf<CustomerData>()
 
     override fun getItemViewType(position: Int): Int {
-        return if (customerList[position].customerId == null && customerList[position].soldDataList == null)
+        return if (customerList[position].soldDataList == null)
             ADD_CUSTOMER_VIEW else CUSTOMER_VIEW
     }
 

@@ -3,17 +3,18 @@ package chao.greenlabs.views
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
@@ -67,21 +68,47 @@ class AddCustomerFragment : Fragment() {
 
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
+
+        ll_add.setOnClickListener {
+            viewModel.saveCustomer()
+        }
+
+        ll_back.setOnClickListener {
+            val total = viewModel.getTotalPrice().value
+            if (total == null || total.toInt() == 0) {
+                findNavController().popBackStack()
+            } else {
+                showBackWarningDialog()
+            }
+        }
+    }
+
+    private fun showBackWarningDialog() {
+        val msg = getString(R.string.back_warning)
+        DialogUtils.showQuestion(requireContext(), msg) { findNavController().popBackStack() }
     }
 
     private fun registerObservers() {
-
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
             searchedAdapter.setList(matchedList)
         })
 
-        viewModel.getMarketSoldItems().observe(viewLifecycleOwner, Observer { soldList ->
-            soldAdapter.setItem(soldList)
-            viewModel.updateMarketIncome(soldList)
+
+        viewModel.getCustomerData().observe(viewLifecycleOwner, Observer { customerData ->
+            val list = customerData.soldDataList ?: return@Observer
+            soldAdapter.setItem(list)
+            viewModel.updateIncome(list)
         })
 
         viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { totalPrice ->
             tv_total.text = totalPrice.toString()
+        })
+
+        viewModel.getIsCustomerSaved().observe(viewLifecycleOwner, Observer { isCustomerSaved ->
+            if (isCustomerSaved) {
+                findNavController().popBackStack()
+                viewModel.setIsCustomerSaved(false)
+            }
         })
     }
 
@@ -105,6 +132,5 @@ class AddCustomerFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
-
     }
 }

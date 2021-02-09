@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
+import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
@@ -17,7 +18,7 @@ class SoldItemAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var itemList = arrayListOf<SoldData>()
+    private var itemList = arrayListOf<CustomerData.SoldItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view =
@@ -56,7 +57,7 @@ class SoldItemAdapter(
         }
     }
 
-    fun setItem(soldList: List<SoldData>) {
+    fun setItem(soldList: List<CustomerData.SoldItem>) {
         itemList.clear()
         itemList.addAll(soldList)
         notifyDataSetChanged()

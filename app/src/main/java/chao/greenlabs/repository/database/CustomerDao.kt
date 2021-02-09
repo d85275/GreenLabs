@@ -10,7 +10,10 @@ interface CustomerDao {
     @Query("SELECT * FROM customerdata")
     fun getAll(): Single<List<CustomerData>>
 
-    @Insert
+    @Query("SELECT * FROM customerdata WHERE customerId IN (:customerId)")
+    fun getCustomer(customerId: String): Single<CustomerData>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(customerData: CustomerData): Completable
 
     @Update

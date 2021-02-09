@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
+import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
 import chao.greenlabs.utils.DateTimeUtils
@@ -74,7 +75,8 @@ class ManageMarketFragment : Fragment() {
 
         customerAdapter = CustomerAdapter(viewModel) {
             findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
-            addCustomerViewModel.setCustomerId(DateTimeUtils.getCustomerId())
+            val marketId = viewModel.getMarketData().value?.id!!
+            addCustomerViewModel.setCustomer(CustomerData.createNewCustomer(marketId))
         }
         rv_customers.layoutManager = LinearLayoutManager(requireContext())
         rv_customers.setHasFixedSize(true)
@@ -92,7 +94,6 @@ class ManageMarketFragment : Fragment() {
             tv_market_fee.text = data.fee
             tv_market_income.text = data.income
             tv_market_location.text = data.location
-            addCustomerViewModel.setMarketData(data)
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->

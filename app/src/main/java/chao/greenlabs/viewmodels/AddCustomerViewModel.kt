@@ -6,11 +6,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
-import chao.greenlabs.datamodels.MarketData
-import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.DateTimeUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -19,40 +17,42 @@ private const val TAG = "AddCustomerViewModel"
 
 class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
-    private var marketData = MutableLiveData<MarketData>()
+    private var customerData = MutableLiveData<CustomerData>()
 
     private val itemList = arrayListOf<ItemData>()
     private var matchedItems = MutableLiveData(arrayListOf<ItemData>())
-    private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
     private var totalPrice = MutableLiveData(0)
-    private var customerId = ""
+    private val isCustomerSaved = MutableLiveData(false)
 
-    var compositeDisposable = CompositeDisposable()
+    private var compositeDisposable = CompositeDisposable()
 
     fun clearData() {
-        marketData = MutableLiveData()
+        customerData = MutableLiveData()
         itemList.clear()
         matchedItems = MutableLiveData()
-        marketSoldItems = MutableLiveData()
         totalPrice = MutableLiveData(0)
+        compositeDisposable.clear()
+        compositeDisposable = CompositeDisposable()
+        isCustomerSaved.value = false
     }
 
-    fun setCustomerId(id: String) {
-        customerId = id
+    fun setIsCustomerSaved(value: Boolean) {
+        isCustomerSaved.value = value
     }
 
-    fun setMarketData(marketData: MarketData) {
-        this.marketData.value = marketData
+    fun getIsCustomerSaved(): LiveData<Boolean> = isCustomerSaved
+
+    fun setCustomer(data: CustomerData) {
+        customerData.value = data
     }
 
     fun getTotalPrice(): LiveData<Int> = totalPrice
 
     fun getMatchedItems(): LiveData<ArrayList<ItemData>> = matchedItems
 
-    fun getMarketSoldItems(): LiveData<ArrayList<SoldData>> = marketSoldItems
+    fun getCustomerData(): LiveData<CustomerData> = customerData
 
     fun loadItemData() {
-        val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
             repository.getItems().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,56 +63,22 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         )
     }
 
-    fun updateMarketIncome(list: List<SoldData>) {
-        //val marketData = marketData.value ?: return
-        //var total = 0 - marketData.fee.toInt()
-        var total = 0
-        list.forEach { soldItem ->
-            total += (soldItem.price.toInt() * soldItem.count)
-        }
-        totalPrice.value = total
-        //marketData.income = totalIncome.toString()
-
-        //updateMarket(marketData)
-
-    }
-
-    private fun updateMarket(marketData: MarketData) {
-        val disposable = repository.updateMarket(marketData).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                this.marketData.value = marketData
-            }, {
-                Log.e(TAG, "error: $it")
-            })
-        compositeDisposable.add(disposable)
-    }
-
     fun deleteSoldItem(position: Int) {
-        val list = marketSoldItems.value ?: return
-        val item = list[position]
+        val customerData = customerData.value ?: return
+        val list = customerData.soldDataList ?: return
         list.removeAt(position)
-        val disposable = repository.deleteSoldItem(item).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                marketSoldItems.value = list
-            }, {
-                Log.e("123", "error: $it")
-            })
-        compositeDisposable.add(disposable)
+
+        customerData.soldDataList = list
+        this.customerData.value = customerData
     }
 
     fun updateCount(position: Int, count: Int) {
-        val list = marketSoldItems.value ?: return
-        val item = list[position]
-        item.count += count
-        val disposable = repository.updateSoldItem(item).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                {
-                    marketSoldItems.value = list
-                }, {
-                    Log.e(TAG, "error: $it")
-                }
-            )
-        compositeDisposable.add(disposable)
+        val customerData = customerData.value ?: return
+        val list = customerData.soldDataList ?: return
+        list[position].count += count
+
+        customerData.soldDataList = list
+        this.customerData.value = customerData
     }
 
     fun getImage(name: String, price: String): Bitmap {
@@ -122,44 +88,33 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     @SuppressLint("CheckResult")
     fun onSearchItemClicked(itemData: ItemData) {
-        val list: ArrayList<SoldData> =
-            if (marketSoldItems.value.isNullOrEmpty()) arrayListOf() else marketSoldItems.value as ArrayList<SoldData>
-        var isExist = false
-        for (i in list.indices) {
-            val soldData = list[i]
-            if (soldData.name == itemData.name && soldData.price == itemData.price) {
-                isExist = true
-                soldData.count++
-                repository.updateSoldItem(soldData).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                        {
-                            list[i] = soldData
-                            marketSoldItems.value = list
-                        }, { t ->
-                            Log.e(TAG, "on error: $t")
-                        }
-                    )
-                break
-            }
+        val customerData = customerData.value ?: return
+        val soldList = customerData.soldDataList ?: return
+
+        val soldData = soldList.find { it.name == itemData.name && it.price == itemData.price }
+
+        if (soldData != null) {
+            soldList.find { it.name == itemData.name && it.price == itemData.price }!!.count++
+        } else {
+            val soldItem = CustomerData.SoldItem(itemData.name, itemData.price, 1)
+            soldList.add(soldItem)
         }
 
-        if (isExist) return
+        customerData.soldDataList = soldList
+        this.customerData.value = customerData
+    }
 
+    fun updateIncome(list: List<CustomerData.SoldItem>?) {
+        if (list == null) {
+            totalPrice.value = 0
+            return
+        }
 
-        val name = itemData.name
-        val price = itemData.price
-        val marketData = this.marketData.value!!
-        val soldData = SoldData.create(name, price, marketData, customerId)
-        repository.insertSoldItem(soldData).doOnComplete {
-
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-            {
-                list.add(soldData)
-                marketSoldItems.value = list
-            }, { t ->
-                Log.e(TAG, "on error: $t")
-            }
-        )
+        var total = 0
+        list.forEach { soldItem ->
+            total += (soldItem.price.toInt() * soldItem.count)
+        }
+        totalPrice.value = total
     }
 
     fun onSearch(text: String) {
@@ -171,5 +126,17 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
             }
 
         matchedItems.value = list as ArrayList<ItemData>
+    }
+
+    fun saveCustomer() {
+        val customerData = customerData.value ?: return
+        val disposable = repository.addCustomer(customerData).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                isCustomerSaved.value = true
+            }, {
+                Log.e("123", "error when adding a new customer. $it")
+            })
+
+        compositeDisposable.add(disposable)
     }
 }
