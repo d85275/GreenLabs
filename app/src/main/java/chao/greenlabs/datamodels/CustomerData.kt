@@ -24,9 +24,5 @@ data class CustomerData(
         }
     }
 
-    init {
-        Log.e("123", "CustomerData, init")
-    }
-
     data class SoldItem(val name: String, val price: String, var count: Int)
 }

@@ -21,7 +21,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     private val itemList = arrayListOf<ItemData>()
     private var matchedItems = MutableLiveData(arrayListOf<ItemData>())
-    private var totalPrice = MutableLiveData(0)
     private val isCustomerSaved = MutableLiveData(false)
 
     private var compositeDisposable = CompositeDisposable()
@@ -30,7 +29,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         customerData = MutableLiveData()
         itemList.clear()
         matchedItems = MutableLiveData()
-        totalPrice = MutableLiveData(0)
         compositeDisposable.clear()
         compositeDisposable = CompositeDisposable()
         isCustomerSaved.value = false
@@ -45,8 +43,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     fun setCustomer(data: CustomerData) {
         customerData.value = data
     }
-
-    fun getTotalPrice(): LiveData<Int> = totalPrice
 
     fun getMatchedItems(): LiveData<ArrayList<ItemData>> = matchedItems
 
@@ -66,6 +62,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     fun deleteSoldItem(position: Int) {
         val customerData = customerData.value ?: return
         val list = customerData.soldDataList ?: return
+        customerData.total -= list[position].price.toInt()
         list.removeAt(position)
 
         customerData.soldDataList = list
@@ -76,6 +73,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         val customerData = customerData.value ?: return
         val list = customerData.soldDataList ?: return
         list[position].count += count
+        customerData.total += (count * list[position].price.toInt())
 
         customerData.soldDataList = list
         this.customerData.value = customerData
@@ -95,26 +93,15 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
         if (soldData != null) {
             soldList.find { it.name == itemData.name && it.price == itemData.price }!!.count++
+            customerData.total += soldData.price.toInt()
         } else {
             val soldItem = CustomerData.SoldItem(itemData.name, itemData.price, 1)
             soldList.add(soldItem)
+            customerData.total += soldItem.price.toInt()
         }
 
         customerData.soldDataList = soldList
         this.customerData.value = customerData
-    }
-
-    fun updateIncome(list: List<CustomerData.SoldItem>?) {
-        if (list == null) {
-            totalPrice.value = 0
-            return
-        }
-
-        var total = 0
-        list.forEach { soldItem ->
-            total += (soldItem.price.toInt() * soldItem.count)
-        }
-        totalPrice.value = total
     }
 
     fun onSearch(text: String) {

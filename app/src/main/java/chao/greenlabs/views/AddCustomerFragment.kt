@@ -74,7 +74,7 @@ class AddCustomerFragment : Fragment() {
         }
 
         ll_back.setOnClickListener {
-            val total = viewModel.getTotalPrice().value
+            val total = viewModel.getCustomerData().value?.total
             if (total == null || total.toInt() == 0) {
                 findNavController().popBackStack()
             } else {
@@ -97,11 +97,7 @@ class AddCustomerFragment : Fragment() {
         viewModel.getCustomerData().observe(viewLifecycleOwner, Observer { customerData ->
             val list = customerData.soldDataList ?: return@Observer
             soldAdapter.setItem(list)
-            viewModel.updateIncome(list)
-        })
-
-        viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { totalPrice ->
-            tv_total.text = totalPrice.toString()
+            tv_total.text = customerData.total.toString()
         })
 
         viewModel.getIsCustomerSaved().observe(viewLifecycleOwner, Observer { isCustomerSaved ->
