@@ -40,6 +40,10 @@ class Repository(private val context: Context) {
 
     }
 
+    fun getCustomer(marketId: Int): Single<List<CustomerData>> {
+        return db.customerDao().getCustomer(marketId)
+    }
+
     fun addMarket(marketData: MarketData): Completable {
         return db.marketDao().insert(marketData)
     }

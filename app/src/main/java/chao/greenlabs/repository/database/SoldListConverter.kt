@@ -16,9 +16,9 @@ class SoldListConverter {
     @TypeConverter
     fun toSoldList(data: String): ArrayList<CustomerData.SoldItem> {
         val json = JSONObject(data)
-        return Gson().fromJson<Array<CustomerData.SoldItem>>(
+        return ArrayList(Gson().fromJson<Array<CustomerData.SoldItem>>(
             json.get("soldDataList").toString(),
             Array<CustomerData.SoldItem>::class.java
-        ).toList() as ArrayList<CustomerData.SoldItem>
+        ).toList())
     }
 }

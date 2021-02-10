@@ -127,6 +127,6 @@ class MarketListFragment : Fragment() {
 
     private fun loadData() {
         listViewModel.loadMarketData()
-        manageMarketViewModel.loadItemData()
+        //manageMarketViewModel.loadItemData()
     }
 }

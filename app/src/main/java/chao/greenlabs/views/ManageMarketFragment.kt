@@ -34,6 +34,8 @@ class ManageMarketFragment : Fragment() {
     private lateinit var viewModel: ManageMarketViewModel
     private lateinit var addCustomerViewModel: AddCustomerViewModel
     private lateinit var customerAdapter: CustomerAdapter
+    private var isMarketDetailShown = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,7 +74,6 @@ class ManageMarketFragment : Fragment() {
     }
 
     private fun setViews() {
-
         customerAdapter = CustomerAdapter(viewModel) {
             findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
             val marketId = viewModel.getMarketData().value?.id!!
@@ -164,6 +165,11 @@ class ManageMarketFragment : Fragment() {
         }
     }
 
+    private fun loadData() {
+        viewModel.loadCustomers()
+        addCustomerViewModel.loadItemData()
+    }
+
     private val showMarketDetailAction = {
         isMarketDetailShown = if (isMarketDetailShown) {
             AnimUtils.hideManageMarketDetail(cl_parent, cl_market_detail)
@@ -174,10 +180,5 @@ class ManageMarketFragment : Fragment() {
         }
     }
 
-    private var isMarketDetailShown = false
 
-    private fun loadData() {
-        viewModel.loadMarketSoldData()
-        addCustomerViewModel.loadItemData()
-    }
 }

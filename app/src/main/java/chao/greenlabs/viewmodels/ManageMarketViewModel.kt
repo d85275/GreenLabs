@@ -19,13 +19,15 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     private var marketData = MutableLiveData<MarketData>()
 
-    private val itemList = arrayListOf<ItemData>()
+    //private val itemList = arrayListOf<ItemData>()
+
+
     private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
     private var totalIncome = 0
 
-    private val customerList = MutableLiveData<ArrayList<CustomerData>>()
+    private val customerList = MutableLiveData<List<CustomerData>>()
 
-    fun getCustomerList(): LiveData<ArrayList<CustomerData>> = customerList
+    fun getCustomerList(): LiveData<List<CustomerData>> = customerList
 
     fun getMarketData(): LiveData<MarketData> = marketData
 
@@ -36,6 +38,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     var compositeDisposable = CompositeDisposable()
 
 
+    /*
     fun loadItemData() {
         val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
@@ -58,6 +61,19 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
                     getCustomerList(list)
                 }
         )
+    }
+    */
+
+    fun loadCustomers() {
+        val marketData = this.marketData.value ?: return
+        val disposable = repository.getCustomer(marketData.id).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({ list ->
+                (list as ArrayList).add(CustomerData.createEmptyData())
+                customerList.value = list
+            }, {
+                Log.e("123", "error when loading customers: $it")
+            })
+        compositeDisposable.add(disposable)
     }
 
     private fun getCustomerList(soldList: List<SoldData>) {

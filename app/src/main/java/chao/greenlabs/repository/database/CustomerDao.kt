@@ -13,6 +13,9 @@ interface CustomerDao {
     @Query("SELECT * FROM customerdata WHERE customerId IN (:customerId)")
     fun getCustomer(customerId: String): Single<CustomerData>
 
+    @Query("SELECT * FROM customerdata WHERE marketId IN (:marketId)")
+    fun getCustomer(marketId: Int): Single<List<CustomerData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(customerData: CustomerData): Completable
 
