@@ -35,9 +35,11 @@ class CustomerViewHolder(
 
         val context = binding.root.context
 
-        binding.tvCustomerNumber.text =
-            context.getString(R.string.customer_no, position + 1)
-        binding.tvTotalPrice.text = customerData.total.toString()
+        val customerNo = context.getString(R.string.customer_no, position + 1)
+        val total = context.getString(R.string.price, customerData.total.toString())
+
+        binding.tvCustomerNumber.text = customerNo
+        binding.tvTotalPrice.text = total
 
         binding.llCustomers.removeAllViews()
         customerData.soldDataList?.forEach { soldItem ->
@@ -48,6 +50,7 @@ class CustomerViewHolder(
 
     private fun addView(soldItem: CustomerData.SoldItem, viewModel: ManageMarketViewModel) {
         val name = soldItem.name
+        val context = binding.root.context
         val price = soldItem.price
         val count = soldItem.count
         val image = viewModel.getImage(name, price)
@@ -62,7 +65,7 @@ class CustomerViewHolder(
         val ivImage = itemView.findViewById<ImageView>(R.id.iv_image)
 
         tvName.text = name
-        tvPrice.text = price
+        tvPrice.text = context.getString(R.string.price, price)
         tvCount.text = count.toString()
         Glide.with(binding.root.context).load(image).into(ivImage)
 

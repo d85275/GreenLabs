@@ -16,7 +16,7 @@ class AddCustomerViewHolder(private val binding: ItemAddCustomerBinding) :
     }
 
     fun setListeners() {
-        binding.llAddCustomer.setOnClickListener {
+        binding.clAddCustomer.setOnClickListener {
             onAddCustomerAction.invoke()
         }
     }
