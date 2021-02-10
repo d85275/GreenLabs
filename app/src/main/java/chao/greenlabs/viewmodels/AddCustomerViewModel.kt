@@ -115,8 +115,9 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         matchedItems.value = list as ArrayList<ItemData>
     }
 
-    fun saveCustomer() {
+    fun saveCustomer(memo: String) {
         val customerData = customerData.value ?: return
+        customerData.memo = memo.trim()
         val disposable = repository.addCustomer(customerData).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 isCustomerSaved.value = true
