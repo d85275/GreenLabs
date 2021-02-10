@@ -20,7 +20,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     private var marketData = MutableLiveData<MarketData>()
 
     private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
-    private var totalIncome = 0
 
     private val customerList = MutableLiveData<List<CustomerData>>()
 
@@ -41,6 +40,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread()).subscribe({ list ->
                 (list as ArrayList).add(CustomerData.createEmptyData())
                 customerList.value = list
+                updateMarketIncome(list)
             }, {
                 Log.e("123", "error when loading customers: $it")
             })
@@ -49,6 +49,18 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     fun clearMarketSoldData() {
         //compositeDisposable.dispose()
+    }
+
+    private fun updateMarketIncome(list: List<CustomerData>) {
+        val marketData = marketData.value ?: return
+        val fee = marketData.fee.toInt()
+        var total = 0
+        list.forEach { customerData ->
+            total += customerData.total
+        }
+        total -= fee
+        marketData.income = total.toString()
+        updateMarket(marketData)
     }
 
     fun updateMarketName(name: String) {

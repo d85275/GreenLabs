@@ -50,7 +50,6 @@ class CustomerAdapter(
     }
 
     fun setCustomerList(list: List<CustomerData>) {
-        Log.e("123", "set list")
         customerList.clear()
         customerList.addAll(list)
 
