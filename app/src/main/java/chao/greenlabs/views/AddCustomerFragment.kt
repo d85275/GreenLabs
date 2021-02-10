@@ -70,12 +70,17 @@ class AddCustomerFragment : Fragment() {
         et_search.addTextChangedListener(textWatcher)
 
         ll_add.setOnClickListener {
-            viewModel.saveCustomer(et_memo.text.toString())
+            val list = viewModel.getCustomerData().value?.soldDataList
+            if (list == null || list.size == 0) {
+                findNavController().popBackStack()
+            } else {
+                viewModel.saveCustomer(et_memo.text.toString())
+            }
         }
 
         ll_back.setOnClickListener {
-            val total = viewModel.getCustomerData().value?.total
-            if (total == null || total.toInt() == 0) {
+            val list = viewModel.getCustomerData().value?.soldDataList
+            if (list == null || list.size == 0) {
                 findNavController().popBackStack()
             } else {
                 showBackWarningDialog()

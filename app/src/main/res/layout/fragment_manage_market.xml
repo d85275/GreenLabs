@@ -234,7 +234,7 @@
         android:drawablePadding="5dp"
         android:gravity="center"
         android:letterSpacing="0.1"
-        android:text="@string/sold_items"
+        android:text="@string/customer_list"
         android:textColor="@color/main_bg_color"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
