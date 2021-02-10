@@ -1,5 +1,6 @@
 package chao.greenlabs.views.adpaters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +36,7 @@ class CustomerAdapter(
             AddCustomerViewHolder(binding)
         } else {
             val binding = ItemCustomerBinding.inflate(layoutInflater, parent, false)
-            CustomerViewHolder(binding)
+            CustomerViewHolder(binding, viewModel)
         }
     }
 
@@ -45,10 +46,11 @@ class CustomerAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         // todo: add action for it
-        holder.bindView(customerList[position]) { onAddCustomerAction.invoke() }
+        holder.bindView(customerList[position], position) { onAddCustomerAction.invoke() }
     }
 
     fun setCustomerList(list: List<CustomerData>) {
+        Log.e("123", "set list")
         customerList.clear()
         customerList.addAll(list)
 

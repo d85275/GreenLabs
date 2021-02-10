@@ -8,7 +8,11 @@ open class BaseViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 
     lateinit var onAddCustomerAction: (() -> Unit)
 
-    open fun bindView(customerData: CustomerData?, onAddCustomerAction: (() -> Unit)) {
+    open fun bindView(
+        customerData: CustomerData?,
+        position: Int,
+        onAddCustomerAction: (() -> Unit)
+    ) {
         this.onAddCustomerAction = onAddCustomerAction
     }
 }

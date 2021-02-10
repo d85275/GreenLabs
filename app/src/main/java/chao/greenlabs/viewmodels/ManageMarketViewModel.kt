@@ -1,11 +1,11 @@
 package chao.greenlabs.viewmodels
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import chao.greenlabs.datamodels.CustomerData
-import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.repository.Repository
@@ -18,9 +18,6 @@ private const val TAG = "ManageMarketViewModel"
 class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
 
     private var marketData = MutableLiveData<MarketData>()
-
-    //private val itemList = arrayListOf<ItemData>()
-
 
     private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
     private var totalIncome = 0
@@ -38,32 +35,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     var compositeDisposable = CompositeDisposable()
 
 
-    /*
-    fun loadItemData() {
-        val compositeDisposable = CompositeDisposable()
-        compositeDisposable.add(
-            repository.getItems().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
-                    itemList.clear()
-                    itemList.addAll(list.reversed())
-                }
-        )
-    }
-
-    fun loadMarketSoldData() {
-        val marketData = this.marketData.value ?: return
-        val compositeDisposable = CompositeDisposable()
-        compositeDisposable.add(
-            repository.getSoldItems(marketData.id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
-                    getCustomerList(list)
-                }
-        )
-    }
-    */
-
     fun loadCustomers() {
         val marketData = this.marketData.value ?: return
         val disposable = repository.getCustomer(marketData.id).subscribeOn(Schedulers.io())
@@ -76,28 +47,7 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         compositeDisposable.add(disposable)
     }
 
-    private fun getCustomerList(soldList: List<SoldData>) {
-        val list = arrayListOf<CustomerData>()
-        var curCustomer = ""
-        /*
-        soldList.forEach { soldData ->
-            val customerId = soldData.customerId
-            if (curCustomer != customerId) {
-                val items = arrayListOf<SoldData>()
-                items.addAll(soldList.filter { it.customerId == customerId })
-                val customer = CustomerData(customerId, items, "")
-                list.add(customer)
-                curCustomer = customerId
-            }
-        }
-         */
-
-        list.add(CustomerData.createEmptyData())
-        customerList.value = list
-    }
-
     fun clearMarketSoldData() {
-        marketSoldItems = MutableLiveData()
         //compositeDisposable.dispose()
     }
 
@@ -182,6 +132,11 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         }
 
         return stringBuilder.toString()
+    }
+
+    fun getImage(name: String, price: String): Bitmap {
+        val fileName = StringBuilder().append(name).append("_").append(price).toString()
+        return repository.getSavedImage(fileName)
     }
 
 }
