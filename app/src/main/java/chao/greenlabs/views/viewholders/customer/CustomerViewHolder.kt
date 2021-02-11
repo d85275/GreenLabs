@@ -1,6 +1,5 @@
 package chao.greenlabs.views.viewholders.customer
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -57,7 +56,7 @@ class CustomerViewHolder(
 
         val itemView: View =
             LayoutInflater.from(binding.root.context)
-                .inflate(R.layout.view_customer, binding.llCustomers, false)
+                .inflate(R.layout.view_customer_item, binding.llCustomers, false)
 
         val tvName = itemView.findViewById<TextView>(R.id.tv_name)
         val tvPrice = itemView.findViewById<TextView>(R.id.tv_price)

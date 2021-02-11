@@ -46,4 +46,7 @@
     <string name="memo_hint">請輸入備註</string>
     <string name="discount_title">折扣</string>
     <string name="customer_list">訂單列表</string>
+    <string name="sold_number">數量</string>
+    <string name="sub_total">小計</string>
+    <string name="discount">折扣</string>
 </resources>
