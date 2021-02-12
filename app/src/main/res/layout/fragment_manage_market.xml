@@ -215,7 +215,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/total_price"
+                android:text="@string/total_sold_price"
                 android:textColor="@color/main_text_color"
                 android:textSize="12sp"
                 android:textStyle="bold" />

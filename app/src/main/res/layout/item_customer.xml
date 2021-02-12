@@ -147,6 +147,5 @@
                 tools:text="$ 1000" />
         </LinearLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,8 +7,6 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/round_bg_white"
-    android:elevation="3dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
@@ -61,7 +59,7 @@
     <View
         android:id="@+id/v_divider"
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:background="#EEEEEE"
         app:layout_constraintEnd_toEndOf="parent"
