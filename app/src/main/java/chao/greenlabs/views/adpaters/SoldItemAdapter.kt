@@ -1,16 +1,12 @@
 package chao.greenlabs.views.adpaters
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
-import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
-import chao.greenlabs.viewmodels.ManageMarketViewModel
 import kotlinx.android.synthetic.main.item_sold_items.view.*
 
 class SoldItemAdapter(
