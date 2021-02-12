@@ -118,11 +118,11 @@ class AddCustomerFragment : Fragment() {
             val text = s.toString()
             if (text.isEmpty()) {
                 rv_sold_items.visibility = View.VISIBLE
-                et_memo.visibility = View.VISIBLE
+                ll_memo.visibility = View.VISIBLE
                 rv_searched_items.visibility = View.GONE
             } else {
                 rv_sold_items.visibility = View.GONE
-                et_memo.visibility = View.GONE
+                ll_memo.visibility = View.GONE
                 rv_searched_items.visibility = View.VISIBLE
                 viewModel.onSearch(s.toString())
             }

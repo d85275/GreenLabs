@@ -124,7 +124,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
             }, {
                 Log.e("123", "error when adding a new customer. $it")
             })
-
         compositeDisposable.add(disposable)
     }
 }
