@@ -60,7 +60,7 @@ class MarketListFragment : BaseFragment() {
         val factory = MarketListVMFactory(repository)
         listViewModel = ViewModelProvider(this, factory).get(MarketListViewModel::class.java)
 
-        val manageMarketVMFactory = ManageMarketVMFactory(repository)
+        val manageMarketVMFactory = ManageMarketVMFactory(resources, repository)
         manageMarketViewModel = ViewModelProvider(
             requireActivity(),
             manageMarketVMFactory

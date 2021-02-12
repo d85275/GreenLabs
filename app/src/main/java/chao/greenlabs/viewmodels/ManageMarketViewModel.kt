@@ -1,10 +1,12 @@
 package chao.greenlabs.viewmodels
 
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.datamodels.SoldData
@@ -15,11 +17,12 @@ import io.reactivex.schedulers.Schedulers
 
 private const val TAG = "ManageMarketViewModel"
 
-class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
+class ManageMarketViewModel(
+    private val res: Resources,
+    private val repository: Repository
+) : ViewModel() {
 
     private var marketData = MutableLiveData<MarketData>()
-
-    private var marketSoldItems = MutableLiveData<ArrayList<SoldData>>()
 
     private val customerList = MutableLiveData<List<CustomerData>>()
 
@@ -32,7 +35,6 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     }
 
     var compositeDisposable = CompositeDisposable()
-
 
     fun loadCustomers() {
         val marketData = this.marketData.value ?: return
@@ -127,8 +129,9 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
     fun getCopyData(): String {
         val stringBuilder = StringBuilder()
         val marketData = this.marketData.value ?: return ""
+        val customerList = this.customerList.value ?: arrayListOf()
+        val details = hashMapOf<String, Int>()
         val totalPrice = marketData.income
-        val soldList: ArrayList<SoldData> = marketSoldItems.value ?: arrayListOf()
         val marketName = marketData.name
         val marketDate = marketData.date
         val marketPrice = marketData.fee
@@ -138,10 +141,48 @@ class ManageMarketViewModel(private val repository: Repository) : ViewModel() {
         stringBuilder.append("攤位費 ")
             .append(marketPrice).append("\n\n")
 
-        soldList.forEach { soldItem ->
+        for (i in customerList.indices) {
+            val customer = customerList[i]
+            if (customer.soldDataList == null) continue
+            stringBuilder.append("----------------------\n")
+            stringBuilder.append(res.getString(R.string.customer_no, i + 1)).append("\n\n")
+            customer.soldDataList?.forEach {
+                stringBuilder.append(it.name).append(" * ").append(it.count).append(" ")
+                    .append((it.count * it.price.toInt())).append("\n")
+
+                if (details[it.name] == null) {
+                    details[it.name] = 1
+                } else {
+                    details[it.name] = details[it.name]!! + 1
+                }
+            }
+            if (customer.memo.isNotEmpty()) {
+                stringBuilder.append("\n").append("備註 ").append(customer.memo).append("\n")
+            }
+            stringBuilder.append("\n").append("小計 ")
+                .append(res.getString(R.string.price, customer.total.toString())).append("\n")
+            stringBuilder.append("折扣 ")
+                .append(res.getString(R.string.price, customer.discount.toString())).append("\n")
+            stringBuilder.append("總金額 ").append(
+                res.getString(
+                    R.string.price,
+                    (customer.total - customer.discount).toString()
+                )
+            ).append("\n\n")
+        }
+
+        stringBuilder.append("========明細========\n")
+        details.forEach { (name, count) ->
+            stringBuilder.append(name).append(" * ").append(count).append("\n")
+        }
+        stringBuilder.append("====================\n")
+        /*
+        customerList. { customer ->
+            stringBuilder.append(res.getString())
             stringBuilder.append(soldItem.name).append(" * ").append(soldItem.count).append(" ")
                 .append((soldItem.count * soldItem.price.toInt())).append("\n")
         }
+         */
 
         return stringBuilder.toString()
     }

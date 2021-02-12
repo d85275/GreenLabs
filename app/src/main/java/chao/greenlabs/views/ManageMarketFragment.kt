@@ -62,7 +62,7 @@ class ManageMarketFragment : BaseFragment() {
     }
 
     private fun getViewModel() {
-        val factory = ManageMarketVMFactory(Repository(requireContext()))
+        val factory = ManageMarketVMFactory(resources, Repository(requireContext()))
         val addCustomerFactory = AddCustomerVMFactory(Repository(requireContext()))
         viewModel =
             ViewModelProvider(requireActivity(), factory).get(ManageMarketViewModel::class.java)
