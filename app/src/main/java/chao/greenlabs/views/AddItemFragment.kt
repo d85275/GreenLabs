@@ -9,8 +9,6 @@ import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -117,7 +115,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
             findNavController().popBackStack()
         }
 
-        et_price.addTextChangedListener(textWatcher)
+        et_price.addTextChangedListener(IntNumWatcher(et_price))
 
         //iv_image.setOnTouchListener(this)
     }
@@ -178,15 +176,6 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
         })
     }
 
-    private fun initView() {
-        if (!viewModel.getIsUpdateMode()) return
-        ll_delete.visibility = View.VISIBLE
-        ll_delete.setOnClickListener {
-            DialogUtils.showDelete(requireContext()) { viewModel.deleteUpdatedData() }
-        }
-        tv_title.text = getString(R.string.edit_item)
-    }
-
     private fun resetData() {
         setDefaultImage()
         et_name.text.clear()
@@ -224,23 +213,6 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
                 BitmapUtils.loadBitmap(result, requireContext(), viewModel, iv_image)
             }
         }
-
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            var text = s.toString()
-            if (text.contains(".")) {
-                text = text.replace(".", "")
-                et_price.setText(text)
-                et_price.setSelection(et_price.text.length)
-            }
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {

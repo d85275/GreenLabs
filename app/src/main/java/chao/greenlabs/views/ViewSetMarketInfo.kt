@@ -1,8 +1,6 @@
 package chao.greenlabs.views
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -90,7 +88,7 @@ open class ViewSetMarketInfo : LinearLayout {
         binding = ViewSetMarketInfoBinding.inflate(inflater, this, true)
         binding.tvStart.text = context.getString(R.string.default_start_time)
         binding.tvEnd.text = context.getString(R.string.default_end_time)
-        binding.etFee.addTextChangedListener(textWatcher)
+        binding.etFee.addTextChangedListener(IntNumWatcher(binding.etFee))
     }
 
     fun setDate(date: String) {
@@ -115,22 +113,5 @@ open class ViewSetMarketInfo : LinearLayout {
 
     fun setFee(fee: String) {
         binding.etFee.setText(fee)
-    }
-
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            var text = s.toString()
-            if (text.contains(".")) {
-                text = text.replace(".", "")
-                binding.etFee.setText(text)
-                binding.etFee.setSelection(binding.etFee.text.length)
-            }
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
     }
 }

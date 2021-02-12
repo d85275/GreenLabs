@@ -15,6 +15,7 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
@@ -76,6 +77,7 @@ class AddCustomerFragment : Fragment() {
             } else {
                 viewModel.saveCustomer(et_memo.text.toString())
             }
+            KeyboardUtils.hideKeyboard(requireContext(), view)
         }
 
         ll_back.setOnClickListener {
@@ -85,6 +87,23 @@ class AddCustomerFragment : Fragment() {
             } else {
                 showBackWarningDialog()
             }
+        }
+
+        ll_discount.setOnClickListener {
+            val default = getString(R.string.discount_title)
+            val discount = if (tv_discount.text.toString() == default) {
+                ""
+            } else {
+                tv_discount.text.toString().split(" ")[1]
+            }
+            val confirmAction: (discount: String) -> Unit = {
+                if (it.isNotEmpty()) {
+                    tv_discount.text = getString(R.string.price, it)
+                }
+                viewModel.updateDiscount(it)
+                KeyboardUtils.hideKeyboard(requireContext(), view)
+            }
+            DialogUtils.showEditNumber(requireContext(), confirmAction, discount)
         }
     }
 

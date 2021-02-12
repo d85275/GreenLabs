@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
 import chao.greenlabs.R
+import chao.greenlabs.views.IntNumWatcher
 
 
 object DialogUtils {
@@ -175,6 +176,7 @@ object DialogUtils {
 
         if (isNumber) {
             etData.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+            etData.addTextChangedListener(IntNumWatcher(etData))
         }
 
         etData.setText(text)
