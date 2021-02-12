@@ -23,7 +23,7 @@ import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.MarketAdapter
 import kotlinx.android.synthetic.main.fragment_market_list.*
 
-class MarketListFragment : Fragment() {
+class MarketListFragment : BaseFragment() {
 
     private lateinit var listViewModel: MarketListViewModel
     private lateinit var manageMarketViewModel: ManageMarketViewModel
@@ -40,6 +40,7 @@ class MarketListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Repository(requireContext())
+        showLoading()
         getViewModel()
         setViews()
         registerObservers()
@@ -97,6 +98,7 @@ class MarketListFragment : Fragment() {
 
     private fun registerObservers() {
         listViewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
+            dismissLoading()
             adapter.setList(list)
             tv_market_count.text = getString(R.string.joined_market, list.size)
             if (list.isNotEmpty()) {

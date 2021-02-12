@@ -4,11 +4,13 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import chao.greenlabs.R
 import chao.greenlabs.utils.PermissionUtils
 import chao.greenlabs.utils.ToastUtils
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 private const val REQUEST_CODE_PERMISSION_RESULT = 0xFF
@@ -48,5 +50,15 @@ class MainActivity : AppCompatActivity() {
             requestedPermissions.toTypedArray(),
             REQUEST_CODE_PERMISSION_RESULT
         )
+    }
+
+    fun showLoading() {
+        ll_loading.visibility = View.VISIBLE
+        nav_host_fragment.alpha = 0.5f
+    }
+
+    fun dismissLoading() {
+        ll_loading.visibility = View.GONE
+        nav_host_fragment.alpha = 1f
     }
 }

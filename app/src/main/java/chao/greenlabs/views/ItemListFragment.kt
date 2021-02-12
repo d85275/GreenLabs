@@ -23,7 +23,7 @@ import chao.greenlabs.views.adpaters.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import kotlinx.android.synthetic.main.fragment_item_list.ll_add
 
-class ItemListFragment : Fragment() {
+class ItemListFragment : BaseFragment() {
 
     private lateinit var listViewModel: ItemListViewModel
     private lateinit var addItemViewModel: AddItemViewModel
@@ -40,6 +40,7 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Repository(requireContext())
+        showLoading()
         getViewModel()
         setViews()
         registerObservers()
@@ -77,6 +78,7 @@ class ItemListFragment : Fragment() {
 
     private fun registerObservers() {
         listViewModel.getItemList().observe(viewLifecycleOwner, Observer { list ->
+            dismissLoading()
             adapter.setList(list)
         })
     }

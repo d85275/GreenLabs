@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_manage_market.ll_back
 import kotlinx.android.synthetic.main.fragment_manage_market.tv_market_income
 import kotlinx.android.synthetic.main.fragment_manage_market.tv_title
 
-class ManageMarketFragment : Fragment() {
+class ManageMarketFragment : BaseFragment() {
 
     private lateinit var viewModel: ManageMarketViewModel
     private lateinit var addCustomerViewModel: AddCustomerViewModel
@@ -47,6 +47,7 @@ class ManageMarketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLoading()
         getViewModel()
         setViews()
         registerObservers()
@@ -98,6 +99,7 @@ class ManageMarketFragment : Fragment() {
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
+            dismissLoading()
             customerAdapter.setCustomerList(customerList)
         })
     }
