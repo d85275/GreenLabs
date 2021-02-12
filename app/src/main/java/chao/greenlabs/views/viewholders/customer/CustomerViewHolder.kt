@@ -33,18 +33,14 @@ class CustomerViewHolder(
         if (customerData?.soldDataList == null) return
 
         val context = binding.root.context
-
-        val customerNo = context.getString(R.string.customer_no, position + 1)
-        val total = context.getString(R.string.price, customerData.total.toString())
-
-        binding.tvCustomerNumber.text = customerNo
-        binding.tvTotalPrice.text = total
+        binding.memo = customerData.memo
+        binding.customerNo = context.getString(R.string.customer_no, position + 1)
+        binding.total = context.getString(R.string.price, customerData.total.toString())
 
         binding.llCustomers.removeAllViews()
         customerData.soldDataList?.forEach { soldItem ->
             addView(soldItem, viewModel)
         }
-
     }
 
     private fun addView(soldItem: CustomerData.SoldItem, viewModel: ManageMarketViewModel) {

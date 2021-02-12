@@ -3,7 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data />
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="memo"
+            type="String" />
+
+        <variable
+            name="customerNo"
+            type="String" />
+
+        <variable
+            name="total"
+            type="String" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:text="@{customerNo}"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,15 +52,25 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_memo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:visibility="@{memo.length()==0? View.GONE:View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_customers"
+            tools:text="@{memo}" />
+
         <LinearLayout
             android:id="@+id/ll_sub_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_customers">
+            app:layout_constraintTop_toBottomOf="@id/tv_memo">
 
             <TextView
                 android:layout_width="0dp"
@@ -132,6 +158,7 @@
                 android:gravity="end"
                 android:maxWidth="50dp"
                 android:maxLines="1"
+                android:text="@{total}"
                 android:textColor="@color/market_list"
                 android:textSize="13sp"
                 android:textStyle="bold"
