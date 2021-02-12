@@ -79,6 +79,14 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         this.customerData.value = customerData
     }
 
+    fun updateDiscount(discount: String) {
+        if (discount.isEmpty()) return
+        val customerData = customerData.value ?: return
+
+        customerData.discount = discount.toInt()
+        this.customerData.value = customerData
+    }
+
     fun getImage(name: String, price: String): Bitmap {
         val fileName = StringBuilder().append(name).append("_").append(price).toString()
         return repository.getSavedImage(fileName)

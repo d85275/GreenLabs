@@ -10,17 +10,18 @@ data class CustomerData(
     @PrimaryKey val customerId: String,
     var soldDataList: ArrayList<SoldItem>?,
     var memo: String,
+    var discount: Int = 0,
     var total: Int = 0,
     var marketId: Int
 
 ) {
     companion object {
         fun createEmptyData(): CustomerData {
-            return CustomerData("", null, "", 0, -1)
+            return CustomerData("", null, "", 0, 0, -1)
         }
 
         fun createNewCustomer(marketId: Int): CustomerData {
-            return CustomerData(DateTimeUtils.getCustomerId(), arrayListOf(), "", 0, marketId)
+            return CustomerData(DateTimeUtils.getCustomerId(), arrayListOf(), "", 0, 0, marketId)
         }
     }
 

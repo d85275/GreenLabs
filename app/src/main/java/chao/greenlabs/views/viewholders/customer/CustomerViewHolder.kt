@@ -25,6 +25,27 @@ class CustomerViewHolder(
         setViewPager(customerData, viewModel)
     }
 
+    private fun setViews(customerData: CustomerData?, position: Int) {
+        if (customerData?.soldDataList == null) return
+
+        val context = binding.root.context
+        val subTotal = customerData.total
+        val discount = customerData.discount
+        val total = subTotal - discount
+
+        binding.memo = customerData.memo
+        binding.customerNo = context.getString(R.string.customer_no, position + 1)
+        binding.subTotal = context.getString(R.string.price, subTotal.toString())
+        binding.discount = context.getString(R.string.price, discount.toString())
+        binding.total = context.getString(R.string.price, total.toString())
+    }
+
+    private fun setListeners() {
+        binding.root.setOnClickListener {
+
+        }
+    }
+
     private fun setViewPager(customerData: CustomerData?, viewModel: ManageMarketViewModel) {
         val adapter = CustomerSoldItemAdapter(viewModel)
         val list = customerData?.soldDataList ?: listOf<CustomerData.SoldItem>()
@@ -34,21 +55,5 @@ class CustomerViewHolder(
         binding.vgSoldItems.adapter = adapter
         binding.vgSoldItems.offscreenPageLimit = 6
         binding.vgSoldItems.setPageTransformer(SoldItemTransformer(OFFSET_LIMIT))
-    }
-
-    private fun setViews(customerData: CustomerData?, position: Int) {
-        if (customerData?.soldDataList == null) return
-
-        val context = binding.root.context
-        binding.memo = customerData.memo
-        binding.customerNo = context.getString(R.string.customer_no, position + 1)
-        binding.total = context.getString(R.string.price, customerData.total.toString())
-
-    }
-
-    private fun setListeners() {
-        binding.root.setOnClickListener {
-
-        }
     }
 }
