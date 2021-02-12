@@ -59,7 +59,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
 
-    def nav_version = "2.3.2"
+    def nav_version = "2.3.3"
 
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
@@ -76,11 +76,11 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha04"
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha06"
     implementation "androidx.fragment:fragment-ktx:1.2.5"
 
     // room
-    def room_version = "2.2.5"
+    def room_version = "2.2.6"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
@@ -104,4 +104,6 @@ dependencies {
     // Calendar
     implementation "com.github.sundeepk:compact-calendar-view:3.0.0"
 
+    // ViewPager
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
