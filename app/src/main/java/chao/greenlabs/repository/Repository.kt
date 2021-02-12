@@ -44,6 +44,10 @@ class Repository(private val context: Context) {
         return db.customerDao().getCustomer(marketId)
     }
 
+    fun deleteCustomer(marketId: Int): Completable {
+        return db.customerDao().delete(marketId)
+    }
+
     fun addMarket(marketData: MarketData): Completable {
         return db.marketDao().insert(marketData)
     }
@@ -80,36 +84,8 @@ class Repository(private val context: Context) {
         return db.itemDao().update(itemData)
     }
 
-    fun getSoldItems(): Single<List<SoldData>> {
-        return db.soldDao().getItems()
-    }
-
-    fun getSoldItems(marketId: Int): Single<List<SoldData>> {
-        return db.soldDao().getItems(marketId)
-    }
-
-    fun getSoldItemsByItemName(itemName: String): Single<List<SoldData>> {
-        return db.soldDao().getItemsByItemName(itemName)
-    }
-
-    fun deleteSoldItem(marketId: Int): Completable {
-        return db.soldDao().delete(marketId)
-    }
-
-    fun deleteSoldItem(soldData: SoldData): Completable {
-        return db.soldDao().delete(soldData)
-    }
-
     fun updateSoldItemByName(oldName: String, newName: String, newPrice: String): Completable {
         return db.soldDao().updateByItemName(oldName, newName, newPrice)
-    }
-
-    fun insertSoldItem(soldData: SoldData): Completable {
-        return db.soldDao().insert(soldData)
-    }
-
-    fun updateSoldItem(soldData: SoldData): Completable {
-        return db.soldDao().update(soldData)
     }
 
     fun getSavedImage(imgName: String): Bitmap {

@@ -24,4 +24,7 @@ interface CustomerDao {
 
     @Delete
     fun delete(customerData: CustomerData): Completable
+
+    @Query("DELETE FROM customerdata WHERE marketId IN (:marketId)")
+    fun delete(marketId: Int): Completable
 }
