@@ -44,6 +44,7 @@
     <string name="receipt">交易明細</string>
     <string name="customer_no">訂單 %1$d</string>
     <string name="memo_hint">輸入備註</string>
+    <string name="memo">備註</string>
     <string name="discount_title">輸入折扣</string>
     <string name="customer_list">訂單列表</string>
     <string name="sold_number">數量</string>
@@ -52,4 +53,7 @@
     <string name="total_price">總金額</string>
     <string name="edit_customer">編輯訂單</string>
     <string name="delete_customer">刪除訂單</string>
+    <string name="customer_divider">----------------------</string>
+    <string name="detail_divider_head">========明細========</string>
+    <string name="detail_divider_end">====================</string>
 </resources>

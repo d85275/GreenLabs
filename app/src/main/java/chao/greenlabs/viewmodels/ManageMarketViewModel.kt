@@ -148,16 +148,17 @@ class ManageMarketViewModel(
         val marketName = marketData.name
         val marketDate = marketData.date
         val marketPrice = marketData.fee
-        stringBuilder.append(marketName).append(" ").append(marketDate).append("\n總收入: ")
+        stringBuilder.append(marketName).append(" ").append(marketDate)
+            .append("\n${res.getString(R.string.total_price)}: ")
             .append(totalPrice).append("\n\n")
 
-        stringBuilder.append("攤位費 ")
+        stringBuilder.append("${res.getString(R.string.market_price)} ")
             .append(marketPrice).append("\n\n")
 
         for (i in customerList.indices) {
             val customer = customerList[i]
             if (customer.soldDataList == null) continue
-            stringBuilder.append("----------------------\n")
+            stringBuilder.append("${res.getString(R.string.customer_divider)}\n")
             stringBuilder.append(res.getString(R.string.customer_no, i + 1)).append("\n\n")
             customer.soldDataList?.forEach {
                 stringBuilder.append(it.name).append(" * ").append(it.count).append(" ")
@@ -170,13 +171,14 @@ class ManageMarketViewModel(
                 }
             }
             if (customer.memo.isNotEmpty()) {
-                stringBuilder.append("\n").append("備註 ").append(customer.memo).append("\n")
+                stringBuilder.append("\n").append("${res.getString(R.string.memo)} ")
+                    .append(customer.memo).append("\n")
             }
-            stringBuilder.append("\n").append("小計 ")
+            stringBuilder.append("\n").append("${res.getString(R.string.sub_total)} ")
                 .append(res.getString(R.string.price, customer.total.toString())).append("\n")
-            stringBuilder.append("折扣 ")
+            stringBuilder.append("${res.getString(R.string.discount)} ")
                 .append(res.getString(R.string.price, customer.discount.toString())).append("\n")
-            stringBuilder.append("總金額 ").append(
+            stringBuilder.append("${res.getString(R.string.total_price)} ").append(
                 res.getString(
                     R.string.price,
                     (customer.total - customer.discount).toString()
@@ -184,11 +186,11 @@ class ManageMarketViewModel(
             ).append("\n\n")
         }
 
-        stringBuilder.append("========明細========\n")
+        stringBuilder.append("${res.getString(R.string.detail_divider_head)}\n")
         details.forEach { (name, count) ->
             stringBuilder.append(name).append(" * ").append(count).append("\n")
         }
-        stringBuilder.append("====================\n")
+        stringBuilder.append("${res.getString(R.string.detail_divider_end)}\n")
 
         return stringBuilder.toString()
     }
