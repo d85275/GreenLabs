@@ -39,11 +39,19 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
     fun deleteItem(position: Int) {
         val itemList = itemList.value ?: return
         val item = itemList[position]
+        val name = item.name
+        val price = item.price
         val disposable = repository.deleteItem(item).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 loadItemData()
+                deleteImage(name, price)
             }, { t ->
                 Log.e("ItemListVM", "error when delete item: $t")
             })
+    }
+
+    private fun deleteImage(name: String, price: String) {
+        val fileName = StringBuilder().append(name).append("_").append(price).toString()
+        repository.deleteImage(fileName)
     }
 }

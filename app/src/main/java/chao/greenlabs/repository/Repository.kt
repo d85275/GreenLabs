@@ -92,6 +92,11 @@ class Repository(private val context: Context) {
         return BitmapFactory.decodeFile(imageFile.absolutePath)
     }
 
+    fun deleteImage(imgName: String) {
+        val imageFile = getImagePath(imgName)
+        val isSuccessful = imageFile?.delete()
+    }
+
     fun getTmpPath(): File? {
         val path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) ?: return null
         if (!path.exists()) path.mkdirs()
