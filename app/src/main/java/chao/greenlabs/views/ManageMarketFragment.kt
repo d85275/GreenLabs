@@ -79,7 +79,7 @@ class ManageMarketFragment : BaseFragment() {
         customerAdapter = CustomerAdapter(viewModel) { customerData ->
             findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
             addCustomerViewModel.setCustomer(customerData)
-            addCustomerViewModel.isUpdateMode = customerData.soldDataList != null
+            addCustomerViewModel.isUpdateMode = customerData.soldDataList!!.isNotEmpty()
         }
         rv_customers.layoutManager = LinearLayoutManager(requireContext())
         rv_customers.setHasFixedSize(true)

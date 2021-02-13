@@ -58,6 +58,7 @@ class ManageMarketViewModel(
         var total = 0
         list.forEach { customerData ->
             total += customerData.total
+            total -= customerData.discount
         }
         total -= fee
         marketData.income = total.toString()

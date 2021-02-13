@@ -143,7 +143,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
                     .observeOn(AndroidSchedulers.mainThread()).subscribe({
                         isCustomerSaved.value = true
                     }, {
-                        Log.e("123", "error when adding a new customer. $it")
+                        Log.e("123", "error when updating a new customer. $it")
                     })
             }
         compositeDisposable.add(disposable)
