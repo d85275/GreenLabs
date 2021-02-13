@@ -87,14 +87,14 @@ class Repository(private val context: Context) {
         return db.itemDao().update(itemData)
     }
 
-    fun getSavedImage(imgName: String): Bitmap {
-        val imageFile = getImagePath(imgName) ?: throw Exception("cannot get the path")
+    fun getSavedImage(imgName: String): Bitmap? {
+        val imageFile = getImagePath(imgName) ?: return null
         return BitmapFactory.decodeFile(imageFile.absolutePath)
     }
 
     fun deleteImage(imgName: String) {
         val imageFile = getImagePath(imgName)
-        val isSuccessful = imageFile?.delete()
+        imageFile?.delete()
     }
 
     fun getTmpPath(): File? {

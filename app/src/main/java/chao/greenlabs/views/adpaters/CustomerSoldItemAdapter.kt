@@ -5,9 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
+import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.item_sold_items.view.*
 import kotlinx.android.synthetic.main.view_customer_item.view.*
+import kotlinx.android.synthetic.main.view_customer_item.view.iv_image
+import kotlinx.android.synthetic.main.view_customer_item.view.tv_count
+import kotlinx.android.synthetic.main.view_customer_item.view.tv_name
+import kotlinx.android.synthetic.main.view_customer_item.view.tv_price
 
 class CustomerSoldItemAdapter(private val viewModel: ManageMarketViewModel) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -30,12 +36,12 @@ class CustomerSoldItemAdapter(private val viewModel: ManageMarketViewModel) :
         val context = holder.itemView.context
         val price = soldItem.price
         val count = soldItem.count
-        val image = viewModel.getImage(name, price)
+        val bitmap = viewModel.getImage(name, price)
 
         holder.itemView.tv_name.text = name
         holder.itemView.tv_price.text = context.getString(R.string.price, price)
         holder.itemView.tv_count.text = count.toString()
-        Glide.with(holder.itemView.context).load(image).into(holder.itemView.iv_image)
+        BitmapUtils.loadIntoView(context, bitmap, holder.itemView.iv_image)
     }
 
     fun setList(items: List<CustomerData.SoldItem>) {

@@ -6,9 +6,12 @@ import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
+import chao.greenlabs.R
 import chao.greenlabs.viewmodels.AddItemViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.item_sold_items.view.*
 
 private const val MAX_SIZE = 1000
 
@@ -24,6 +27,12 @@ object BitmapUtils {
             // gallery
             Glide.with(context).load(selectedImage).into(imageView)
         }
+    }
+
+    fun loadIntoView(context: Context, bitmap:Bitmap?, imageView: ImageView){
+        Glide.with(context).applyDefaultRequestOptions(
+            RequestOptions().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher)
+        ).load(bitmap).into(imageView)
     }
 
     private fun getResizedBitmap(image: Bitmap): Bitmap? {

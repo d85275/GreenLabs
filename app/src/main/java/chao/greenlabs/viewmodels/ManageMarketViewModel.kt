@@ -190,7 +190,7 @@ class ManageMarketViewModel(
         return stringBuilder.toString()
     }
 
-    fun getImage(name: String, price: String): Bitmap {
+    fun getImage(name: String, price: String): Bitmap? {
         val fileName = StringBuilder().append(name).append("_").append(price).toString()
         return repository.getSavedImage(fileName)
     }
