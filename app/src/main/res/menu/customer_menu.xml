@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/edit"
+        android:orderInCategory="100"
+        android:title="@string/edit_customer" />
+
+    <item
+        android:id="@+id/delete"
+        android:orderInCategory="101"
+        android:title="@string/delete_customer" />
+</menu>

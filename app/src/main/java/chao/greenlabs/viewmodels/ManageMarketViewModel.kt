@@ -48,6 +48,16 @@ class ManageMarketViewModel(
         compositeDisposable.add(disposable)
     }
 
+    fun deleteCustomer(customerData: CustomerData) {
+        val disposable = repository.deleteCustomer(customerData).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                loadCustomers()
+            }, {
+                Log.e("123", "error when deleting customers: $it")
+            })
+        compositeDisposable.add(disposable)
+    }
+
     fun clearMarketSoldData() {
         //compositeDisposable.dispose()
     }

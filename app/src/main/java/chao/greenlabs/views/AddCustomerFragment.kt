@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +22,7 @@ import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer.*
+import kotlinx.android.synthetic.main.fragment_add_customer.ll_back
 
 class AddCustomerFragment : Fragment() {
 
@@ -33,6 +35,10 @@ class AddCustomerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            requireActivity(),
+            backPressedCallback
+        )
         return inflater.inflate(R.layout.fragment_add_customer, container, false)
     }
 
@@ -42,6 +48,11 @@ class AddCustomerFragment : Fragment() {
         setViews()
         registerObservers()
         setListeners()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        backPressedCallback.remove()
     }
 
     private fun getViewModel() {
@@ -158,6 +169,17 @@ class AddCustomerFragment : Fragment() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+    }
+
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val list = viewModel.getCustomerData().value?.soldDataList
+            if (list == null || list.size == 0) {
+                findNavController().popBackStack()
+            } else {
+                showBackWarningDialog()
+            }
         }
     }
 }

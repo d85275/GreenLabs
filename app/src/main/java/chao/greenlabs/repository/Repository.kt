@@ -10,7 +10,6 @@ import androidx.room.Room
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
-import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.repository.database.AppDatabase
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -46,6 +45,10 @@ class Repository(private val context: Context) {
 
     fun deleteCustomer(marketId: Int): Completable {
         return db.customerDao().delete(marketId)
+    }
+
+    fun deleteCustomer(customerData: CustomerData): Completable {
+        return db.customerDao().delete(customerData)
     }
 
     fun addMarket(marketData: MarketData): Completable {

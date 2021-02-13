@@ -1,13 +1,17 @@
 package chao.greenlabs.views.viewholders.customer
 
-import android.util.Log
+import android.content.Context
+import android.view.View
+import androidx.appcompat.widget.PopupMenu
 import androidx.viewpager2.widget.ViewPager2
 import chao.greenlabs.R
 import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
+import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.views.SoldItemTransformer
 import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
+
 
 private const val OFFSET_LIMIT = 6
 
@@ -17,6 +21,7 @@ class CustomerViewHolder(
 ) : BaseViewHolder(binding.root) {
 
     private lateinit var customerData: CustomerData
+    private lateinit var context: Context
 
     override fun bindView(
         customerData: CustomerData,
@@ -25,6 +30,7 @@ class CustomerViewHolder(
     ) {
         super.bindView(customerData, position, onAddCustomerAction)
         this.customerData = customerData
+        this.context = binding.root.context
         setViews(position)
         setListeners()
         setViewPager(viewModel)
@@ -33,12 +39,11 @@ class CustomerViewHolder(
     private fun setViews(position: Int) {
         if (customerData.soldDataList == null) return
 
-        val context = binding.root.context
         val subTotal = customerData.total
         val discount = customerData.discount
         val total = subTotal - discount
 
-        binding.memo = customerData.memo
+        binding.memo = "${customerData.memo}\u0020"
         binding.customerNo = context.getString(R.string.customer_no, position + 1)
         binding.subTotal = context.getString(R.string.price, subTotal.toString())
         binding.discount = context.getString(R.string.price, discount.toString())
@@ -47,7 +52,33 @@ class CustomerViewHolder(
 
     private fun setListeners() {
         binding.llEdit.setOnClickListener {
-            onAddCustomerAction.invoke(customerData)
+            showPopup(it)
+        }
+    }
+
+    private fun showPopup(view: View) {
+        val popup = PopupMenu(context, view)
+        val inflater = popup.menuInflater
+        inflater.inflate(R.menu.customer_menu, popup.menu)
+        popup.setOnMenuItemClickListener { item ->
+            itemClicked(item.itemId)
+            true
+        }
+        popup.show()
+    }
+
+    private fun itemClicked(id: Int) {
+        when (id) {
+            R.id.edit -> {
+                onAddCustomerAction.invoke(customerData)
+            }
+            R.id.delete -> {
+                DialogUtils.showDelete(context) {
+                    viewModel.deleteCustomer(customerData)
+                }
+            }
+            else -> {
+            }
         }
     }
 

@@ -1,10 +1,8 @@
 package chao.greenlabs.views.adpaters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import chao.greenlabs.R
 import chao.greenlabs.databinding.ItemAddCustomerBinding
 import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
