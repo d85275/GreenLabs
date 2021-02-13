@@ -1,6 +1,5 @@
 package chao.greenlabs.datamodels
 
-import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import chao.greenlabs.utils.DateTimeUtils

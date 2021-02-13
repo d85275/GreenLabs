@@ -87,10 +87,6 @@ class Repository(private val context: Context) {
         return db.itemDao().update(itemData)
     }
 
-    fun updateSoldItemByName(oldName: String, newName: String, newPrice: String): Completable {
-        return db.soldDao().updateByItemName(oldName, newName, newPrice)
-    }
-
     fun getSavedImage(imgName: String): Bitmap {
         val imageFile = getImagePath(imgName) ?: throw Exception("cannot get the path")
         return BitmapFactory.decodeFile(imageFile.absolutePath)
