@@ -1,19 +1,13 @@
 package chao.greenlabs.views.adpaters
 
-import android.content.Context
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_sold_items.view.*
 
 class SoldItemAdapter(

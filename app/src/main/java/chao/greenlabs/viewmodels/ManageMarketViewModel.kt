@@ -23,7 +23,7 @@ class ManageMarketViewModel(
 
     private var marketData = MutableLiveData<MarketData>()
 
-    private val customerList = MutableLiveData<List<CustomerData>>()
+    private var customerList = MutableLiveData<List<CustomerData>>()
 
     fun getCustomerList(): LiveData<List<CustomerData>> = customerList
 
@@ -59,7 +59,10 @@ class ManageMarketViewModel(
     }
 
     fun clearMarketSoldData() {
-        //compositeDisposable.dispose()
+        marketData = MutableLiveData()
+        customerList = MutableLiveData()
+        compositeDisposable.dispose()
+        compositeDisposable = CompositeDisposable()
     }
 
     private fun updateMarketIncome(list: List<CustomerData>) {

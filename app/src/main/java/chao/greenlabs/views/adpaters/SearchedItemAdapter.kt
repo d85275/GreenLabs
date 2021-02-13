@@ -11,8 +11,6 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.item_searched_items.view.*
 
 class SearchedItemAdapter(

@@ -14,8 +14,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 private const val REQUEST_CODE_PERMISSION_RESULT = 0xFF
-private const val HOST_FRAGMENT_HIDE = 0.5f
-private const val HOST_FRAGMENT_SHOW = 1f
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +54,9 @@ class MainActivity : AppCompatActivity() {
 
     fun showLoading() {
         ll_loading.visibility = View.VISIBLE
-        nav_host_fragment.alpha = HOST_FRAGMENT_HIDE
     }
 
     fun dismissLoading() {
         ll_loading.visibility = View.GONE
-        nav_host_fragment.alpha = HOST_FRAGMENT_SHOW
     }
 }

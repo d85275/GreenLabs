@@ -11,9 +11,6 @@ import chao.greenlabs.viewmodels.AddItemViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.item_sold_items.view.*
-
-private const val MAX_SIZE = 1000
 
 object BitmapUtils {
 
@@ -33,19 +30,5 @@ object BitmapUtils {
         Glide.with(context).applyDefaultRequestOptions(
             RequestOptions().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher)
         ).load(bitmap).into(imageView)
-    }
-
-    private fun getResizedBitmap(image: Bitmap): Bitmap? {
-        var width = image.width
-        var height = image.height
-        val bitmapRatio = width.toFloat() / height.toFloat()
-        if (bitmapRatio > 1) {
-            width = MAX_SIZE
-            height = (width / bitmapRatio).toInt()
-        } else {
-            height = MAX_SIZE
-            width = (height * bitmapRatio).toInt()
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true)
     }
 }

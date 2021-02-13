@@ -10,7 +10,7 @@
         android:id="@+id/ll_loading"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"

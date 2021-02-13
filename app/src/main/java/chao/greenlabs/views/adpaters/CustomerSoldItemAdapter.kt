@@ -7,9 +7,6 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.item_sold_items.view.*
-import kotlinx.android.synthetic.main.view_customer_item.view.*
 import kotlinx.android.synthetic.main.view_customer_item.view.iv_image
 import kotlinx.android.synthetic.main.view_customer_item.view.tv_count
 import kotlinx.android.synthetic.main.view_customer_item.view.tv_name
