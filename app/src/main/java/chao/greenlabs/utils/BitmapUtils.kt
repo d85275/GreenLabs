@@ -28,7 +28,7 @@ object BitmapUtils {
 
     fun loadIntoView(context: Context, bitmap:Bitmap?, imageView: ImageView){
         Glide.with(context).applyDefaultRequestOptions(
-            RequestOptions().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher)
+            RequestOptions().placeholder(R.drawable.main_icon).error(R.drawable.main_icon)
         ).load(bitmap).into(imageView)
     }
 }
