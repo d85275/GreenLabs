@@ -6,12 +6,12 @@ import chao.greenlabs.datamodels.CustomerData
 
 open class BaseViewHolder(root: View) : RecyclerView.ViewHolder(root) {
 
-    lateinit var onAddCustomerAction: (() -> Unit)
+    lateinit var onAddCustomerAction: ((customerData: CustomerData) -> Unit)
 
     open fun bindView(
-        customerData: CustomerData?,
+        customerData: CustomerData,
         position: Int,
-        onAddCustomerAction: (() -> Unit)
+        onAddCustomerAction: ((customerData: CustomerData) -> Unit)
     ) {
         this.onAddCustomerAction = onAddCustomerAction
     }

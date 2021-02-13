@@ -123,7 +123,12 @@ class AddCustomerFragment : Fragment() {
             soldAdapter.setItem(list)
             val total = customerData.total
             val discount = customerData.discount
+            val memo = customerData.memo
+
             tv_total.text = (total - discount).toString()
+            tv_discount.text = getString(R.string.price, discount.toString())
+            et_memo.setText(memo)
+            et_memo.setSelection(memo.length)
         })
 
         viewModel.getIsCustomerSaved().observe(viewLifecycleOwner, Observer { isCustomerSaved ->

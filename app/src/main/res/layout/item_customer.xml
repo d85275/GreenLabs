@@ -50,6 +50,22 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Customer 1" />
 
+        <LinearLayout
+            android:id="@+id/ll_edit"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/tv_customer_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/tv_customer_number">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_next_black" />
+        </LinearLayout>
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vg_sold_items"
             android:layout_width="match_parent"
@@ -65,9 +81,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{memo}"
-            android:visibility="@{memo.length() == 0 ? View.GONE :View.VISIBLE}"
             android:textSize="12sp"
             android:textStyle="italic"
+            android:visibility="@{memo.length() == 0 ? View.GONE :View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vg_sold_items"
             tools:text="memo" />

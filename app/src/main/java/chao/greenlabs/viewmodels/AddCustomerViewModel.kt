@@ -25,6 +25,8 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     private var compositeDisposable = CompositeDisposable()
 
+    var isUpdateMode = false
+
     fun clearData() {
         customerData = MutableLiveData()
         itemList.clear()
@@ -32,6 +34,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         compositeDisposable.clear()
         compositeDisposable = CompositeDisposable()
         isCustomerSaved.value = false
+        isUpdateMode = false
     }
 
     fun setIsCustomerSaved(value: Boolean) {
@@ -126,12 +129,23 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     fun saveCustomer(memo: String) {
         val customerData = customerData.value ?: return
         customerData.memo = memo.trim()
-        val disposable = repository.addCustomer(customerData).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                isCustomerSaved.value = true
-            }, {
-                Log.e("123", "error when adding a new customer. $it")
-            })
+
+        val disposable =
+            if (!isUpdateMode) {
+                repository.addCustomer(customerData).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                        isCustomerSaved.value = true
+                    }, {
+                        Log.e("123", "error when adding a new customer. $it")
+                    })
+            } else {
+                repository.updateCustomer(customerData).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                        isCustomerSaved.value = true
+                    }, {
+                        Log.e("123", "error when adding a new customer. $it")
+                    })
+            }
         compositeDisposable.add(disposable)
     }
 }

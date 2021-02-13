@@ -18,7 +18,7 @@ private const val CUSTOMER_VIEW = 1
 
 class CustomerAdapter(
     private val viewModel: ManageMarketViewModel,
-    private val onAddCustomerAction: (() -> Unit)
+    private val onAddCustomerAction: ((customerData: CustomerData) -> Unit)
 ) :
     RecyclerView.Adapter<BaseViewHolder>() {
 
@@ -33,7 +33,7 @@ class CustomerAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
         return if (viewType == ADD_CUSTOMER_VIEW) {
             val binding = ItemAddCustomerBinding.inflate(layoutInflater, parent, false)
-            AddCustomerViewHolder(binding)
+            AddCustomerViewHolder(binding, viewModel)
         } else {
             val binding = ItemCustomerBinding.inflate(layoutInflater, parent, false)
             CustomerViewHolder(binding, viewModel)
@@ -45,8 +45,11 @@ class CustomerAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        // todo: add action for it
-        holder.bindView(customerList[position], position) { onAddCustomerAction.invoke() }
+        val customerData = customerList[position]
+        holder.bindView(
+            customerData,
+            position
+        ) { data -> onAddCustomerAction.invoke(data) }
     }
 
     fun setCustomerList(list: List<CustomerData>) {

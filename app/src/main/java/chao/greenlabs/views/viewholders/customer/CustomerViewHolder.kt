@@ -1,5 +1,6 @@
 package chao.greenlabs.views.viewholders.customer
 
+import android.util.Log
 import androidx.viewpager2.widget.ViewPager2
 import chao.greenlabs.R
 import chao.greenlabs.databinding.ItemCustomerBinding
@@ -11,22 +12,26 @@ import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
 private const val OFFSET_LIMIT = 6
 
 class CustomerViewHolder(
-    private val binding: ItemCustomerBinding, private val viewModel: ManageMarketViewModel
+    private val binding: ItemCustomerBinding,
+    private val viewModel: ManageMarketViewModel
 ) : BaseViewHolder(binding.root) {
 
+    private lateinit var customerData: CustomerData
+
     override fun bindView(
-        customerData: CustomerData?,
+        customerData: CustomerData,
         position: Int,
-        onAddCustomerAction: () -> Unit
+        onAddCustomerAction: (customerData: CustomerData) -> Unit
     ) {
         super.bindView(customerData, position, onAddCustomerAction)
-        setViews(customerData, position)
+        this.customerData = customerData
+        setViews(position)
         setListeners()
-        setViewPager(customerData, viewModel)
+        setViewPager(viewModel)
     }
 
-    private fun setViews(customerData: CustomerData?, position: Int) {
-        if (customerData?.soldDataList == null) return
+    private fun setViews(position: Int) {
+        if (customerData.soldDataList == null) return
 
         val context = binding.root.context
         val subTotal = customerData.total
@@ -41,14 +46,14 @@ class CustomerViewHolder(
     }
 
     private fun setListeners() {
-        binding.root.setOnClickListener {
-
+        binding.llEdit.setOnClickListener {
+            onAddCustomerAction.invoke(customerData)
         }
     }
 
-    private fun setViewPager(customerData: CustomerData?, viewModel: ManageMarketViewModel) {
+    private fun setViewPager(viewModel: ManageMarketViewModel) {
         val adapter = CustomerSoldItemAdapter(viewModel)
-        val list = customerData?.soldDataList ?: listOf<CustomerData.SoldItem>()
+        val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)
 
         binding.vgSoldItems.orientation = ViewPager2.ORIENTATION_HORIZONTAL

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.MarketData
-import chao.greenlabs.datamodels.SoldData
 import chao.greenlabs.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -176,13 +175,6 @@ class ManageMarketViewModel(
             stringBuilder.append(name).append(" * ").append(count).append("\n")
         }
         stringBuilder.append("====================\n")
-        /*
-        customerList. { customer ->
-            stringBuilder.append(res.getString())
-            stringBuilder.append(soldItem.name).append(" * ").append(soldItem.count).append(" ")
-                .append((soldItem.count * soldItem.price.toInt())).append("\n")
-        }
-         */
 
         return stringBuilder.toString()
     }

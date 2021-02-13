@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,10 +76,10 @@ class ManageMarketFragment : BaseFragment() {
     }
 
     private fun setViews() {
-        customerAdapter = CustomerAdapter(viewModel) {
+        customerAdapter = CustomerAdapter(viewModel) { customerData ->
             findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
-            val marketId = viewModel.getMarketData().value?.id!!
-            addCustomerViewModel.setCustomer(CustomerData.createNewCustomer(marketId))
+            addCustomerViewModel.setCustomer(customerData)
+            addCustomerViewModel.isUpdateMode = customerData.soldDataList != null
         }
         rv_customers.layoutManager = LinearLayoutManager(requireContext())
         rv_customers.setHasFixedSize(true)
