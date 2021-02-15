@@ -165,9 +165,9 @@ class ManageMarketViewModel(
                     .append((it.count * it.price.toInt())).append("\n")
 
                 if (details[it.name] == null) {
-                    details[it.name] = 1
+                    details[it.name] = it.count
                 } else {
-                    details[it.name] = details[it.name]!! + 1
+                    details[it.name] = details[it.name]!! + it.count
                 }
             }
             if (customer.memo.isNotEmpty()) {
