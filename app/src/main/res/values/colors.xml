@@ -5,6 +5,7 @@
     <color name="colorAccent">#347C9F</color>
     <color name="main_icon_color">#FFFFFF</color>
     <color name="main_text_color">#FFFFFF</color>
+    <color name="complementary_color">#E4875A</color>
     <color name="main_bg_color">#2B6D99</color>
     <color name="black">#000000</color>
     <color name="light">#4E87A6</color>

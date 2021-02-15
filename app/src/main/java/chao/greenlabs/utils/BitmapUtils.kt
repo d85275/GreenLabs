@@ -14,21 +14,32 @@ import com.bumptech.glide.request.RequestOptions
 
 object BitmapUtils {
 
-    fun loadBitmap(result: ActivityResult, context: Context, viewModel: AddItemViewModel, imageView: ImageView) {
+    fun loadBitmap(
+        result: ActivityResult,
+        context: Context,
+        viewModel: AddItemViewModel,
+        imageView: ImageView
+    ) {
         val selectedImage: Uri? = result.data?.data
-        if (selectedImage == null){
+        if (selectedImage == null) {
             // camera
-            Glide.with(context).load(viewModel.getTmpPath()).skipMemoryCache(true).diskCacheStrategy(
-                DiskCacheStrategy.NONE).into(imageView)
-        } else{
+            Glide.with(context).load(viewModel.getTmpPath()).skipMemoryCache(true)
+                .diskCacheStrategy(
+                    DiskCacheStrategy.NONE
+                ).into(imageView)
+        } else {
             // gallery
             Glide.with(context).load(selectedImage).into(imageView)
         }
     }
 
-    fun loadIntoView(context: Context, bitmap:Bitmap?, imageView: ImageView){
+    fun loadIntoView(context: Context, bitmap: Bitmap?, imageView: ImageView) {
         Glide.with(context).applyDefaultRequestOptions(
-            RequestOptions().placeholder(R.drawable.main_icon).error(R.drawable.main_icon)
+            RequestOptions().placeholder(R.drawable.default_item).error(R.drawable.default_item)
         ).load(bitmap).into(imageView)
+    }
+
+    fun loadDefault(context: Context, imageView: ImageView) {
+        Glide.with(context).load(R.drawable.default_item).into(imageView)
     }
 }

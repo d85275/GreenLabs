@@ -20,7 +20,7 @@
             android:layout_width="25dp"
             android:layout_height="20dp"
             android:layout_gravity="end"
-            android:background="@color/colorPrimary"
+            android:background="@color/complementary_color"
             android:ellipsize="end"
             android:translationZ="90dp"
             android:gravity="center"

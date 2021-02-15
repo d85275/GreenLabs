@@ -121,10 +121,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun setDefaultImage() {
-        val bitmap =
-            AppCompatResources.getDrawable(requireContext(), R.mipmap.ic_launcher)?.toBitmap()
-        iv_image.setImageBitmap(bitmap)
-        //setImageCenter(bitmap)
+        BitmapUtils.loadDefault(requireContext(), iv_image)
     }
 
     // todo: still needs to find out how to set the image to the centre
