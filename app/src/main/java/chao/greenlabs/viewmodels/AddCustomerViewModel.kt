@@ -50,6 +50,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     fun loadItemData() {
         viewModelScope.launch(Dispatchers.IO) {
+            itemList.clear()
             itemList.addAll(repository.getItems().reversed())
         }
     }
