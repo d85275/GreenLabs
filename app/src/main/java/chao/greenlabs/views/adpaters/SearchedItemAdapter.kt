@@ -37,7 +37,7 @@ class SearchedItemAdapter(
             ?: getDefaultBitmap(holder.itemView.context)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
-        BitmapUtils.loadIntoView(holder.itemView.context, bitmap, holder.itemView.iv_image)
+        BitmapUtils.loadBitmap(holder.itemView.context, bitmap, holder.itemView.iv_image)
         holder.itemView.setOnClickListener { onClickedListener.invoke(itemList[position]) }
     }
 

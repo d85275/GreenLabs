@@ -9,17 +9,17 @@ import io.reactivex.Single
 @Dao
 interface MarketDao {
     @Query("SELECT * FROM marketdata ORDER BY date ASC")
-    fun getAll(): Single<List<MarketData>>
+    suspend fun getAll(): List<MarketData>
 
     @Insert
-    fun insert(market: MarketData): Completable
+    suspend fun insert(market: MarketData)
 
     @Insert
-    fun insertAll(marketList: List<MarketData>): Completable
+    suspend fun insertAll(marketList: List<MarketData>)
 
     @Delete
-    fun delete(market: MarketData): Completable
+    suspend fun delete(market: MarketData)
 
     @Update
-    fun update(market: MarketData): Completable
+    suspend fun update(market: MarketData)
 }

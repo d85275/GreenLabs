@@ -11,8 +11,6 @@ import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.database.AppDatabase
-import io.reactivex.Completable
-import io.reactivex.Single
 import java.io.File
 import java.io.FileOutputStream
 
@@ -23,51 +21,39 @@ class Repository(private val context: Context) {
 
     private val db = Room.databaseBuilder(context, AppDatabase::class.java, "database-name").build()
 
-    fun addCustomer(customerData: CustomerData): Completable {
-        return db.customerDao().insert(customerData)
+    suspend fun addCustomer(customerData: CustomerData) {
+        db.customerDao().insert(customerData)
     }
 
-    fun updateCustomer(customerData: CustomerData): Completable {
-        return db.customerDao().update(customerData)
+    suspend fun updateCustomer(customerData: CustomerData) {
+        db.customerDao().update(customerData)
     }
 
-    fun getCustomers(): Single<List<CustomerData>> {
-        return db.customerDao().getAll()
-    }
-
-    fun getCustomer(customerId: String) {
-
-    }
-
-    fun getCustomer(marketId: Int): Single<List<CustomerData>> {
+    suspend fun getCustomer(marketId: Int): List<CustomerData> {
         return db.customerDao().getCustomer(marketId)
     }
 
-    fun deleteCustomer(marketId: Int): Completable {
-        return db.customerDao().delete(marketId)
+    suspend fun deleteCustomer(marketId: Int) {
+        db.customerDao().delete(marketId)
     }
 
-    fun deleteCustomer(customerData: CustomerData): Completable {
-        return db.customerDao().delete(customerData)
+    suspend fun deleteCustomer(customerData: CustomerData) {
+        db.customerDao().delete(customerData)
     }
 
-    fun addMarket(marketData: MarketData): Completable {
-        return db.marketDao().insert(marketData)
+    suspend fun addMarketList(marketList: List<MarketData>) {
+        db.marketDao().insertAll(marketList)
     }
 
-    fun addMarketList(marketList: List<MarketData>): Completable {
-        return db.marketDao().insertAll(marketList)
+    suspend fun deleteMarket(marketData: MarketData) {
+        db.marketDao().delete(marketData)
     }
 
-    fun deleteMarket(marketData: MarketData): Completable {
-        return db.marketDao().delete(marketData)
+    suspend fun updateMarket(marketData: MarketData) {
+        db.marketDao().update(marketData)
     }
 
-    fun updateMarket(marketData: MarketData): Completable {
-        return db.marketDao().update(marketData)
-    }
-
-    fun getMarkets(): Single<List<MarketData>> {
+    suspend fun getMarkets(): List<MarketData> {
         return db.marketDao().getAll()
     }
 
@@ -85,6 +71,11 @@ class Repository(private val context: Context) {
 
     suspend fun updateItem(itemData: ItemData) {
         db.itemDao().update(itemData)
+    }
+
+    fun getTestSavedImage(imgName: String): Bitmap? {
+        val imageFile = getImagePath(imgName) ?: return null
+        return BitmapFactory.decodeFile(imageFile.absolutePath)
     }
 
     fun getSavedImage(imgName: String): Bitmap? {

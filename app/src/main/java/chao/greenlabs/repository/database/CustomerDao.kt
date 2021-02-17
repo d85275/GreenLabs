@@ -2,29 +2,24 @@ package chao.greenlabs.repository.database
 
 import androidx.room.*
 import chao.greenlabs.datamodels.CustomerData
-import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface CustomerDao {
     @Query("SELECT * FROM customerdata")
-    fun getAll(): Single<List<CustomerData>>
-
-    @Query("SELECT * FROM customerdata WHERE customerId IN (:customerId)")
-    fun getCustomer(customerId: String): Single<CustomerData>
+    suspend fun getAll(): List<CustomerData>
 
     @Query("SELECT * FROM customerdata WHERE marketId IN (:marketId)")
-    fun getCustomer(marketId: Int): Single<List<CustomerData>>
+    suspend fun getCustomer(marketId: Int): List<CustomerData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(customerData: CustomerData): Completable
+    suspend fun insert(customerData: CustomerData)
 
     @Update
-    fun update(customerData: CustomerData): Completable
+    suspend fun update(customerData: CustomerData)
 
     @Delete
-    fun delete(customerData: CustomerData): Completable
+    suspend fun delete(customerData: CustomerData)
 
     @Query("DELETE FROM customerdata WHERE marketId IN (:marketId)")
-    fun delete(marketId: Int): Completable
+    suspend fun delete(marketId: Int)
 }

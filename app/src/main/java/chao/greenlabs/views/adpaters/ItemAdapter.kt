@@ -32,7 +32,7 @@ class ItemAdapter(
         val bitmap = listViewModel.getImage(itemList[position].name, itemList[position].price)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
-        BitmapUtils.loadIntoView(context, bitmap, holder.itemView.iv_image)
+        BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
         holder.itemView.setOnClickListener {
             onItemClickedAction.invoke(itemList[position])
         }

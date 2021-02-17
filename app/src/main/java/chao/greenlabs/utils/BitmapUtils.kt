@@ -14,7 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 
 object BitmapUtils {
 
-    fun loadBitmap(
+    fun getBitmapFromSource(
         result: ActivityResult,
         context: Context,
         viewModel: AddItemViewModel,
@@ -33,7 +33,7 @@ object BitmapUtils {
         }
     }
 
-    fun loadIntoView(context: Context, bitmap: Bitmap?, imageView: ImageView) {
+    fun loadBitmap(context: Context, bitmap: Bitmap?, imageView: ImageView) {
         Glide.with(context).applyDefaultRequestOptions(
             RequestOptions().placeholder(R.drawable.default_item).error(R.drawable.default_item)
         ).load(bitmap).into(imageView)

@@ -6,13 +6,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "ManageMarketViewModel"
 
@@ -37,25 +38,19 @@ class ManageMarketViewModel(
 
     fun loadCustomers() {
         val marketData = this.marketData.value ?: return
-        val disposable = repository.getCustomer(marketData.id).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({ list ->
-                (list as ArrayList).add(CustomerData.createEmptyData())
-                customerList.value = list
-                updateMarketIncome(list)
-            }, {
-                Log.e("123", "error when loading customers: $it")
-            })
-        compositeDisposable.add(disposable)
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = repository.getCustomer(marketData.id)
+            (list as ArrayList).add(CustomerData.createEmptyData())
+            customerList.postValue(list)
+            updateMarketIncome(list)
+        }
     }
 
     fun deleteCustomer(customerData: CustomerData) {
-        val disposable = repository.deleteCustomer(customerData).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                loadCustomers()
-            }, {
-                Log.e("123", "error when deleting customers: $it")
-            })
-        compositeDisposable.add(disposable)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteCustomer(customerData)
+            loadCustomers()
+        }
     }
 
     fun clearMarketSoldData() {
@@ -129,14 +124,11 @@ class ManageMarketViewModel(
     }
 
 
-    private fun updateMarket(marketData: MarketData) {
-        val disposable = repository.updateMarket(marketData).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                this.marketData.value = marketData
-            }, {
-                Log.e(TAG, "error: $it")
-            })
-        compositeDisposable.add(disposable)
+    private fun updateMarket(data: MarketData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateMarket(data)
+            marketData.postValue(data)
+        }
     }
 
     fun getCopyData(): String {

@@ -17,8 +17,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,7 +28,6 @@ import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
-import kotlinx.android.synthetic.main.fragment_add_item.tv_title
 
 
 private const val MIN_ZOOM: Float = 1f
@@ -121,7 +118,9 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
     }
 
     private fun setDefaultImage() {
-        BitmapUtils.loadDefault(requireContext(), iv_image)
+        if (!viewModel.getIsUpdateMode()) {
+            BitmapUtils.loadDefault(requireContext(), iv_image)
+        }
     }
 
     // todo: still needs to find out how to set the image to the centre
@@ -166,10 +165,10 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
 
         viewModel.getUpdatedItem().observe(viewLifecycleOwner, Observer { updatedItem ->
             if (updatedItem == null) return@Observer
-            val bitmap = viewModel.getImage(updatedItem.name, updatedItem.price)
             et_name.setText(updatedItem.name)
             et_price.setText(updatedItem.price)
-            iv_image.setImageBitmap(bitmap)
+            val bitmap = viewModel.getImage(updatedItem.name, updatedItem.price)
+            BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
         })
     }
 
@@ -207,7 +206,7 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                BitmapUtils.loadBitmap(result, requireContext(), viewModel, iv_image)
+                BitmapUtils.getBitmapFromSource(result, requireContext(), viewModel, iv_image)
             }
         }
 

@@ -1,21 +1,18 @@
 package chao.greenlabs.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddMarketViewModel(private val repository: Repository) : ViewModel() {
 
     var marketName: String = ""
     var marketLocation: String = ""
-
-    private var compositeDisposable = CompositeDisposable()
 
     private var marketList = MutableLiveData<List<MarketData>>(arrayListOf())
 
@@ -69,14 +66,11 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun addMarketList() {
-        val marketList = marketList.value ?: arrayListOf()
-        val disposable = repository.addMarketList(marketList).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                addDone.value = true
-            }, {
-                Log.e("AddMarketSetDateVM", "error when add market list: $it")
-            })
-        compositeDisposable.add(disposable)
+        viewModelScope.launch(Dispatchers.IO) {
+            val marketList = marketList.value ?: arrayListOf()
+            repository.addMarketList(marketList)
+            addDone.postValue(true)
+        }
     }
 
     fun getMarketFee(date: String): String {
@@ -87,10 +81,8 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
     fun clear() {
         marketName = ""
         marketLocation = ""
-        compositeDisposable.clear()
-        compositeDisposable = CompositeDisposable()
-        marketList = MutableLiveData<List<MarketData>>(arrayListOf())
-        newMarketData = MutableLiveData<MarketData>()
+        marketList = MutableLiveData(arrayListOf())
+        newMarketData = MutableLiveData()
         addDone = MutableLiveData(false)
     }
 }

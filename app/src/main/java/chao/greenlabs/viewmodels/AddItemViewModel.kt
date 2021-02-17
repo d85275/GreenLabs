@@ -87,6 +87,11 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
 
     fun getImage(name: String, price: String): Bitmap? {
         val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getSavedImage(fileName)
+        return repository.getTestSavedImage(fileName)
+    }
+
+    fun getTestImage(name: String, price: String): Bitmap? {
+        val fileName = StringBuilder().append(name).append("_").append(price).toString()
+        return repository.getTestSavedImage(fileName)
     }
 }

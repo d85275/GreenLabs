@@ -38,7 +38,7 @@ class CustomerSoldItemAdapter(private val viewModel: ManageMarketViewModel) :
         holder.itemView.tv_name.text = name
         holder.itemView.tv_price.text = context.getString(R.string.price, price)
         holder.itemView.tv_count.text = count.toString()
-        BitmapUtils.loadIntoView(context, bitmap, holder.itemView.iv_image)
+        BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
     }
 
     fun setList(items: List<CustomerData.SoldItem>) {

@@ -4,18 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "ManageMarketViewModel"
 
 class MarketListViewModel(private val repository: Repository) : ViewModel() {
 
     private val marketList = MutableLiveData<List<MarketData>>()
-    private val compositeDisposable = CompositeDisposable()
     private val totalIncome = MutableLiveData<Int>()
 
     fun getTotalIncome(): LiveData<Int> = totalIncome
@@ -23,47 +22,33 @@ class MarketListViewModel(private val repository: Repository) : ViewModel() {
     fun getMarketList(): LiveData<List<MarketData>> = marketList
 
     fun loadMarketData() {
-        var totalIncome = 0
-        compositeDisposable.add(
-            repository.getMarkets().subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread()
-            ).subscribe({ list ->
-                marketList.value = list
-                list.forEach { marketData ->
-                    totalIncome += marketData.income.toInt()
-                }
-                this.totalIncome.value = totalIncome
-            }, { t ->
-                Log.e(TAG, "Error when loading saved markets: $t")
-            })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            var total = 0
+            val list = repository.getMarkets()
+            list.forEach { marketData ->
+                total += marketData.income.toInt()
+            }
+
+            marketList.postValue(list)
+            totalIncome.postValue(total)
+        }
     }
 
     fun deleteMarket(position: Int) {
         val marketList = marketList.value ?: return
         if (position >= marketList.size) return
-        val soldDisposable =
-            repository.deleteCustomer(marketList[position].id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    deleteMarket(marketList[position])
-                }, {
-                    Log.e(TAG, "error: $it")
-                })
 
-        compositeDisposable.add(soldDisposable)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteCustomer(marketList[position].id)
+            deleteMarket(marketList[position])
+        }
     }
 
     private fun deleteMarket(marketData: MarketData) {
-        val marketDisposable = repository.deleteMarket(marketData).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                loadMarketData()
-            }, {
-                Log.e(TAG, "error: $it")
-            })
-        compositeDisposable.add(marketDisposable)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteMarket(marketData)
+            loadMarketData()
+        }
     }
 
-    fun clearMarketData() {
-        compositeDisposable.clear()
-    }
 }

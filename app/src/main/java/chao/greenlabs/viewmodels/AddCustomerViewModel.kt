@@ -10,9 +10,6 @@ import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,7 +23,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     private var matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private val isCustomerSaved = MutableLiveData(false)
 
-    private var compositeDisposable = CompositeDisposable()
 
     var isUpdateMode = false
 
@@ -34,8 +30,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         customerData = MutableLiveData()
         itemList.clear()
         matchedItems = MutableLiveData()
-        compositeDisposable.clear()
-        compositeDisposable = CompositeDisposable()
         isCustomerSaved.value = false
         isUpdateMode = false
     }
@@ -55,16 +49,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     fun getCustomerData(): LiveData<CustomerData> = customerData
 
     fun loadItemData() {
-        /*
-        compositeDisposable.add(
-            repository.getItems().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { e -> Log.e(TAG, "e: $e") }.subscribe { list ->
-                    itemList.clear()
-                    itemList.addAll(list.reversed())
-                }
-        )
-         */
         viewModelScope.launch(Dispatchers.IO) {
             itemList.addAll(repository.getItems().reversed())
         }
@@ -138,22 +122,13 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         val customerData = customerData.value ?: return
         customerData.memo = memo.trim()
 
-        val disposable =
+        viewModelScope.launch(Dispatchers.IO) {
             if (!isUpdateMode) {
-                repository.addCustomer(customerData).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                        isCustomerSaved.value = true
-                    }, {
-                        Log.e("123", "error when adding a new customer. $it")
-                    })
+                repository.addCustomer(customerData)
             } else {
-                repository.updateCustomer(customerData).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                        isCustomerSaved.value = true
-                    }, {
-                        Log.e("123", "error when updating a new customer. $it")
-                    })
+                repository.updateCustomer(customerData)
             }
-        compositeDisposable.add(disposable)
+            isCustomerSaved.postValue(true)
+        }
     }
 }
