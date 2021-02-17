@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
+import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
 import chao.greenlabs.utils.DialogUtils
@@ -98,6 +100,9 @@ class ManageMarketFragment : BaseFragment() {
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
             dismissLoading()
             customerAdapter.setCustomerList(customerList)
+            if (viewModel.shouldScrollToBottom(customerList.size)) {
+                rv_customers.scrollToPosition(customerList.lastIndex)
+            }
         })
     }
 
@@ -109,6 +114,14 @@ class ManageMarketFragment : BaseFragment() {
             val myClip: ClipData = ClipData.newPlainText("note_copy", copyData)
             myClipboard.setPrimaryClip(myClip)
             ToastUtils.show(requireContext(), getString(R.string.data_copied))
+        }
+
+        fab_add.setOnClickListener {
+            val marketId = viewModel.getMarketData().value?.id!!
+            findNavController().navigate(R.id.action_manageMarketFragment_to_addCustomerFragment)
+            addCustomerViewModel.setCustomer(CustomerData.createNewCustomer(marketId))
+            addCustomerViewModel.isUpdateMode = false
+            viewModel.addBtnClicked()
         }
 
         ll_back.setOnClickListener {

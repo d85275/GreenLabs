@@ -11,7 +11,6 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -34,13 +33,19 @@ class ManageMarketViewModel(
         marketData.value = data
     }
 
-    var compositeDisposable = CompositeDisposable()
+    private var curCustomerSize = -1
+    fun addBtnClicked() {
+        curCustomerSize = customerList.value?.size ?: 0
+    }
+
+    fun shouldScrollToBottom(listSize: Int): Boolean {
+        return (curCustomerSize > 0) && (curCustomerSize < listSize)
+    }
 
     fun loadCustomers() {
         val marketData = this.marketData.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getCustomer(marketData.id)
-            (list as ArrayList).add(CustomerData.createEmptyData())
             customerList.postValue(list)
             updateMarketIncome(list)
         }
@@ -56,8 +61,6 @@ class ManageMarketViewModel(
     fun clearMarketSoldData() {
         marketData = MutableLiveData()
         customerList = MutableLiveData()
-        compositeDisposable.dispose()
-        compositeDisposable = CompositeDisposable()
     }
 
     private fun updateMarketIncome(list: List<CustomerData>) {

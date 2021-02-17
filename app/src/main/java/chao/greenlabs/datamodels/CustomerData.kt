@@ -15,10 +15,6 @@ data class CustomerData(
 
 ) {
     companion object {
-        fun createEmptyData(): CustomerData {
-            return CustomerData("", null, "", 0, 0, -1)
-        }
-
         fun createNewCustomer(marketId: Int): CustomerData {
             return CustomerData(DateTimeUtils.getCustomerId(), arrayListOf(), "", 0, 0, marketId)
         }

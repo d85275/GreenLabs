@@ -35,7 +35,7 @@ object BitmapUtils {
 
     fun loadBitmap(context: Context, bitmap: Bitmap?, imageView: ImageView) {
         Glide.with(context).applyDefaultRequestOptions(
-            RequestOptions().placeholder(R.drawable.default_item).error(R.drawable.default_item)
+            RequestOptions().error(R.drawable.default_item)
         ).load(bitmap).into(imageView)
     }
 

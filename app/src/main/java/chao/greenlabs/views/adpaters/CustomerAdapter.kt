@@ -3,48 +3,33 @@ package chao.greenlabs.views.adpaters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import chao.greenlabs.databinding.ItemAddCustomerBinding
 import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import chao.greenlabs.views.viewholders.customer.AddCustomerViewHolder
-import chao.greenlabs.views.viewholders.customer.BaseViewHolder
 import chao.greenlabs.views.viewholders.customer.CustomerViewHolder
 
-private const val ADD_CUSTOMER_VIEW = 0
-private const val CUSTOMER_VIEW = 1
 
 class CustomerAdapter(
     private val viewModel: ManageMarketViewModel,
     private val onAddCustomerAction: ((customerData: CustomerData) -> Unit)
 ) :
-    RecyclerView.Adapter<BaseViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val customerList = arrayListOf<CustomerData>()
 
-    override fun getItemViewType(position: Int): Int {
-        return if (customerList[position].soldDataList == null)
-            ADD_CUSTOMER_VIEW else CUSTOMER_VIEW
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return if (viewType == ADD_CUSTOMER_VIEW) {
-            val binding = ItemAddCustomerBinding.inflate(layoutInflater, parent, false)
-            AddCustomerViewHolder(binding, viewModel)
-        } else {
-            val binding = ItemCustomerBinding.inflate(layoutInflater, parent, false)
-            CustomerViewHolder(binding, viewModel)
-        }
+        val binding = ItemCustomerBinding.inflate(layoutInflater, parent, false)
+        return CustomerViewHolder(binding, viewModel)
     }
 
     override fun getItemCount(): Int {
         return customerList.size
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val customerData = customerList[position]
-        holder.bindView(
+        (holder as CustomerViewHolder).bindView(
             customerData,
             position
         ) { data -> onAddCustomerAction.invoke(data) }

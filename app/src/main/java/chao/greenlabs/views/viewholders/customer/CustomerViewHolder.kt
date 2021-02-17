@@ -3,6 +3,7 @@ package chao.greenlabs.views.viewholders.customer
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import chao.greenlabs.R
 import chao.greenlabs.databinding.ItemCustomerBinding
@@ -18,19 +19,19 @@ private const val OFFSET_LIMIT = 6
 class CustomerViewHolder(
     private val binding: ItemCustomerBinding,
     private val viewModel: ManageMarketViewModel
-) : BaseViewHolder(binding.root) {
-
+) :  RecyclerView.ViewHolder(binding.root) {
     private lateinit var customerData: CustomerData
     private lateinit var context: Context
+    private lateinit var onAddCustomerAction: ((customerData: CustomerData) -> Unit)
 
-    override fun bindView(
+    fun bindView(
         customerData: CustomerData,
         position: Int,
         onAddCustomerAction: (customerData: CustomerData) -> Unit
     ) {
-        super.bindView(customerData, position, onAddCustomerAction)
         this.customerData = customerData
         this.context = binding.root.context
+        this.onAddCustomerAction = onAddCustomerAction
         setViews(position)
         setListeners()
         setViewPager(viewModel)
