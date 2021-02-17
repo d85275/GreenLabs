@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "ManageItemViewModel"
 
@@ -20,18 +20,12 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
     fun getItemList(): LiveData<List<ItemData>> = itemList
 
     fun loadItemData() {
-        val compositeDisposable = CompositeDisposable()
-        compositeDisposable.add(
-            repository.getItems().subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread()
-            ).doOnError { e -> Log.e(TAG, "Error when loading saved items: $e") }
-                .subscribe { list ->
-                    itemList.postValue(list.reversed())
-                }
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            itemList.postValue(repository.getItems().reversed())
+        }
     }
 
-    fun getImage(name: String, price: String): Bitmap?{
+    fun getImage(name: String, price: String): Bitmap? {
         val fileName = StringBuilder().append(name).append("_").append(price).toString()
         return repository.getSavedImage(fileName)
     }
@@ -41,13 +35,12 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
         val item = itemList[position]
         val name = item.name
         val price = item.price
-        val disposable = repository.deleteItem(item).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                loadItemData()
-                deleteImage(name, price)
-            }, { t ->
-                Log.e("ItemListVM", "error when delete item: $t")
-            })
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteItem(item)
+            loadItemData()
+            deleteImage(name, price)
+        }
     }
 
     private fun deleteImage(name: String, price: String) {

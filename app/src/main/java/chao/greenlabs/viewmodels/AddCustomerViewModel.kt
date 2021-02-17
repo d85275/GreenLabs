@@ -6,12 +6,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "AddCustomerViewModel"
 
@@ -52,6 +55,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     fun getCustomerData(): LiveData<CustomerData> = customerData
 
     fun loadItemData() {
+        /*
         compositeDisposable.add(
             repository.getItems().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -60,6 +64,10 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
                     itemList.addAll(list.reversed())
                 }
         )
+         */
+        viewModelScope.launch(Dispatchers.IO) {
+            itemList.addAll(repository.getItems().reversed())
+        }
     }
 
     fun deleteSoldItem(position: Int) {

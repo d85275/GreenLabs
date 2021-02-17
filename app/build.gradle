@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 // for kapt, using for room
 apply plugin: 'kotlin-kapt'
 
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -84,12 +85,12 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
-    kapt 'androidx.room:room-compiler:2.3.0-alpha02'
 
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
-
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Rxjava
     def rxandroid = "2.1.1"
@@ -106,4 +107,7 @@ dependencies {
 
     // ViewPager
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 }

@@ -7,10 +7,11 @@ import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -55,28 +56,30 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         val data = ItemData(name, price)
 
         // create an item data and save it into our database
-
         val updatedItem = updatedItem.value
-        when {
-            updatedItem == null -> {
-                repository.addItem(data).doOnComplete {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            when {
+                updatedItem == null -> {
+                    repository.addItem(data)
                     msg.postValue("品項已儲存")
-                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
-            }
-            updatedItem.name == data.name -> {
-                repository.updateItem(data).doOnComplete {
+                }
+                updatedItem.name == data.name -> {
+                    repository.updateItem(data)
                     msg.postValue("品項已更新")
-                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
-            }
-            else -> {
-                repository.deleteItem(updatedItem).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe()
-                repository.addItem(data).doOnComplete {
+
+                }
+                else -> {
+                    repository.deleteItem(updatedItem)
+                    val fileName = StringBuilder().append(name).append("_").append(price).toString()
+                    repository.deleteImage(fileName)
+                    repository.addItem(data)
                     msg.postValue("品項已更新")
-                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe()
+                }
             }
         }
     }
+
 
     fun getTmpPath(): File? {
         return repository.getTmpPath()

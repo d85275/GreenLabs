@@ -8,14 +8,14 @@ import io.reactivex.Single
 @Dao
 interface ItemDao {
     @Query("SELECT * FROM itemdata")
-    fun getAll(): Single<List<ItemData>>
+    suspend fun getAll(): List<ItemData>
 
     @Insert
-    fun insert(item: ItemData): Completable
+    suspend fun insert(item: ItemData)
 
     @Update
-    fun update(item: ItemData): Completable
+    suspend fun update(item: ItemData)
 
     @Delete
-    fun delete(item: ItemData): Completable
+    suspend fun delete(item: ItemData)
 }

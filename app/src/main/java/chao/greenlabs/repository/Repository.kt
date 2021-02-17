@@ -71,20 +71,20 @@ class Repository(private val context: Context) {
         return db.marketDao().getAll()
     }
 
-    fun addItem(itemData: ItemData): Completable {
-        return db.itemDao().insert(itemData)
+    suspend fun addItem(itemData: ItemData) {
+        db.itemDao().insert(itemData)
     }
 
-    fun deleteItem(itemData: ItemData): Completable {
+    suspend fun deleteItem(itemData: ItemData) {
         return db.itemDao().delete(itemData)
     }
 
-    fun getItems(): Single<List<ItemData>> {
+    suspend fun getItems(): List<ItemData> {
         return db.itemDao().getAll()
     }
 
-    fun updateItem(itemData: ItemData): Completable {
-        return db.itemDao().update(itemData)
+    suspend fun updateItem(itemData: ItemData) {
+        db.itemDao().update(itemData)
     }
 
     fun getSavedImage(imgName: String): Bitmap? {
