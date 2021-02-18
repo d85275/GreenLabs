@@ -1,7 +1,9 @@
 package chao.greenlabs.views.adpaters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
@@ -40,7 +42,7 @@ class SoldItemAdapter(
 
     private fun setListeners(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.ll_minus.setOnClickListener {
-            if (itemList[position].count - 1 <= 0) {
+            if (itemList[position].count  == 1) {
                 val confirmAction: (() -> Unit) = {
                     viewModel.deleteSoldItem(position)
                 }
@@ -56,8 +58,10 @@ class SoldItemAdapter(
     }
 
     fun setItem(soldList: List<CustomerData.SoldItem>) {
+        val diffCallback = CustomerDataDiffCallback(itemList, soldList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         itemList.clear()
         itemList.addAll(soldList)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

@@ -131,7 +131,7 @@ class AddCustomerFragment : Fragment() {
 
         viewModel.getCustomerData().observe(viewLifecycleOwner, Observer { customerData ->
             val list = customerData.soldDataList ?: return@Observer
-            soldAdapter.setItem(list)
+            soldAdapter.setItem(list.map { it.copy() })
             val total = customerData.total
             val discount = customerData.discount
             val memo = customerData.memo
