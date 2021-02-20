@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/addItemFragment"
-        android:name="chao.greenlabs.views.AddItemFragment"
+        android:name="chao.greenlabs.views.fragments.AddItemFragment"
         android:label="Blank"
         tools:layout="@layout/fragment_add_item" />
 
     <fragment
         android:id="@+id/addMarketFragment"
-        android:name="chao.greenlabs.views.AddMarketFragment"
+        android:name="chao.greenlabs.views.fragments.AddMarketFragment"
         android:label="AddMarketFragment"
         tools:layout="@layout/fragment_add_market">
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="chao.greenlabs.views.ItemListFragment"
+        android:name="chao.greenlabs.views.fragments.ItemListFragment"
         android:label="ItemListFragment"
         tools:layout="@layout/fragment_item_list">
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/marketListFragment"
-        android:name="chao.greenlabs.views.MarketListFragment"
+        android:name="chao.greenlabs.views.fragments.MarketListFragment"
         android:label="MarketListFragment"
         tools:layout="@layout/fragment_market_list">
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/manageMarketFragment"
-        android:name="chao.greenlabs.views.ManageMarketFragment"
+        android:name="chao.greenlabs.views.fragments.ManageMarketFragment"
         android:label="ManageMarketFragment"
         tools:layout="@layout/fragment_manage_market">
         <action
@@ -56,12 +56,12 @@
     </fragment>
     <fragment
         android:id="@+id/addMarketSetDateFragment"
-        android:name="chao.greenlabs.views.AddMarketSetDateFragment"
+        android:name="chao.greenlabs.views.fragments.AddMarketSetDateFragment"
         android:label="AddMarketSetDateFragment"
         tools:layout="@layout/fragment_add_market_set_date" />
     <fragment
         android:id="@+id/addCustomerFragment"
-        android:name="chao.greenlabs.views.AddCustomerFragment"
+        android:name="chao.greenlabs.views.fragments.AddCustomerFragment"
         android:label="AddCustomerFragment"
         tools:layout="@layout/fragment_add_customer" >
         <action
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/addCustomerSoldItemFragment"
         tools:layout="@layout/fragment_add_customer_solditem"
-        android:name="chao.greenlabs.views.AddCustomerSoldItemFragment"
+        android:name="chao.greenlabs.views.fragments.AddCustomerSoldItemFragment"
         android:label="AddCustomerSoldItemFragment" />
 
 </navigation>

@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -6,7 +6,6 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,8 @@ import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
+import chao.greenlabs.views.customedobjects.IntNumWatcher
+import chao.greenlabs.views.customedobjects.OnImageTouchListener
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
 
@@ -87,9 +88,14 @@ class AddItemFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        et_price.addTextChangedListener(IntNumWatcher(et_price))
+        et_price.addTextChangedListener(
+            IntNumWatcher(
+                et_price
+            )
+        )
 
-        onImageTouchListener = OnImageTouchListener(iv_image)
+        onImageTouchListener =
+            OnImageTouchListener(iv_image)
         iv_image.setOnTouchListener(onImageTouchListener)
     }
 

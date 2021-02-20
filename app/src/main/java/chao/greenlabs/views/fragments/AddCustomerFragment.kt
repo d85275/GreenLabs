@@ -1,10 +1,7 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
-import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
-import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer.*
 import kotlinx.android.synthetic.main.fragment_add_customer.ll_back

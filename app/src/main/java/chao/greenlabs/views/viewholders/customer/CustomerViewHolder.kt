@@ -10,7 +10,7 @@ import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import chao.greenlabs.views.SoldItemTransformer
+import chao.greenlabs.views.customedobjects.SoldItemTransformer
 import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
 
 
@@ -91,6 +91,10 @@ class CustomerViewHolder(
         binding.vgSoldItems.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.vgSoldItems.adapter = adapter
         binding.vgSoldItems.offscreenPageLimit = 6
-        binding.vgSoldItems.setPageTransformer(SoldItemTransformer(OFFSET_LIMIT))
+        binding.vgSoldItems.setPageTransformer(
+            SoldItemTransformer(
+                OFFSET_LIMIT
+            )
+        )
     }
 }

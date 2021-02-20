@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

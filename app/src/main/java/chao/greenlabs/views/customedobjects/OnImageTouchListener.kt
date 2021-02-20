@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.customedobjects
 
 import android.annotation.SuppressLint
 import android.graphics.Matrix
@@ -6,7 +6,6 @@ import android.graphics.PointF
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
-import kotlinx.android.synthetic.main.fragment_add_item.*
 
 class OnImageTouchListener(private val imageView: ImageView) : View.OnTouchListener {
     // image scale

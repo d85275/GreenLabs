@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.fragments
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,6 +11,7 @@ import chao.greenlabs.utils.BottomSheetController
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.InputChecker
 import chao.greenlabs.viewmodels.AddMarketViewModel
+import chao.greenlabs.views.customedobjects.IntNumWatcher
 
 open class ViewSetMarketInfo : LinearLayout {
 
@@ -88,7 +89,11 @@ open class ViewSetMarketInfo : LinearLayout {
         binding = ViewSetMarketInfoBinding.inflate(inflater, this, true)
         binding.tvStart.text = context.getString(R.string.default_start_time)
         binding.tvEnd.text = context.getString(R.string.default_end_time)
-        binding.etFee.addTextChangedListener(IntNumWatcher(binding.etFee))
+        binding.etFee.addTextChangedListener(
+            IntNumWatcher(
+                binding.etFee
+            )
+        )
     }
 
     fun setDate(date: String) {

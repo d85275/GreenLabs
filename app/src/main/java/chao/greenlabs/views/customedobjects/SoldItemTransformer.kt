@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.customedobjects
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

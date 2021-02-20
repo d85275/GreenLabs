@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

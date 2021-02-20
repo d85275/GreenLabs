@@ -5,9 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.MarketData
-import chao.greenlabs.views.MarketViewHolder
-import kotlinx.android.synthetic.main.item_market.view.*
-import kotlinx.android.synthetic.main.item_market.view.tv_name
+import chao.greenlabs.views.viewholders.MarketViewHolder
 
 class MarketAdapter(private val onClickedListener: ((data: MarketData) -> Unit)) :
     RecyclerView.Adapter<MarketViewHolder>() {

@@ -6,13 +6,12 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
 import chao.greenlabs.R
-import chao.greenlabs.views.IntNumWatcher
+import chao.greenlabs.views.customedobjects.IntNumWatcher
 
 
 object DialogUtils {
@@ -176,7 +175,11 @@ object DialogUtils {
 
         if (isNumber) {
             etData.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-            etData.addTextChangedListener(IntNumWatcher(etData))
+            etData.addTextChangedListener(
+                IntNumWatcher(
+                    etData
+                )
+            )
         }
 
         etData.setText(text)

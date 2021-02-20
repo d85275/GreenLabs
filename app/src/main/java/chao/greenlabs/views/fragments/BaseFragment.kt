@@ -1,6 +1,7 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.fragments
 
 import androidx.fragment.app.Fragment
+import chao.greenlabs.views.MainActivity
 
 open class BaseFragment : Fragment() {
     fun showLoading() {

@@ -1,4 +1,4 @@
-package chao.greenlabs.views
+package chao.greenlabs.views.customedobjects
 
 import android.text.Editable
 import android.text.TextWatcher
