@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.EditText
@@ -186,6 +187,13 @@ object DialogUtils {
             )
         }
 
+        dialog.setOnDismissListener {
+            Log.e("DialogUtils", "dialog dismissed")
+            // todo: to dismiss the keyboard here
+            KeyboardUtils.hideKeyboard(context, etData)
+        }
+
+        KeyboardUtils.showKeyboard(context)
         etData.setText(text)
         etData.requestFocus()
         dialog.show()
