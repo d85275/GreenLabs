@@ -37,24 +37,24 @@ class SoldItemAdapter(
         holder.itemView.tv_price.text = price
         holder.itemView.tv_count.text = itemList[position].count.toString()
         BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
-        setListeners(holder, position)
+        setListeners(holder)
     }
 
-    private fun setListeners(holder: RecyclerView.ViewHolder, position: Int) {
+    private fun setListeners(holder: RecyclerView.ViewHolder) {
+
         holder.itemView.ll_minus.setOnClickListener {
-            if (itemList[position].count  == 1) {
+            if (itemList[holder.adapterPosition].count  == 1) {
                 val confirmAction: (() -> Unit) = {
-                    viewModel.deleteSoldItem(position)
+                    viewModel.deleteSoldItem(holder.adapterPosition)
                 }
                 DialogUtils.showDelete(holder.itemView.context, confirmAction)
             } else {
-                viewModel.updateCount(position, -1)
+                viewModel.updateCount(holder.adapterPosition, -1)
             }
         }
 
         holder.itemView.ll_plus.setOnClickListener {
-            Log.e("123","position: $position")
-            viewModel.updateCount(position, 1)
+            viewModel.updateCount(holder.adapterPosition, 1)
         }
     }
 
@@ -63,8 +63,6 @@ class SoldItemAdapter(
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         itemList.clear()
         itemList.addAll(soldList)
-        // todo: to solve the problem that the position of the item is not updated after something is removed
-        //diffResult.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }
