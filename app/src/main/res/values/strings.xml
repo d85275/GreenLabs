@@ -56,4 +56,5 @@
     <string name="customer_divider">----------------------</string>
     <string name="detail_divider_head">========明細========</string>
     <string name="detail_divider_end">====================</string>
+    <string name="add_sold_item">售出商品</string>
 </resources>

@@ -1,5 +1,6 @@
 package chao.greenlabs.views.adpaters
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import chao.greenlabs.datamodels.CustomerData
 
@@ -25,5 +26,13 @@ class CustomerDataDiffCallback(
         return (oldData[oldItemPosition].name == newData[newItemPosition].name) &&
                 (oldData[oldItemPosition].price == newData[newItemPosition].price) &&
                 (oldData[oldItemPosition].count == newData[newItemPosition].count)
+    }
+
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+        Log.e(
+            "123",
+            "getChangePayload, oldItemPosition: $oldItemPosition, newItemPosition: $newItemPosition"
+        )
+        return super.getChangePayload(oldItemPosition, newItemPosition)
     }
 }

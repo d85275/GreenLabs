@@ -53,6 +53,7 @@ class SoldItemAdapter(
         }
 
         holder.itemView.ll_plus.setOnClickListener {
+            Log.e("123","position: $position")
             viewModel.updateCount(position, 1)
         }
     }
@@ -62,6 +63,8 @@ class SoldItemAdapter(
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         itemList.clear()
         itemList.addAll(soldList)
-        diffResult.dispatchUpdatesTo(this)
+        // todo: to solve the problem that the position of the item is not updated after something is removed
+        //diffResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }

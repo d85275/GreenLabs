@@ -1,8 +1,10 @@
 package chao.greenlabs.views
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +41,7 @@ class AddCustomerFragment : Fragment() {
             requireActivity(),
             backPressedCallback
         )
+        Log.e("123", "on add created")
         return inflater.inflate(R.layout.fragment_add_customer, container, false)
     }
 
@@ -52,6 +55,10 @@ class AddCustomerFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        removeBackCallback()
+    }
+
+    private fun removeBackCallback(){
         backPressedCallback.remove()
     }
 
@@ -78,8 +85,19 @@ class AddCustomerFragment : Fragment() {
         rv_sold_items.adapter = soldAdapter
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setListeners() {
         et_search.addTextChangedListener(textWatcher)
+
+        // todo: this feature is still being worked on
+        /*
+        et_search.setOnClickListener {
+
+            findNavController().navigate(R.id.action_addCustomerFragment_to_addCustomerSoldItemFragment)
+            removeBackCallback()
+        }
+
+         */
 
         ll_add.setOnClickListener {
             val list = viewModel.getCustomerData().value?.soldDataList
