@@ -100,6 +100,10 @@ object DialogUtils {
             }
         }
 
+        dialog.setOnCancelListener {
+            cancelAction?.invoke()
+        }
+
         dialog.show()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isAllCaps = false
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
