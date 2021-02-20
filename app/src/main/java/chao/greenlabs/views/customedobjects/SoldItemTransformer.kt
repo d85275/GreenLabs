@@ -3,7 +3,6 @@ package chao.greenlabs.views.customedobjects
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 
-
 class SoldItemTransformer(private val offscreenPageLimit: Int) : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
