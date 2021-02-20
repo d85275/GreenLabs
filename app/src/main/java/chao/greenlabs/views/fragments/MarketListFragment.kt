@@ -1,6 +1,7 @@
 package chao.greenlabs.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,12 +29,9 @@ class MarketListFragment : BaseFragment() {
     private lateinit var manageMarketViewModel: ManageMarketViewModel
     private lateinit var adapter: MarketAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_market_list, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_market_list)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,6 +125,5 @@ class MarketListFragment : BaseFragment() {
 
     private fun loadData() {
         listViewModel.loadMarketData()
-        //manageMarketViewModel.loadItemData()
     }
 }

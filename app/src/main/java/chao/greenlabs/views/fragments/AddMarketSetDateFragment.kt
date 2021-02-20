@@ -17,6 +17,7 @@ import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
+import chao.greenlabs.views.ViewSetMarketInfo
 import chao.greenlabs.views.adpaters.AddMarketAdapter
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event

@@ -25,17 +25,14 @@ import chao.greenlabs.views.customedobjects.OnImageTouchListener
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
 
-class AddItemFragment : Fragment() {
+class AddItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddItemViewModel
     private lateinit var onImageTouchListener: OnImageTouchListener
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_add_item, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_add_item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

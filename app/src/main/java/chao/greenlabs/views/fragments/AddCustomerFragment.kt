@@ -21,23 +21,16 @@ import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer.*
 import kotlinx.android.synthetic.main.fragment_add_customer.ll_back
 
-class AddCustomerFragment : Fragment() {
+class AddCustomerFragment : BaseFragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
 
     //private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var soldAdapter: SoldItemAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(),
-            backPressedCallback
-        )
-        return inflater.inflate(R.layout.fragment_add_customer, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_add_customer)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

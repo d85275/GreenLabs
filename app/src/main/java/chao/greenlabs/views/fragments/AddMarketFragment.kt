@@ -17,16 +17,13 @@ import kotlinx.android.synthetic.main.fragment_add_market.bt_confirm
 import kotlinx.android.synthetic.main.fragment_add_market.et_name
 import kotlinx.android.synthetic.main.fragment_add_market.ll_back
 
-class AddMarketFragment : Fragment() {
+class AddMarketFragment : BaseFragment() {
 
     private lateinit var addMarketViewModel: AddMarketViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_add_market, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_add_market)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

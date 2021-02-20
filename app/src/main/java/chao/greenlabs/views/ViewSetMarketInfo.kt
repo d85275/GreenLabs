@@ -1,4 +1,4 @@
-package chao.greenlabs.views.fragments
+package chao.greenlabs.views
 
 import android.content.Context
 import android.util.AttributeSet

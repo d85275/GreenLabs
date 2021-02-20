@@ -22,19 +22,16 @@ import chao.greenlabs.views.adpaters.SearchedItemAdapter
 import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer_solditem.*
 
-class AddCustomerSoldItemFragment : Fragment() {
+class AddCustomerSoldItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
     private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
     private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var soldAdapter: SoldItemAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_add_customer_solditem, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_add_customer_solditem)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

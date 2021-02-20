@@ -28,12 +28,9 @@ class ItemListFragment : BaseFragment() {
     private lateinit var addItemViewModel: AddItemViewModel
     private lateinit var adapter: ItemAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_item_list, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_item_list)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
