@@ -2,6 +2,7 @@ package chao.greenlabs.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
@@ -41,5 +42,17 @@ object BitmapUtils {
 
     fun loadDefault(context: Context, imageView: ImageView) {
         Glide.with(context).load(R.drawable.default_item).into(imageView)
+    }
+
+    fun getBitmapFromImageView(imageView: ImageView): Bitmap {
+        val result = Bitmap.createBitmap(
+            imageView.width,
+            imageView.height,
+            Bitmap.Config.RGB_565
+        )
+        val c = Canvas(result)
+        imageView.draw(c)
+
+        return result
     }
 }

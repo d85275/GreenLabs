@@ -144,7 +144,7 @@ class AddCustomerFragment : Fragment() {
             searchedAdapter.setList(matchedList)
         })
          */
-        
+
         viewModel.getCustomerData().observe(viewLifecycleOwner, Observer { customerData ->
             val list = customerData.soldDataList ?: return@Observer
             soldAdapter.setItem(list.map { it.copy() })

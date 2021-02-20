@@ -1,7 +1,6 @@
 package chao.greenlabs.viewmodels
 
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.LiveData
@@ -10,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.BitmapUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -43,9 +43,12 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         // save the image to file and keep the file name
         try {
-            val bm = (imageView.drawable as BitmapDrawable).bitmap
+
+            val result = BitmapUtils.getBitmapFromImageView(imageView)
+            //val original = (imageView.drawable as BitmapDrawable).bitmap
+
             val fileName = StringBuilder().append(name).append("_").append(price).toString()
-            repository.saveImageToExternal(fileName, bm)
+            repository.saveImageToExternal(fileName, result)
 
         } catch (e: Exception) {
             Log.e("AddItemVM", "error: $e")
@@ -80,17 +83,11 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-
     fun getTmpPath(): File? {
         return repository.getTmpPath()
     }
 
     fun getImage(name: String, price: String): Bitmap? {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getTestSavedImage(fileName)
-    }
-
-    fun getTestImage(name: String, price: String): Bitmap? {
         val fileName = StringBuilder().append(name).append("_").append(price).toString()
         return repository.getTestSavedImage(fileName)
     }

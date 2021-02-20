@@ -23,7 +23,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     private var matchedItems = MutableLiveData(arrayListOf<ItemData>())
     private val isCustomerSaved = MutableLiveData(false)
 
-
     var isUpdateMode = false
 
     fun clearData() {

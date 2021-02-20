@@ -1,20 +1,15 @@
 package chao.greenlabs.views
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Matrix
-import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -29,29 +24,10 @@ import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
 
-
-private const val MIN_ZOOM: Float = 1f
-private const val MAX_ZOOM: Float = 1f
-
-class AddItemFragment : Fragment(), View.OnTouchListener {
-    // image scale
-    // These matrices will be used to scale points of the image
-    private var matrix: Matrix? = Matrix()
-    private var savedMatrix: Matrix = Matrix()
-
-    // The 3 states (events) which the user is trying to perform
-    private val NONE = 0
-    private val DRAG = 1
-    private val ZOOM = 2
-    private var mode = NONE
-
-    // these PointF objects are used to record the point(s) the user is touching
-    private var start = PointF()
-    private var mid = PointF()
-    private var oldDist = 1f
-    // image scale
+class AddItemFragment : Fragment() {
 
     private lateinit var viewModel: AddItemViewModel
+    private lateinit var onImageTouchListener: OnImageTouchListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +43,6 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
         setListeners()
         setDefaultImage()
         registerObservers()
-        //initView()
     }
 
     override fun onResume() {
@@ -114,40 +89,14 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
 
         et_price.addTextChangedListener(IntNumWatcher(et_price))
 
-        //iv_image.setOnTouchListener(this)
+        onImageTouchListener = OnImageTouchListener(iv_image)
+        iv_image.setOnTouchListener(onImageTouchListener)
     }
 
     private fun setDefaultImage() {
         if (!viewModel.getIsUpdateMode()) {
             BitmapUtils.loadDefault(requireContext(), iv_image)
         }
-    }
-
-    // todo: still needs to find out how to set the image to the centre
-    private fun setImageCenter(bitmap: Bitmap?) {
-        if (bitmap == null) return
-
-        val bHeight = bitmap.height
-        val bWidth = bitmap.width
-
-        Log.e("123", "bHeight: $bHeight")
-        Log.e("123", "bWidth: $bWidth")
-
-        iv_image.measure(
-            View.MeasureSpec.makeMeasureSpec(cl_parent.width, View.MeasureSpec.UNSPECIFIED),
-            View.MeasureSpec.makeMeasureSpec(cl_parent.height, View.MeasureSpec.UNSPECIFIED)
-        )
-
-        val xOffset = bWidth / 2
-        val yOffset = bHeight / 2
-
-        Log.e("123", "image height: ${iv_image.measuredWidth}")
-        Log.e("123", "image width: ${iv_image.measuredHeight}")
-
-        val matrix: Matrix = iv_image.imageMatrix
-        matrix.postTranslate(xOffset.toFloat(), yOffset.toFloat())
-        iv_image.imageMatrix = matrix
-        iv_image.invalidate()
     }
 
     private fun registerObservers() {
@@ -177,6 +126,8 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
         et_name.text.clear()
         et_price.text.clear()
         showKeyboard()
+        onImageTouchListener.reset()
+        iv_image.imageMatrix = Matrix()
     }
 
     private fun showImagePicker() {
@@ -210,65 +161,4 @@ class AddItemFragment : Fragment(), View.OnTouchListener {
             }
         }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        iv_image.scaleType = ImageView.ScaleType.MATRIX
-        when (event!!.action and MotionEvent.ACTION_MASK) {
-            MotionEvent.ACTION_DOWN -> {
-                Log.e("123", "ACTION_DOWN")
-                savedMatrix.set(matrix)
-                start[event.x] = event.y
-                mode = DRAG
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                Log.e("123", "ACTION_POINTER_UP")
-                mode = NONE
-            }
-            MotionEvent.ACTION_POINTER_DOWN -> {
-                Log.e("123", "ACTION_POINTER_DOWN")
-                oldDist = spacing(event)
-                if (oldDist > 5f) {
-                    savedMatrix.set(matrix)
-                    midPoint(mid, event)
-                    mode = ZOOM
-                }
-            }
-            MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
-                matrix!!.set(savedMatrix)
-                matrix!!.postTranslate(
-                    event.x - start.x,
-                    event.y - start.y
-                ) // create the transformation in the matrix  of points
-            } else if (mode == ZOOM) {
-                // pinch zooming
-                val newDist = spacing(event)
-                if (newDist > 5f) {
-                    matrix!!.set(savedMatrix)
-                    val scale = newDist / oldDist // setting the scaling of the
-                    // matrix...if scale > 1 means
-                    // zoom in...if scale < 1 means
-                    // zoom out
-                    Log.e("123", "scale: $scale")
-                    matrix!!.postScale(scale, scale, mid.x, mid.y)
-                }
-            }
-        }
-        Log.e("123", "mode: $mode")
-        iv_image.imageMatrix = matrix // display the transformation on screen
-
-        return true // indicate event was handled
-    }
-
-    private fun spacing(event: MotionEvent): Float {
-        val x = event.getX(0) - event.getX(1)
-        val y = event.getY(0) - event.getY(1)
-        return kotlin.math.sqrt(x * x + y * y)
-    }
-
-
-    private fun midPoint(point: PointF, event: MotionEvent) {
-        val x = event.getX(0) + event.getX(1)
-        val y = event.getY(0) + event.getY(1)
-        point[x / 2] = y / 2
-    }
 }
