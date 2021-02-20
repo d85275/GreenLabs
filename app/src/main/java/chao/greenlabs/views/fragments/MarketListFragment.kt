@@ -20,6 +20,7 @@ import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.MarketListVMFactory
 import chao.greenlabs.viewmodels.MarketListViewModel
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
+import chao.greenlabs.views.MainActivity
 import chao.greenlabs.views.adpaters.MarketAdapter
 import kotlinx.android.synthetic.main.fragment_market_list.*
 
@@ -114,6 +115,10 @@ class MarketListFragment : BaseFragment() {
     }
 
     private fun setListeners() {
+        setOnBackPressedAction {
+            (requireActivity() as MainActivity).finish()
+        }
+
         ll_add_items.setOnClickListener {
             findNavController().navigate(R.id.action_marketListFragment_to_itemListFragment)
         }

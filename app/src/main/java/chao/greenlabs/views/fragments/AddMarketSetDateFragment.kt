@@ -2,11 +2,7 @@ package chao.greenlabs.views.fragments
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -30,22 +26,15 @@ import java.util.*
 private const val VIEW_DISABLE = 0.5f
 private const val VIEW_ENABLE = 1.0f
 
-class AddMarketSetDateFragment : Fragment() {
+class AddMarketSetDateFragment : BaseFragment() {
 
     private lateinit var viewModel: AddMarketViewModel
     private lateinit var bottomSheetController: BottomSheetController<ViewSetMarketInfo>
     private lateinit var adapter: AddMarketAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        requireActivity().onBackPressedDispatcher.addCallback(
-            requireActivity(),
-            backPressedCallback
-        )
-        return inflater.inflate(R.layout.fragment_add_market_set_date, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentViewId(R.layout.fragment_add_market_set_date)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,11 +45,6 @@ class AddMarketSetDateFragment : Fragment() {
         registerObservers()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        backPressedCallback.remove()
-    }
-
     private fun getViewModels() {
         val repository = Repository(requireContext())
         val setDateFactory = AddMarketSetDateVMFactory(repository)
@@ -69,6 +53,14 @@ class AddMarketSetDateFragment : Fragment() {
     }
 
     private fun setListeners() {
+        setOnBackPressedAction {
+            if (v_set_market_info.isViewShown()) {
+                v_set_market_info.dismiss()
+            } else {
+                showBackWarningDialog()
+            }
+        }
+
         ll_back.setOnClickListener {
             if (bottomSheetController.isShown()) return@setOnClickListener
 
@@ -176,16 +168,6 @@ class AddMarketSetDateFragment : Fragment() {
     private fun showBackWarningDialog() {
         val msg = getString(R.string.back_warning)
         DialogUtils.showQuestion(requireContext(), msg) { findNavController().popBackStack() }
-    }
-
-    private val backPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (v_set_market_info.isViewShown()) {
-                v_set_market_info.dismiss()
-            } else {
-                showBackWarningDialog()
-            }
-        }
     }
 
     private val onItemSwipedAction: ((position: Int) -> Unit) = { position ->

@@ -2,11 +2,7 @@ package chao.greenlabs.views.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -42,15 +38,6 @@ class AddCustomerFragment : BaseFragment() {
         KeyboardUtils.hideKeyboard(requireContext(), view)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        removeBackCallback()
-    }
-
-    private fun removeBackCallback() {
-        backPressedCallback.remove()
-    }
-
     private fun getViewModel() {
         val factory = AddCustomerVMFactory(Repository(requireContext()))
         viewModel =
@@ -78,6 +65,15 @@ class AddCustomerFragment : BaseFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setListeners() {
+        setOnBackPressedAction {
+            val list = viewModel.getCustomerData().value?.soldDataList
+            if (list == null || list.size == 0) {
+                findNavController().popBackStack()
+            } else {
+                showBackWarningDialog()
+            }
+        }
+
         et_search.isFocusable = false
         et_search.setOnClickListener {
             findNavController().navigate(R.id.action_addCustomerFragment_to_addCustomerSoldItemFragment)
@@ -178,14 +174,4 @@ class AddCustomerFragment : BaseFragment() {
     }
      */
 
-    private val backPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            val list = viewModel.getCustomerData().value?.soldDataList
-            if (list == null || list.size == 0) {
-                findNavController().popBackStack()
-            } else {
-                showBackWarningDialog()
-            }
-        }
-    }
 }
