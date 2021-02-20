@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
@@ -75,7 +73,10 @@ class AddCustomerSoldItemFragment : Fragment() {
     }
 
     private fun setListeners() {
+        et_search.requestFocus()
         et_search.addTextChangedListener(textWatcher)
+
+        KeyboardUtils.showKeyboard(requireContext(), et_search)
 
         ll_back.setOnClickListener {
             findNavController().popBackStack()
@@ -88,7 +89,6 @@ class AddCustomerSoldItemFragment : Fragment() {
         })
 
         addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
-            KeyboardUtils.hideKeyboard(requireContext(), view)
             findNavController().popBackStack()
         })
     }

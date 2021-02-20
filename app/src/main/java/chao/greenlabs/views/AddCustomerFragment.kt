@@ -29,7 +29,8 @@ import kotlinx.android.synthetic.main.fragment_add_customer.ll_back
 class AddCustomerFragment : Fragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
-    private lateinit var searchedAdapter: SearchedItemAdapter
+
+    //private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var soldAdapter: SoldItemAdapter
 
     override fun onCreateView(
@@ -41,7 +42,6 @@ class AddCustomerFragment : Fragment() {
             requireActivity(),
             backPressedCallback
         )
-        Log.e("123", "on add created")
         return inflater.inflate(R.layout.fragment_add_customer, container, false)
     }
 
@@ -51,6 +51,7 @@ class AddCustomerFragment : Fragment() {
         setViews()
         registerObservers()
         setListeners()
+        KeyboardUtils.hideKeyboard(requireContext(), view)
     }
 
     override fun onDestroy() {
@@ -58,7 +59,7 @@ class AddCustomerFragment : Fragment() {
         removeBackCallback()
     }
 
-    private fun removeBackCallback(){
+    private fun removeBackCallback() {
         backPressedCallback.remove()
     }
 
@@ -69,6 +70,7 @@ class AddCustomerFragment : Fragment() {
     }
 
     private fun setViews() {
+        /*
         val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
             et_search.text.clear()
             viewModel.onSearchItemClicked(item)
@@ -78,6 +80,7 @@ class AddCustomerFragment : Fragment() {
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
         rv_searched_items.setHasFixedSize(true)
         rv_searched_items.adapter = searchedAdapter
+         */
 
         soldAdapter = SoldItemAdapter(viewModel)
         rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
@@ -87,17 +90,11 @@ class AddCustomerFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setListeners() {
-        et_search.addTextChangedListener(textWatcher)
-
-        // todo: this feature is still being worked on
-        /*
+        et_search.isFocusable = false
         et_search.setOnClickListener {
-
             findNavController().navigate(R.id.action_addCustomerFragment_to_addCustomerSoldItemFragment)
             removeBackCallback()
         }
-
-         */
 
         ll_add.setOnClickListener {
             val list = viewModel.getCustomerData().value?.soldDataList
@@ -142,11 +139,12 @@ class AddCustomerFragment : Fragment() {
     }
 
     private fun registerObservers() {
+        /*
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
             searchedAdapter.setList(matchedList)
         })
-
-
+         */
+        
         viewModel.getCustomerData().observe(viewLifecycleOwner, Observer { customerData ->
             val list = customerData.soldDataList ?: return@Observer
             soldAdapter.setItem(list.map { it.copy() })
@@ -168,6 +166,7 @@ class AddCustomerFragment : Fragment() {
         })
     }
 
+    /*
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             val text = s.toString()
@@ -189,6 +188,7 @@ class AddCustomerFragment : Fragment() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
     }
+     */
 
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
