@@ -279,7 +279,7 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_add"
+        app:srcCompat="@drawable/icon_add_white"
         app:tint="@null" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
