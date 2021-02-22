@@ -66,9 +66,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     fun updateCount(position: Int, count: Int) {
         val customerData = customerData.value ?: return
-        //val soldData:ArrayList<CustomerData.SoldItem> = customerData.soldDataList ?: return
-        //val list = arrayListOf<CustomerData.SoldItem>()
-        //list.addAll(soldData)
         val list = customerData.soldDataList ?: return
         list[position].count += count
         customerData.total += (count * list[position].price.toInt())

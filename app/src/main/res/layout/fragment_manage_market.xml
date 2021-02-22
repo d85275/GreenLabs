@@ -1,272 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_top"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/round_bg_main_gradient"
+        android:fitsSystemWindows="true"
+        android:theme="@style/Widget.AppCompat.ActionBar"
         android:translationY="-13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
-        <LinearLayout
-            android:id="@+id/ll_back"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="23dp"
-            android:background="@drawable/circle_bg_white"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="@dimen/market_icon_size"
-                android:layout_height="@dimen/market_icon_size"
-                android:background="@drawable/icon_back" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:letterSpacing="0.4"
-            android:maxLines="1"
-            android:textColor="@color/main_text_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/ll_detail"
-            app:layout_constraintEnd_toStartOf="@id/ll_detail"
-            app:layout_constraintStart_toEndOf="@id/ll_back"
-            app:layout_constraintTop_toTopOf="@id/ll_detail"
-            tools:text="水水市集" />
-
-        <LinearLayout
-            android:id="@+id/ll_detail"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginTop="23dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/circle_bg_white"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/icon_detail" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/cl_market_detail"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@drawable/circle_bg_white"
-            android:elevation="10dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:translationX="400dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/ll_market_income"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ll_market_income">
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <TextView
-                android:id="@+id/tv_market_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/icon_sub_location"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxWidth="90dp"
-                android:maxLines="1"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:text="四四南村四四南村四四南村四四南村" />
-
-            <TextView
-                android:id="@+id/tv_market_fee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/icon_sub_money"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxWidth="90dp"
-                android:maxLines="1"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                android:textStyle="bold"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_top"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/gl_v_middle"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="攤位費 450450450450450450450450" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/cl_market_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_bg_white"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:translationX="400dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/ll_market_income"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ll_market_income">
+
+                    <TextView
+                        android:id="@+id/tv_market_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_sub_location"
+                        android:drawablePadding="5dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxWidth="90dp"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="四四南村四四南村四四南村四四南村" />
+
+                    <TextView
+                        android:id="@+id/tv_market_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_sub_money"
+                        android:drawablePadding="5dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxWidth="90dp"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/gl_v_middle"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="攤位費 450450450450450450450450" />
+
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_time_on"
+                        android:drawablePadding="5dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/gl_v_middle"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="13 : 00" />
+
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/icon_time_off"
+                        android:drawablePadding="5dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/gl_v_middle"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="19 : 30" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_date"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="80dp"
+                    android:background="@drawable/icon_white_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_market_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/main_text_color"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_date"
+                    app:layout_constraintStart_toEndOf="@id/iv_date"
+                    app:layout_constraintTop_toTopOf="@id/iv_date"
+                    tools:text="2021-01-31" />
+
+                <LinearLayout
+                    android:id="@+id/ll_market_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_date">
+
+                    <TextView
+                        android:id="@+id/tv_market_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:drawableStart="@drawable/icon_white_money"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        tools:text="13123" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_sold_price"
+                        android:textColor="@color/main_text_color"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp"
+                android:contentInsetEnd="0dp"
+                android:contentInsetRight="0dp"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll_back"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="23dp"
+                        android:background="@drawable/circle_bg_white"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/market_icon_size"
+                            android:layout_height="@dimen/market_icon_size"
+                            android:background="@drawable/icon_back" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:letterSpacing="0.4"
+                        android:maxLines="1"
+                        android:textColor="@color/main_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/ll_detail"
+                        app:layout_constraintEnd_toStartOf="@id/ll_detail"
+                        app:layout_constraintStart_toEndOf="@id/ll_back"
+                        app:layout_constraintTop_toTopOf="@id/ll_detail"
+                        tools:text="水水市集" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_detail"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/circle_bg_white"
+                        android:gravity="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/icon_detail" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_start_time"
+                android:id="@+id/tv_sold_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/icon_time_on"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/icon_sold_item"
                 android:drawablePadding="5dp"
-                android:ellipsize="end"
                 android:gravity="center"
-                android:maxLines="1"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
+                android:letterSpacing="0.1"
+                android:text="@string/customer_list"
+                android:textColor="@color/main_bg_color"
                 android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_copy"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/circle_bg_main"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@id/tv_sold_item"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/gl_v_middle"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="13 : 00" />
+                app:layout_constraintTop_toTopOf="@id/tv_sold_item">
 
-            <TextView
-                android:id="@+id/tv_end_time"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/icon_white_copy" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_customers"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/icon_time_off"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/gl_v_middle"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="19 : 30" />
-        </LinearLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_sold_item" />
 
-        <ImageView
-            android:id="@+id/iv_date"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/icon_white_date"
-            app:layout_constraintStart_toStartOf="@id/ll_back"
-            app:layout_constraintTop_toBottomOf="@id/ll_back" />
-
-        <TextView
-            android:id="@+id/tv_market_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/main_text_color"
-            app:layout_constraintBottom_toBottomOf="@id/iv_date"
-            app:layout_constraintStart_toEndOf="@id/iv_date"
-            app:layout_constraintTop_toTopOf="@id/iv_date"
-            tools:text="2021-01-31" />
-
-        <LinearLayout
-            android:id="@+id/ll_market_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_date">
-
-            <TextView
-                android:id="@+id/tv_market_income"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:drawableStart="@drawable/icon_white_money"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textColor="@android:color/white"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                tools:text="13123" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total_sold_price"
-                android:textColor="@color/main_text_color"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_sold_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
-        android:drawableStart="@drawable/icon_sold_item"
-        android:drawablePadding="5dp"
-        android:gravity="center"
-        android:letterSpacing="0.1"
-        android:text="@string/customer_list"
-        android:textColor="@color/main_bg_color"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_top" />
-
-    <LinearLayout
-        android:id="@+id/ll_copy"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/circle_bg_main"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/tv_sold_item"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_sold_item">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/icon_white_copy" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_customers"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sold_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
@@ -282,4 +335,4 @@
         app:srcCompat="@drawable/icon_add_white"
         app:tint="@null" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

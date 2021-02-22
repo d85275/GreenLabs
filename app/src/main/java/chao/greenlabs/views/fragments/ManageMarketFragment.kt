@@ -4,7 +4,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,10 +22,9 @@ import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.CustomerAdapter
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_manage_market.*
-import kotlinx.android.synthetic.main.fragment_manage_market.ll_back
-import kotlinx.android.synthetic.main.fragment_manage_market.tv_market_income
-import kotlinx.android.synthetic.main.fragment_manage_market.tv_title
+import kotlin.math.abs
 
 class ManageMarketFragment : BaseFragment() {
 
@@ -168,7 +169,22 @@ class ManageMarketFragment : BaseFragment() {
                 viewModel.updateMarketDate(it)
             }
         }
+        appbar.addOnOffsetChangedListener(onOffsetChangedListener)
     }
+
+    private val onOffsetChangedListener =
+        AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val fraction = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
+            if (fraction == 0f) {
+                ll_detail.visibility = View.VISIBLE
+            } else {
+                if (ll_detail.visibility == View.VISIBLE) {
+                    ll_detail.visibility = View.INVISIBLE
+                }
+            }
+            cl_top.alpha = 1 - fraction
+
+        }
 
     private fun loadData() {
         viewModel.loadCustomers()
