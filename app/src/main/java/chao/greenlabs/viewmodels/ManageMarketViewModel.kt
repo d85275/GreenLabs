@@ -169,10 +169,15 @@ class ManageMarketViewModel(
                 stringBuilder.append("\n").append("${res.getString(R.string.memo)} ")
                     .append(customer.memo).append("\n")
             }
-            stringBuilder.append("\n").append("${res.getString(R.string.sub_total)} ")
-                .append(res.getString(R.string.price, customer.total.toString())).append("\n")
-            stringBuilder.append("${res.getString(R.string.discount)} ")
-                .append(res.getString(R.string.price, customer.discount.toString())).append("\n")
+
+            if (customer.discount > 0) {
+                stringBuilder.append("\n").append("${res.getString(R.string.sub_total)} ")
+                    .append(res.getString(R.string.price, customer.total.toString())).append("\n")
+                stringBuilder.append("${res.getString(R.string.discount)} ")
+                    .append(res.getString(R.string.price, customer.discount.toString()))
+                    .append("\n")
+            }
+            
             stringBuilder.append("${res.getString(R.string.total_price)} ").append(
                 res.getString(
                     R.string.price,
