@@ -4,9 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -25,6 +23,9 @@ import chao.greenlabs.views.adpaters.CustomerAdapter
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_manage_market.*
 import kotlin.math.abs
+
+private const val COLLAPSE_TOTAL_VIEW_OFFSET = -30f
+private const val MARKET_DETAIL_VIEW_OFFSET = 75f
 
 class ManageMarketFragment : BaseFragment() {
 
@@ -77,7 +78,7 @@ class ManageMarketFragment : BaseFragment() {
         rv_customers.setHasFixedSize(true)
         rv_customers.adapter = customerAdapter
 
-        AnimUtils.initManageMarketDetailState(cl_parent, cl_market_detail)
+        AnimUtils.setViewToRight(cl_parent, cl_market_detail)
     }
 
     private fun registerObservers() {
@@ -89,6 +90,7 @@ class ManageMarketFragment : BaseFragment() {
             tv_market_fee.text = data.fee
             tv_market_income.text = data.income
             tv_market_location.text = data.location
+            tv_collapsed_total.text = getString(R.string.price, data.income)
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
@@ -177,13 +179,20 @@ class ManageMarketFragment : BaseFragment() {
             val fraction = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
             if (fraction == 0f) {
                 ll_detail.visibility = View.VISIBLE
+                AnimUtils.hideToRight(cl_parent, ll_collapsed_total)
             } else {
                 if (ll_detail.visibility == View.VISIBLE) {
                     ll_detail.visibility = View.INVISIBLE
                 }
+                if (fraction == 1f) {
+                    AnimUtils.showFromRight(
+                        cl_parent,
+                        ll_collapsed_total,
+                        COLLAPSE_TOTAL_VIEW_OFFSET
+                    )
+                }
             }
             cl_top.alpha = 1 - fraction
-
         }
 
     private fun loadData() {
@@ -193,10 +202,10 @@ class ManageMarketFragment : BaseFragment() {
 
     private val showMarketDetailAction = {
         isMarketDetailShown = if (isMarketDetailShown) {
-            AnimUtils.hideManageMarketDetail(cl_parent, cl_market_detail)
+            AnimUtils.hideToRight(cl_parent, cl_market_detail)
             false
         } else {
-            AnimUtils.showManageMarketDetail(cl_parent, cl_market_detail)
+            AnimUtils.showFromRight(cl_parent, cl_market_detail, MARKET_DETAIL_VIEW_OFFSET)
             true
         }
     }

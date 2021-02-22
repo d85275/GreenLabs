@@ -41,7 +41,9 @@ object BitmapUtils {
     }
 
     fun loadDefault(context: Context, imageView: ImageView) {
-        Glide.with(context).load(R.drawable.default_item).into(imageView)
+        Glide.with(context).applyDefaultRequestOptions(
+            RequestOptions().error(R.drawable.default_item).placeholder(R.drawable.default_item)
+        ).load(R.drawable.default_item).into(imageView)
     }
 
     fun getBitmapFromImageView(imageView: ImageView): Bitmap {

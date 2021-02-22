@@ -1,7 +1,6 @@
 package chao.greenlabs.views.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -42,7 +41,7 @@ class MarketListFragment : BaseFragment() {
         registerObservers()
         setListeners()
         loadData()
-        AnimUtils.showMarketListDetail(cl_parent, cl_market_detail)
+        AnimUtils.showFromLeft(cl_parent, cl_market_detail)
     }
 
     override fun onDestroy() {
