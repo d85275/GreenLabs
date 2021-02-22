@@ -31,102 +31,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/cl_market_detail"
+                <chao.greenlabs.views.customedobjects.views.ViewMarketDetail
+                    android:id="@+id/v_market_detail"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:background="@drawable/circle_bg_white"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:translationX="400dp"
+                    android:translationZ="90dp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@id/ll_market_income"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/ll_market_income">
-
-                    <TextView
-                        android:id="@+id/tv_market_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/icon_sub_location"
-                        android:drawablePadding="5dp"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxWidth="90dp"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="四四南村四四南村四四南村四四南村" />
-
-                    <TextView
-                        android:id="@+id/tv_market_fee"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/icon_sub_money"
-                        android:drawablePadding="5dp"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxWidth="90dp"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/gl_v_middle"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="攤位費 450450450450450450450450" />
-
-                    <TextView
-                        android:id="@+id/tv_start_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/icon_time_on"
-                        android:drawablePadding="5dp"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/gl_v_middle"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="13 : 00" />
-
-                    <TextView
-                        android:id="@+id/tv_end_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="25dp"
-                        android:layout_weight="1"
-                        android:drawableTop="@drawable/icon_time_off"
-                        android:drawablePadding="5dp"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/gl_v_middle"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="19 : 30" />
-                </LinearLayout>
+                    app:layout_constraintTop_toTopOf="@id/ll_market_income" />
 
                 <ImageView
                     android:id="@+id/iv_date"
@@ -327,10 +241,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="65dp"
-        android:visibility="invisible"
-        android:translationX="400dp"
         android:background="@drawable/round_bg_sub"
-        android:elevation="5dp">
+        android:elevation="5dp"
+        android:translationX="400dp"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/tv_collapsed_total"

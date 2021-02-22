@@ -25,14 +25,12 @@ import kotlinx.android.synthetic.main.fragment_manage_market.*
 import kotlin.math.abs
 
 private const val COLLAPSE_TOTAL_VIEW_OFFSET = -30f
-private const val MARKET_DETAIL_VIEW_OFFSET = 75f
 
 class ManageMarketFragment : BaseFragment() {
 
     private lateinit var viewModel: ManageMarketViewModel
     private lateinit var addCustomerViewModel: AddCustomerViewModel
     private lateinit var customerAdapter: CustomerAdapter
-    private var isMarketDetailShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,19 +76,16 @@ class ManageMarketFragment : BaseFragment() {
         rv_customers.setHasFixedSize(true)
         rv_customers.adapter = customerAdapter
 
-        AnimUtils.setViewToRight(cl_parent, cl_market_detail)
+        v_market_detail.init(cl_parent, viewModel)
     }
 
     private fun registerObservers() {
         viewModel.getMarketData().observe(viewLifecycleOwner, Observer { data ->
             tv_title.text = data.name
-            tv_start_time.text = data.startTime
-            tv_end_time.text = data.endTime
             tv_market_date.text = data.date
-            tv_market_fee.text = data.fee
             tv_market_income.text = data.income
-            tv_market_location.text = data.location
             tv_collapsed_total.text = getString(R.string.price, data.income)
+            v_market_detail.setMarketData(data)
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
@@ -125,7 +120,7 @@ class ManageMarketFragment : BaseFragment() {
         }
 
         ll_detail.setOnClickListener {
-            showMarketDetailAction.invoke()
+            v_market_detail.showMarketDetail()
         }
 
         tv_title.setOnClickListener {
@@ -133,36 +128,6 @@ class ManageMarketFragment : BaseFragment() {
             DialogUtils.showEditText(requireContext(), {
                 viewModel.updateMarketName(it)
             }, name)
-        }
-
-        tv_market_location.setOnClickListener {
-            val location = tv_market_location.text.toString()
-            DialogUtils.showEditText(requireContext(), {
-                viewModel.updateMarketLocation(it)
-            }, location)
-        }
-
-        tv_market_fee.setOnClickListener {
-            val price = tv_market_fee.text.toString()
-            DialogUtils.showEditNumber(requireContext(), {
-                viewModel.updateMarketFee(it)
-            }, price)
-        }
-
-        tv_start_time.setOnClickListener {
-            val hour = tv_start_time.text.toString().split(":")[0].trim()
-            val min = tv_start_time.text.toString().split(":")[1].trim()
-            DialogUtils.showTimePicker(requireContext(), hour, min) { h, m ->
-                viewModel.updateMarketStartTime(h, m)
-            }
-        }
-
-        tv_end_time.setOnClickListener {
-            val hour = tv_end_time.text.toString().split(":")[0].trim()
-            val min = tv_end_time.text.toString().split(":")[1].trim()
-            DialogUtils.showTimePicker(requireContext(), hour, min) { h, m ->
-                viewModel.updateMarketEndTime(h, m)
-            }
         }
 
         tv_market_date.setOnClickListener {
@@ -198,15 +163,5 @@ class ManageMarketFragment : BaseFragment() {
     private fun loadData() {
         viewModel.loadCustomers()
         addCustomerViewModel.loadItemData()
-    }
-
-    private val showMarketDetailAction = {
-        isMarketDetailShown = if (isMarketDetailShown) {
-            AnimUtils.hideToRight(cl_parent, cl_market_detail)
-            false
-        } else {
-            AnimUtils.showFromRight(cl_parent, cl_market_detail, MARKET_DETAIL_VIEW_OFFSET)
-            true
-        }
     }
 }
