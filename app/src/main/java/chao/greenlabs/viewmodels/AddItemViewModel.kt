@@ -21,6 +21,12 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
 
     private var isUpdateMode = false
 
+    private var bitmapUpdated: Boolean = false
+
+    fun bitmapUpdated(state: Boolean) {
+        bitmapUpdated = state
+    }
+
     fun getMessage(): LiveData<String> = msg
     fun getUpdatedItem(): LiveData<ItemData> = updatedItem
 
@@ -37,27 +43,29 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         updatedItem.value = null
         isUpdateMode = false
         msg.value = ""
+        bitmapUpdated(false)
     }
 
-    fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
-        // save the image to file and keep the file name
+    private fun saveBitmap(name: String, price: String, imageView: ImageView) {
+        if (!bitmapUpdated) return
+
+        val bitmap = BitmapUtils.getBitmapFromImageView(imageView)
         try {
-
-            val result = BitmapUtils.getBitmapFromImageView(imageView)
-            //val original = (imageView.drawable as BitmapDrawable).bitmap
-
             val fileName = StringBuilder().append(name).append("_").append(price).toString()
-            repository.saveImageToExternal(fileName, result)
+            repository.saveImageToExternal(fileName, bitmap)
 
         } catch (e: Exception) {
             Log.e("AddItemVM", "error: $e")
             msg.postValue("儲存圖片時發生錯誤")
             return
         }
+    }
+
+    fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
+
+        saveBitmap(name, price, imageView)
 
         val data = ItemData(name, price)
-
-        // create an item data and save it into our database
         val updatedItem = updatedItem.value
 
         viewModelScope.launch(Dispatchers.IO) {

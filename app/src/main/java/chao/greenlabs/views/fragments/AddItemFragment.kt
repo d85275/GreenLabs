@@ -88,8 +88,7 @@ class AddItemFragment : BaseFragment() {
             )
         )
 
-        onImageTouchListener =
-            OnImageTouchListener(iv_image)
+        onImageTouchListener = OnImageTouchListener(iv_image)
         iv_image.setOnTouchListener(onImageTouchListener)
     }
 
