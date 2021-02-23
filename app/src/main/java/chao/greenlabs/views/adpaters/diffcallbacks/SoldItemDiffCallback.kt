@@ -1,4 +1,4 @@
-package chao.greenlabs.views.adpaters
+package chao.greenlabs.views.adpaters.diffcallbacks
 
 import androidx.recyclerview.widget.DiffUtil
 import chao.greenlabs.datamodels.CustomerData

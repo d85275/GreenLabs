@@ -2,11 +2,12 @@ package chao.greenlabs.views.adpaters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.utils.BitmapUtils
-import chao.greenlabs.viewmodels.ItemListViewModel
+import chao.greenlabs.views.adpaters.diffcallbacks.ItemDataDiffCallback
 import kotlinx.android.synthetic.main.item_items.view.*
 
 class ItemAdapter(
@@ -27,19 +28,21 @@ class ItemAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val context = holder.itemView.context
-        val price = context.getString(R.string.price, itemList[position].price)
-        holder.itemView.tv_name.text = itemList[position].name
+        val price = context.getString(R.string.price, itemList[holder.adapterPosition].price)
+        holder.itemView.tv_name.text = itemList[holder.adapterPosition].name
         holder.itemView.tv_price.text = price
-        val bitmap = itemList[position].getImage()
+        val bitmap = itemList[holder.adapterPosition].getImage()
         BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
         holder.itemView.setOnClickListener {
-            onItemClickedAction.invoke(itemList[position])
+            onItemClickedAction.invoke(itemList[holder.adapterPosition])
         }
     }
 
     fun setList(items: List<ItemData>) {
+        val diffCallback = ItemDataDiffCallback(itemList, items)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         itemList.clear()
         itemList.addAll(items)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

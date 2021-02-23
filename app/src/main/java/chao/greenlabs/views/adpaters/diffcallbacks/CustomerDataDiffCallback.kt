@@ -1,4 +1,4 @@
-package chao.greenlabs.views.adpaters
+package chao.greenlabs.views.adpaters.diffcallbacks
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil

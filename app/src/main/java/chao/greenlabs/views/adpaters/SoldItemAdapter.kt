@@ -9,6 +9,7 @@ import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
+import chao.greenlabs.views.adpaters.diffcallbacks.SoldItemDiffCallback
 import kotlinx.android.synthetic.main.item_sold_items.view.*
 
 class SoldItemAdapter(
@@ -58,7 +59,11 @@ class SoldItemAdapter(
     }
 
     fun setItem(soldList: List<CustomerData.SoldItem>) {
-        val diffCallback = SoldItemDiffCallback(itemList, soldList)
+        val diffCallback =
+            SoldItemDiffCallback(
+                itemList,
+                soldList
+            )
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         itemList.clear()
         itemList.addAll(soldList)

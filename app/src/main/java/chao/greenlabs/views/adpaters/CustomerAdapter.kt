@@ -1,6 +1,5 @@
 package chao.greenlabs.views.adpaters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.viewmodels.ManageMarketViewModel
+import chao.greenlabs.views.adpaters.diffcallbacks.CustomerDataDiffCallback
 import chao.greenlabs.views.viewholders.customer.CustomerViewHolder
 
 
@@ -38,7 +38,11 @@ class CustomerAdapter(
     }
 
     fun setCustomerList(list: List<CustomerData>) {
-        val diffCallback = CustomerDataDiffCallback(list, customerList)
+        val diffCallback =
+            CustomerDataDiffCallback(
+                list,
+                customerList
+            )
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         customerList.clear()
