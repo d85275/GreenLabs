@@ -1,7 +1,9 @@
 package chao.greenlabs.views.adpaters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
@@ -28,17 +30,21 @@ class CustomerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val customerData = customerList[position]
+        val customerData = customerList[holder.adapterPosition]
         (holder as CustomerViewHolder).bindView(
             customerData,
-            position
+            holder.adapterPosition
         ) { data -> onAddCustomerAction.invoke(data) }
     }
 
     fun setCustomerList(list: List<CustomerData>) {
+        val diffCallback = CustomerDataDiffCallback(list, customerList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
         customerList.clear()
         customerList.addAll(list)
 
+        //diffResult.dispatchUpdatesTo(this)
         notifyDataSetChanged()
     }
 }

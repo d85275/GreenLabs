@@ -90,7 +90,7 @@ class CustomerViewHolder(
 
         binding.vgSoldItems.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.vgSoldItems.adapter = adapter
-        binding.vgSoldItems.offscreenPageLimit = 6
+        binding.vgSoldItems.offscreenPageLimit = 4
         binding.vgSoldItems.setPageTransformer(
             SoldItemTransformer(
                 OFFSET_LIMIT

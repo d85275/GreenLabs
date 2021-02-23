@@ -5,8 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
@@ -89,12 +88,16 @@ class ManageMarketFragment : BaseFragment() {
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
-            dismissLoading()
-            customerAdapter.setCustomerList(customerList)
-            if (viewModel.shouldScrollToBottom(customerList.size)) {
-                rv_customers.scrollToPosition(customerList.lastIndex)
-            }
+            setList(customerList)
+            if (customerList.isEmpty()) return@Observer
+            //val y = rv_customers.getChildAt(customerList.lastIndex).y.toInt()
+            //nest_scroll_view.scrollTo(0, y)
         })
+    }
+
+    private fun setList(customerList: List<CustomerData>) {
+        customerAdapter.setCustomerList(customerList)
+        dismissLoading()
     }
 
     private fun setListeners() {

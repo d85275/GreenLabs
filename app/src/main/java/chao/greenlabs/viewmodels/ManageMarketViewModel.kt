@@ -38,10 +38,6 @@ class ManageMarketViewModel(
         curCustomerSize = customerList.value?.size ?: 0
     }
 
-    fun shouldScrollToBottom(listSize: Int): Boolean {
-        return (curCustomerSize > 0) && (curCustomerSize < listSize)
-    }
-
     fun loadCustomers() {
         val marketData = this.marketData.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
@@ -177,7 +173,7 @@ class ManageMarketViewModel(
                     .append(res.getString(R.string.price, customer.discount.toString()))
                     .append("\n")
             }
-            
+
             stringBuilder.append("${res.getString(R.string.total_price)} ").append(
                 res.getString(
                     R.string.price,

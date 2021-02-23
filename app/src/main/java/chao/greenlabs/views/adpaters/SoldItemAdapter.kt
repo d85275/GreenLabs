@@ -1,6 +1,5 @@
 package chao.greenlabs.views.adpaters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -59,7 +58,7 @@ class SoldItemAdapter(
     }
 
     fun setItem(soldList: List<CustomerData.SoldItem>) {
-        val diffCallback = CustomerDataDiffCallback(itemList, soldList)
+        val diffCallback = SoldItemDiffCallback(itemList, soldList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         itemList.clear()
         itemList.addAll(soldList)
