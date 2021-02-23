@@ -2,6 +2,7 @@ package chao.greenlabs.views.adpaters
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
@@ -14,7 +15,6 @@ import chao.greenlabs.viewmodels.AddCustomerViewModel
 import kotlinx.android.synthetic.main.item_searched_items.view.*
 
 class SearchedItemAdapter(
-    private val viewModel: AddCustomerViewModel,
     private val onClickedListener: ((data: ItemData) -> Unit)
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -33,16 +33,11 @@ class SearchedItemAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val price = holder.itemView.context.getString(R.string.price, itemList[position].price)
-        val bitmap = viewModel.getImage(itemList[position].name, itemList[position].price)
-            ?: getDefaultBitmap(holder.itemView.context)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
+        val bitmap = itemList[position].getImage()
         BitmapUtils.loadBitmap(holder.itemView.context, bitmap, holder.itemView.iv_image)
         holder.itemView.setOnClickListener { onClickedListener.invoke(itemList[position]) }
-    }
-
-    private fun getDefaultBitmap(context: Context): Bitmap? {
-        return AppCompatResources.getDrawable(context, R.mipmap.ic_launcher)?.toBitmap()
     }
 
     fun setList(items: List<ItemData>) {

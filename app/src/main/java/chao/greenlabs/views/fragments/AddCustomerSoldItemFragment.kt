@@ -11,12 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.SearchedItemAdapter
-import chao.greenlabs.views.adpaters.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer_solditem.*
 
 class AddCustomerSoldItemFragment : BaseFragment() {
@@ -24,7 +22,6 @@ class AddCustomerSoldItemFragment : BaseFragment() {
     private lateinit var viewModel: AddCustomerViewModel
     private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
     private lateinit var searchedAdapter: SearchedItemAdapter
-    private lateinit var soldAdapter: SoldItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +30,16 @@ class AddCustomerSoldItemFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLoading()
         getViewModel()
         setViews()
         registerObservers()
         setListeners()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.resetData()
     }
 
     private fun getViewModel() {
@@ -55,22 +58,14 @@ class AddCustomerSoldItemFragment : BaseFragment() {
             addCustomerSoldItemViewModel.setClickedItem(item)
         }
 
-        searchedAdapter = SearchedItemAdapter(viewModel, onClickedListener)
+        searchedAdapter = SearchedItemAdapter(onClickedListener)
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
         rv_searched_items.setHasFixedSize(true)
         rv_searched_items.adapter = searchedAdapter
-
-        soldAdapter = SoldItemAdapter(viewModel)
-        rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
-        rv_sold_items.setHasFixedSize(true)
-        rv_sold_items.adapter = soldAdapter
     }
 
     private fun setListeners() {
-        et_search.requestFocus()
         et_search.addTextChangedListener(textWatcher)
-
-        KeyboardUtils.showKeyboard(requireContext(), et_search)
 
         ll_back.setOnClickListener {
             findNavController().popBackStack()
@@ -80,6 +75,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
     private fun registerObservers() {
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
             searchedAdapter.setList(matchedList)
+            dismissLoading()
         })
 
         addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
@@ -89,15 +85,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            val text = s.toString()
-            if (text.isEmpty()) {
-                rv_sold_items.visibility = View.VISIBLE
-                rv_searched_items.visibility = View.GONE
-            } else {
-                rv_sold_items.visibility = View.GONE
-                rv_searched_items.visibility = View.VISIBLE
-                viewModel.onSearch(s.toString())
-            }
+            viewModel.onSearch(s.toString().trim())
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

@@ -20,7 +20,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     private var customerData = MutableLiveData<CustomerData>()
 
     private val itemList = arrayListOf<ItemData>()
-    private var matchedItems = MutableLiveData(arrayListOf<ItemData>())
+    private var matchedItems = MutableLiveData(itemList)
     private val isCustomerSaved = MutableLiveData(false)
 
     var isUpdateMode = false
@@ -31,6 +31,10 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         matchedItems = MutableLiveData()
         isCustomerSaved.value = false
         isUpdateMode = false
+    }
+
+    fun resetData() {
+        matchedItems = MutableLiveData(itemList)
     }
 
     fun setIsCustomerSaved(value: Boolean) {
@@ -47,10 +51,15 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     fun getCustomerData(): LiveData<CustomerData> = customerData
 
+    fun getItemList(): List<ItemData> = itemList
+
     fun loadItemData() {
         viewModelScope.launch(Dispatchers.IO) {
             itemList.clear()
             itemList.addAll(repository.getItems().reversed())
+            itemList.forEach {
+                it.loadImage(repository)
+            }
         }
     }
 
@@ -108,6 +117,11 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun onSearch(text: String) {
+        if (text.isEmpty()) {
+            matchedItems.value = itemList
+            return
+        }
+
         val list =
             itemList.filter { itemData ->
                 itemData.name.contains(text) || itemData.price.contains(
