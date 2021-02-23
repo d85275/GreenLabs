@@ -1,6 +1,5 @@
 package chao.greenlabs.viewmodels
 
-import android.graphics.Bitmap
 import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.LiveData
@@ -85,10 +84,5 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
 
     fun getTmpPath(): File? {
         return repository.getTmpPath()
-    }
-
-    fun getImage(name: String, price: String): Bitmap? {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getTestSavedImage(fileName)
     }
 }

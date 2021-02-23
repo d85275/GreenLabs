@@ -1,6 +1,5 @@
 package chao.greenlabs.viewmodels
 
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,13 +20,10 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
 
     fun loadItemData() {
         viewModelScope.launch(Dispatchers.IO) {
-            itemList.postValue(repository.getItems().reversed())
+            val list = repository.getItems().reversed()
+            list.forEach { it.loadImage(repository) }
+            itemList.postValue(list)
         }
-    }
-
-    fun getImage(name: String, price: String): Bitmap? {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getSavedImage(fileName)
     }
 
     fun deleteItem(position: Int) {

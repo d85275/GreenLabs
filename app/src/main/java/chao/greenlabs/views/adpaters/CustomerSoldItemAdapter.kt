@@ -6,14 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.utils.BitmapUtils
-import chao.greenlabs.viewmodels.ManageMarketViewModel
 import kotlinx.android.synthetic.main.view_customer_item.view.iv_image
 import kotlinx.android.synthetic.main.view_customer_item.view.tv_count
 import kotlinx.android.synthetic.main.view_customer_item.view.tv_name
 import kotlinx.android.synthetic.main.view_customer_item.view.tv_price
 
-class CustomerSoldItemAdapter(private val viewModel: ManageMarketViewModel) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CustomerSoldItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var itemList = arrayListOf<CustomerData.SoldItem>()
 
@@ -33,7 +31,7 @@ class CustomerSoldItemAdapter(private val viewModel: ManageMarketViewModel) :
         val context = holder.itemView.context
         val price = soldItem.price
         val count = soldItem.count
-        val bitmap = viewModel.getImage(name, price)
+        val bitmap = itemList[position].getImage()
 
         holder.itemView.tv_name.text = name
         holder.itemView.tv_price.text = context.getString(R.string.price, price)

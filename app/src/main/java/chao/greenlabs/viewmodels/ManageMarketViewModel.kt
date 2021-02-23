@@ -1,8 +1,6 @@
 package chao.greenlabs.viewmodels
 
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,6 +40,9 @@ class ManageMarketViewModel(
         val marketData = this.marketData.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getCustomer(marketData.id)
+            list.forEach { customer->
+                customer.soldDataList?.forEach { it.loadImage(repository) }
+            }
             customerList.postValue(list)
             updateMarketIncome(list)
         }
@@ -190,10 +191,4 @@ class ManageMarketViewModel(
 
         return stringBuilder.toString()
     }
-
-    fun getImage(name: String, price: String): Bitmap? {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getSavedImage(fileName)
-    }
-
 }

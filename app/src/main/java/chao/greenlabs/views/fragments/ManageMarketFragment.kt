@@ -90,8 +90,6 @@ class ManageMarketFragment : BaseFragment() {
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
             setList(customerList)
             if (customerList.isEmpty()) return@Observer
-            //val y = rv_customers.getChildAt(customerList.lastIndex).y.toInt()
-            //nest_scroll_view.scrollTo(0, y)
         })
     }
 

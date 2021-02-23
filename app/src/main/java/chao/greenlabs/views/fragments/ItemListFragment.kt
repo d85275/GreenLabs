@@ -64,7 +64,7 @@ class ItemListFragment : BaseFragment() {
             })
         itemTouchHelper.attachToRecyclerView(rv_items)
 
-        adapter = ItemAdapter(listViewModel, onItemClickedAction)
+        adapter = ItemAdapter(onItemClickedAction)
         rv_items.layoutManager = LinearLayoutManager(requireContext())
         rv_items.setHasFixedSize(true)
         rv_items.adapter = adapter

@@ -34,7 +34,7 @@ class CustomerViewHolder(
         this.onAddCustomerAction = onAddCustomerAction
         setViews(position)
         setListeners()
-        setViewPager(viewModel)
+        setViewPager()
     }
 
     private fun setViews(position: Int) {
@@ -83,8 +83,8 @@ class CustomerViewHolder(
         }
     }
 
-    private fun setViewPager(viewModel: ManageMarketViewModel) {
-        val adapter = CustomerSoldItemAdapter(viewModel)
+    private fun setViewPager() {
+        val adapter = CustomerSoldItemAdapter()
         val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)
 

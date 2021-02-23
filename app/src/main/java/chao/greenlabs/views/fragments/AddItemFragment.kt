@@ -116,7 +116,7 @@ class AddItemFragment : BaseFragment() {
             if (updatedItem == null) return@Observer
             et_name.setText(updatedItem.name)
             et_price.setText(updatedItem.price)
-            val bitmap = viewModel.getImage(updatedItem.name, updatedItem.price)
+            val bitmap = updatedItem.getImage()
             BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
         })
     }

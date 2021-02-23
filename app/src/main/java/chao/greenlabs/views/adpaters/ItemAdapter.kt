@@ -10,7 +10,6 @@ import chao.greenlabs.viewmodels.ItemListViewModel
 import kotlinx.android.synthetic.main.item_items.view.*
 
 class ItemAdapter(
-    private val listViewModel: ItemListViewModel,
     private val onItemClickedAction: ((itemData: ItemData) -> Unit)
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -29,9 +28,9 @@ class ItemAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val context = holder.itemView.context
         val price = context.getString(R.string.price, itemList[position].price)
-        val bitmap = listViewModel.getImage(itemList[position].name, itemList[position].price)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
+        val bitmap = itemList[position].getImage()
         BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
         holder.itemView.setOnClickListener {
             onItemClickedAction.invoke(itemList[position])
