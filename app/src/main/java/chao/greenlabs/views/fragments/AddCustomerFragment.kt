@@ -21,7 +21,6 @@ class AddCustomerFragment : BaseFragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
 
-    //private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var soldAdapter: SoldItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,18 +44,6 @@ class AddCustomerFragment : BaseFragment() {
     }
 
     private fun setViews() {
-        /*
-        val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
-            et_search.text.clear()
-            viewModel.onSearchItemClicked(item)
-        }
-
-        searchedAdapter = SearchedItemAdapter(viewModel, onClickedListener)
-        rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
-        rv_searched_items.setHasFixedSize(true)
-        rv_searched_items.adapter = searchedAdapter
-         */
-
         soldAdapter = SoldItemAdapter(viewModel)
         rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
         rv_sold_items.setHasFixedSize(true)
@@ -123,12 +110,6 @@ class AddCustomerFragment : BaseFragment() {
     }
 
     private fun registerObservers() {
-        /*
-        viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
-            searchedAdapter.setList(matchedList)
-        })
-         */
-
         viewModel.getCustomerData().observe(viewLifecycleOwner, Observer { customerData ->
             val list = customerData.soldDataList ?: return@Observer
             soldAdapter.setItem(list.map { it.copy() })
@@ -149,29 +130,4 @@ class AddCustomerFragment : BaseFragment() {
             }
         })
     }
-
-    /*
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            val text = s.toString()
-            if (text.isEmpty()) {
-                rv_sold_items.visibility = View.VISIBLE
-                ll_memo.visibility = View.VISIBLE
-                rv_searched_items.visibility = View.GONE
-            } else {
-                rv_sold_items.visibility = View.GONE
-                ll_memo.visibility = View.GONE
-                rv_searched_items.visibility = View.VISIBLE
-                viewModel.onSearch(s.toString())
-            }
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
-    }
-     */
-
 }

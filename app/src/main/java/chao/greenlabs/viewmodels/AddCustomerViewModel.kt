@@ -20,7 +20,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
     private var customerData = MutableLiveData<CustomerData>()
 
     private val itemList = arrayListOf<ItemData>()
-    private var matchedItems = MutableLiveData(itemList)
+    private var matchedItems = MutableLiveData<ArrayList<ItemData>>()
     private val isCustomerSaved = MutableLiveData(false)
 
     var isUpdateMode = false
@@ -60,6 +60,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
             itemList.forEach {
                 it.loadImage(repository)
             }
+            matchedItems.postValue(itemList)
         }
     }
 
