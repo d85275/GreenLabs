@@ -3,6 +3,7 @@ package chao.greenlabs.views.viewholders.customer
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import chao.greenlabs.R
@@ -12,6 +13,7 @@ import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.views.customedobjects.SoldItemTransformer
 import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
+import kotlinx.android.synthetic.main.fragment_manage_market.*
 
 
 private const val OFFSET_LIMIT = 6
@@ -19,22 +21,25 @@ private const val OFFSET_LIMIT = 6
 class CustomerViewHolder(
     private val binding: ItemCustomerBinding,
     private val viewModel: ManageMarketViewModel
-) :  RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
     private lateinit var customerData: CustomerData
     private lateinit var context: Context
     private lateinit var onAddCustomerAction: ((customerData: CustomerData) -> Unit)
+    private lateinit var viewPool: RecyclerView.RecycledViewPool
 
     fun bindView(
+        viewPool: RecyclerView.RecycledViewPool,
         customerData: CustomerData,
         position: Int,
         onAddCustomerAction: (customerData: CustomerData) -> Unit
     ) {
+        this.viewPool = viewPool
         this.customerData = customerData
         this.context = binding.root.context
         this.onAddCustomerAction = onAddCustomerAction
         setViews(position)
         setListeners()
-        setViewPager()
+        //setViewPager()
     }
 
     private fun setViews(position: Int) {
@@ -49,6 +54,19 @@ class CustomerViewHolder(
         binding.subTotal = context.getString(R.string.price, subTotal.toString())
         binding.discount = context.getString(R.string.price, discount.toString())
         binding.total = context.getString(R.string.price, total.toString())
+
+
+        val adapter = CustomerSoldItemAdapter()
+        val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
+        adapter.setList(list)
+
+        val layoutManager = LinearLayoutManager(context)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        layoutManager.initialPrefetchItemCount = 3
+        binding.rvSoldItems.layoutManager = layoutManager
+        binding.rvSoldItems.setHasFixedSize(true)
+        binding.rvSoldItems.adapter = adapter
+        binding.rvSoldItems.setRecycledViewPool(viewPool)
     }
 
     private fun setListeners() {
@@ -90,7 +108,7 @@ class CustomerViewHolder(
 
         binding.vgSoldItems.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.vgSoldItems.adapter = adapter
-        binding.vgSoldItems.offscreenPageLimit = 4
+        binding.vgSoldItems.offscreenPageLimit = 3
         binding.vgSoldItems.setPageTransformer(
             SoldItemTransformer(
                 OFFSET_LIMIT

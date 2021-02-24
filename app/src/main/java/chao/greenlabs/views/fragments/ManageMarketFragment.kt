@@ -71,7 +71,9 @@ class ManageMarketFragment : BaseFragment() {
             addCustomerViewModel.setCustomer(customerData)
             addCustomerViewModel.isUpdateMode = customerData.soldDataList!!.isNotEmpty()
         }
-        rv_customers.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.initialPrefetchItemCount = 2
+        rv_customers.layoutManager = layoutManager
         rv_customers.setHasFixedSize(true)
         rv_customers.adapter = customerAdapter
 

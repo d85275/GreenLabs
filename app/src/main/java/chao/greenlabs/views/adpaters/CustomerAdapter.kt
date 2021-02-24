@@ -1,5 +1,6 @@
 package chao.greenlabs.views.adpaters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -18,10 +19,12 @@ class CustomerAdapter(
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val customerList = arrayListOf<CustomerData>()
+    private lateinit var viewPool: RecyclerView.RecycledViewPool
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemCustomerBinding.inflate(layoutInflater, parent, false)
+        viewPool = RecyclerView.RecycledViewPool()
         return CustomerViewHolder(binding, viewModel)
     }
 
@@ -32,6 +35,7 @@ class CustomerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val customerData = customerList[holder.adapterPosition]
         (holder as CustomerViewHolder).bindView(
+            viewPool,
             customerData,
             holder.adapterPosition
         ) { data -> onAddCustomerAction.invoke(data) }
@@ -39,16 +43,14 @@ class CustomerAdapter(
 
     fun setCustomerList(list: List<CustomerData>) {
         val diffCallback =
-            CustomerDataDiffCallback(
-                list,
-                customerList
-            )
+            CustomerDataDiffCallback(list, customerList)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         customerList.clear()
         customerList.addAll(list)
 
-        //diffResult.dispatchUpdatesTo(this)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
+        Log.e("123", "set list")
+        //notifyDataSetChanged()
     }
 }

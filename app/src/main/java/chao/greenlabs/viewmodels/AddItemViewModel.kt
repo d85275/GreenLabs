@@ -28,6 +28,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun getMessage(): LiveData<String> = msg
+
     fun getUpdatedItem(): LiveData<ItemData> = updatedItem
 
     fun getIsUpdateMode(): Boolean {
@@ -74,11 +75,12 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
                     repository.addItem(data)
                     msg.postValue("品項已儲存")
                 }
+
                 updatedItem.name == data.name -> {
                     repository.updateItem(data)
                     msg.postValue("品項已更新")
-
                 }
+
                 else -> {
                     repository.deleteItem(updatedItem)
                     val fileName = StringBuilder().append(name).append("_").append(price).toString()
