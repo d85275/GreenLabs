@@ -52,7 +52,6 @@ class CustomerSoldItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         }, LOAD_IMAGE_DELAY_MS)
     }
 
-
     fun setList(items: List<CustomerData.SoldItem>) {
         val diffCallback =
             SoldItemDiffCallback(itemList, items)
