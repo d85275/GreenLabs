@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
@@ -72,9 +73,9 @@ class ManageMarketFragment : BaseFragment() {
             addCustomerViewModel.isUpdateMode = customerData.soldDataList!!.isNotEmpty()
         }
         val layoutManager = LinearLayoutManager(requireContext())
-        layoutManager.initialPrefetchItemCount = 2
         rv_customers.layoutManager = layoutManager
         rv_customers.setHasFixedSize(true)
+        rv_customers.setItemViewCacheSize(20)
         rv_customers.adapter = customerAdapter
 
         v_market_detail.init(cl_parent, viewModel)
@@ -90,14 +91,13 @@ class ManageMarketFragment : BaseFragment() {
         })
 
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
-            setList(customerList)
-            if (customerList.isEmpty()) return@Observer
+            setList(customerList.map { it.copy() })
+            dismissLoading()
         })
     }
 
     private fun setList(customerList: List<CustomerData>) {
         customerAdapter.setCustomerList(customerList)
-        dismissLoading()
     }
 
     private fun setListeners() {

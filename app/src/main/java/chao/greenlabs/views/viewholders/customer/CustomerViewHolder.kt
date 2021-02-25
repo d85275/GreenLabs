@@ -39,7 +39,7 @@ class CustomerViewHolder(
         this.onAddCustomerAction = onAddCustomerAction
         setViews(position)
         setListeners()
-        //setViewPager()
+        setSoldItems()
     }
 
     private fun setViews(position: Int) {
@@ -54,8 +54,9 @@ class CustomerViewHolder(
         binding.subTotal = context.getString(R.string.price, subTotal.toString())
         binding.discount = context.getString(R.string.price, discount.toString())
         binding.total = context.getString(R.string.price, total.toString())
+    }
 
-
+    private fun setSoldItems(){
         val adapter = CustomerSoldItemAdapter()
         val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)
@@ -65,6 +66,7 @@ class CustomerViewHolder(
         layoutManager.initialPrefetchItemCount = 3
         binding.rvSoldItems.layoutManager = layoutManager
         binding.rvSoldItems.setHasFixedSize(true)
+        binding.rvSoldItems.setItemViewCacheSize(20)
         binding.rvSoldItems.adapter = adapter
         binding.rvSoldItems.setRecycledViewPool(viewPool)
     }

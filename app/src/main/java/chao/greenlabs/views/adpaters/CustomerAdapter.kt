@@ -42,15 +42,12 @@ class CustomerAdapter(
     }
 
     fun setCustomerList(list: List<CustomerData>) {
-        val diffCallback =
-            CustomerDataDiffCallback(list, customerList)
+        val diffCallback = CustomerDataDiffCallback(customerList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         customerList.clear()
         customerList.addAll(list)
 
         diffResult.dispatchUpdatesTo(this)
-        Log.e("123", "set list")
-        //notifyDataSetChanged()
     }
 }
