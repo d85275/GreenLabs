@@ -5,9 +5,10 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatRadioButton
 import chao.greenlabs.databinding.ItemOptionButtonBinding
 
-open class ItemRadioButton : LinearLayout {
+open class ItemRadioButton : AppCompatRadioButton {
 
     private lateinit var binding: ItemOptionButtonBinding
 
@@ -26,11 +27,12 @@ open class ItemRadioButton : LinearLayout {
 
     private fun getViews() {
         val inflater = LayoutInflater.from(context)
-        binding = ItemOptionButtonBinding.inflate(inflater, this, true)
+        binding = ItemOptionButtonBinding.inflate(inflater, null, false)
         setListeners()
     }
 
     fun setData(option: String, price: String) {
+        text = option
         binding.option = option
         binding.price = price
     }

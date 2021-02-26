@@ -70,6 +70,10 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         ll_back.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        tv_title.setOnClickListener {
+            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_soldItemDetailsFragment)
+        }
     }
 
     private fun registerObservers() {
@@ -79,8 +83,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         })
 
         addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
-            //findNavController().popBackStack()
-            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_soldItemDetailsFragment)
+            findNavController().popBackStack()
         })
     }
 

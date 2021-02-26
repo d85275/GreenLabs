@@ -79,8 +79,8 @@
     </fragment>
     <fragment
         android:id="@+id/soldItemDetailsFragment"
-        android:name="chao.greenlabs.views.fragments.SoldItemDetailsFragment"
-        tools:layout="@layout/fragment_item_details"
+        android:name="chao.greenlabs.views.fragments.ItemOptionsFragment"
+        tools:layout="@layout/fragment_item_options"
         android:label="SoldItemDetailsFragment" />
 
 </navigation>
