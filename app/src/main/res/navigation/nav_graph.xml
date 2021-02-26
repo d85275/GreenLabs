@@ -72,6 +72,15 @@
         android:id="@+id/addCustomerSoldItemFragment"
         tools:layout="@layout/fragment_add_customer_solditem"
         android:name="chao.greenlabs.views.fragments.AddCustomerSoldItemFragment"
-        android:label="AddCustomerSoldItemFragment" />
+        android:label="AddCustomerSoldItemFragment" >
+        <action
+            android:id="@+id/action_addCustomerSoldItemFragment_to_soldItemDetailsFragment"
+            app:destination="@id/soldItemDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/soldItemDetailsFragment"
+        android:name="chao.greenlabs.views.fragments.SoldItemDetailsFragment"
+        tools:layout="@layout/fragment_item_details"
+        android:label="SoldItemDetailsFragment" />
 
 </navigation>

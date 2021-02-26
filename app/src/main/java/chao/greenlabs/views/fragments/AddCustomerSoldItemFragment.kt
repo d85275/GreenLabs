@@ -79,7 +79,8 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         })
 
         addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
-            findNavController().popBackStack()
+            //findNavController().popBackStack()
+            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_soldItemDetailsFragment)
         })
     }
 

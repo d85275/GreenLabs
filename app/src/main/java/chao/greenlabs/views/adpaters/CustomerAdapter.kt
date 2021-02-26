@@ -1,6 +1,5 @@
 package chao.greenlabs.views.adpaters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +8,7 @@ import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.views.adpaters.diffcallbacks.CustomerDataDiffCallback
-import chao.greenlabs.views.viewholders.customer.CustomerViewHolder
+import chao.greenlabs.views.viewholders.CustomerViewHolder
 
 
 class CustomerAdapter(
@@ -25,7 +24,10 @@ class CustomerAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemCustomerBinding.inflate(layoutInflater, parent, false)
         viewPool = RecyclerView.RecycledViewPool()
-        return CustomerViewHolder(binding, viewModel)
+        return CustomerViewHolder(
+            binding,
+            viewModel
+        )
     }
 
     override fun getItemCount(): Int {

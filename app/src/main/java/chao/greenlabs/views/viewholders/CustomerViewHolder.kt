@@ -1,4 +1,4 @@
-package chao.greenlabs.views.viewholders.customer
+package chao.greenlabs.views.viewholders
 
 import android.content.Context
 import android.view.View
@@ -13,7 +13,6 @@ import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.views.customedobjects.SoldItemTransformer
 import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
-import kotlinx.android.synthetic.main.fragment_manage_market.*
 
 
 private const val OFFSET_LIMIT = 6
