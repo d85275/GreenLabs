@@ -1,59 +1,62 @@
 package chao.greenlabs.views.viewholders
 
-import android.util.Log
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import chao.greenlabs.databinding.ItemItemDetailsBinding
-import chao.greenlabs.datamodels.ItemDetails
+import chao.greenlabs.databinding.ItemOptionsBinding
+import chao.greenlabs.datamodels.ItemOptions
+import chao.greenlabs.datamodels.Option
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
+import chao.greenlabs.views.customedobjects.views.OptionRadioButton
 
-private const val RATE = 30
-
-class OptionViewHolder(private val binding: ItemItemDetailsBinding) :
+class OptionViewHolder(private val binding: ItemOptionsBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var details: ItemDetails
+    private lateinit var itemOptions: ItemOptions
     private lateinit var viewModel: ItemOptionsViewModel
-    private var mPosition = -1
+    private var itemPosition = -1
 
     fun bindView(
-        details: ItemDetails,
+        itemOptions: ItemOptions,
         position: Int,
         viewModel: ItemOptionsViewModel
     ) {
-        this.details = details
+        this.itemOptions = itemOptions
         this.viewModel = viewModel
-        this.mPosition = position
+        this.itemPosition = position
         setViews()
-        setListeners()
     }
 
     private fun setViews() {
-        binding.tvTitle.text = details.title
-        for (i in details.details.indices) {
-            addRadioButton(details.details[i])
+        binding.tvTitle.text = itemOptions.title
+        binding.rgDetails.removeAllViews()
+        for (i in itemOptions.optionList.indices) {
+            addRadioButton(itemOptions.optionList[i], i)
         }
     }
 
-    private fun addRadioButton(option: String) {
-        val itemRadioButton = AppCompatRadioButton(binding.root.context)
-        itemRadioButton.text = option
-        val layoutParams = ConstraintLayout.LayoutParams(
+    private fun addRadioButton(option: Option, optionPosition: Int) {
+        val itemRadioButton = OptionRadioButton(binding.root.context)
+
+        itemRadioButton.init(viewModel, optionPosition) { position ->
+            viewModel.setSelection(itemPosition, position)
+            updateCheck(position)
+        }
+
+        itemRadioButton.setOption(option)
+
+        itemRadioButton.layoutParams = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.WRAP_CONTENT
         )
-        itemRadioButton.layoutParams = layoutParams
+
         binding.rgDetails.addView(itemRadioButton)
     }
 
-    private var checkedId: Int? = null
-
-    private fun setListeners() {
-        binding.rgDetails.setOnCheckedChangeListener { group, checkedId ->
-            val radioButton = binding.rgDetails.findViewById<AppCompatRadioButton>(checkedId)
-            val option = radioButton.text.toString()
-            viewModel.setSelection(mPosition, option)
+    private fun updateCheck(optionPosition: Int) {
+        val count = binding.rgDetails.childCount
+        for (i in 0 until count) {
+            val radioButton = binding.rgDetails.getChildAt(i) as OptionRadioButton
+            radioButton.setChecked(optionPosition == i)
         }
     }
 }

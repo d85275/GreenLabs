@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="option"
             type="String" />
@@ -20,11 +21,19 @@
 
         <RadioButton
             android:id="@+id/radio_button"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/tv_option"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@{option}"
-            tools:text="123" />
+            android:textStyle="bold"
+            tools:text="櫻花系列" />
 
         <TextView
             android:id="@+id/tv_price"
@@ -32,7 +41,6 @@
             android:layout_height="wrap_content"
             android:text="@{price}"
             android:textSize="12sp"
-            android:textStyle="italic"
             tools:text="+ $50" />
 
     </LinearLayout>

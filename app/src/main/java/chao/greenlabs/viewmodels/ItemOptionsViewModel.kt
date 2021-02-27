@@ -4,47 +4,52 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import chao.greenlabs.datamodels.ItemDetails
+import chao.greenlabs.datamodels.ItemOptions
+import chao.greenlabs.datamodels.Option
 
 class ItemOptionsViewModel : ViewModel() {
 
-    private val selections = arrayListOf<String>()
-    private val options = arrayListOf<ItemDetails>()
-
-    private var optionsData = MutableLiveData<List<ItemDetails>>()
+    private val options = arrayListOf<ItemOptions>()
 
     private var isOptionsSelected = MutableLiveData(false)
 
     fun getIsOptionsSelected(): LiveData<Boolean> = isOptionsSelected
 
-    fun getOptionsData(): LiveData<List<ItemDetails>> = optionsData
-
     fun clear() {
-        selections.clear()
         options.clear()
-        optionsData = MutableLiveData()
         isOptionsSelected = MutableLiveData(false)
     }
 
-    fun loadTestData() {
-        Log.e("123", "set test data")
-        options.add(ItemDetails("款式", arrayListOf("耳針", "耳夾")))
-        options.add(ItemDetails("寶石", arrayListOf("白水晶", "粉晶", "珍珠")))
-        options.add(ItemDetails("顏色", arrayListOf("白色", "粉色")))
-        optionsData.value = options
-        initSelections()
+    suspend fun loadData(): List<ItemOptions> {
+        options.add(ItemOptions("款式", arrayListOf(Option("耳針", "0"), Option("耳夾", "50"))))
+        options.add(
+            ItemOptions(
+                "寶石",
+                arrayListOf(Option("白水晶", "10"), Option("珍珠", "20"), Option("粉水晶", "40"))
+            )
+        )
+        options.add(ItemOptions("顏色", arrayListOf(Option("粉色", "0"), Option("白色", "0"))))
+        return options
+
     }
 
-    private fun initSelections() {
-        for (i in 0 until options.size) {
-            selections.add("")
+    fun setSelection(position: Int, optionPosition: Int) {
+        for (i in options[position].optionList.indices) {
+            options[position].optionList[i].isSelected = i == optionPosition
         }
+
+        options.forEach { option ->
+            val notSelected = option.optionList.none { it.isSelected }
+            if (notSelected) {
+                isOptionsSelected.value = false
+                return
+            }
+        }
+
+        isOptionsSelected.value = true
     }
 
-    fun setSelection(position: Int, selectValue: String) {
-        Log.e("123", "set data $position with value: $selectValue")
-        selections[position] = selectValue
-        Log.e("123", "check ${selections.none { it == "" }}")
-        isOptionsSelected.value = selections.none { it == "" }
+    fun save() {
+        Log.e("123", "save data here")
     }
 }
