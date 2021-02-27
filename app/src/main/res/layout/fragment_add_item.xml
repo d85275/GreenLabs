@@ -47,34 +47,33 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/ll_back"
-            app:layout_constraintEnd_toStartOf="@id/ll_delete"
+            app:layout_constraintEnd_toStartOf="@id/ll_add"
             app:layout_constraintStart_toEndOf="@id/ll_back"
             app:layout_constraintTop_toTopOf="@id/ll_back" />
 
         <LinearLayout
-            android:id="@+id/ll_delete"
+            android:id="@+id/ll_add"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/circle_bg_white"
             android:gravity="center"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/icon_delete" />
+                android:background="@drawable/icon_done" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/ll_add_photo"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:background="@drawable/circle_bg_main"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/circle_bg_main_border_white"
         android:gravity="center"
         android:orientation="vertical"
         android:translationZ="90dp"
@@ -82,18 +81,18 @@
         app:layout_constraintEnd_toEndOf="@id/mc_image">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/icon_add_photo" />
 
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mc_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_top"
         app:shapeAppearanceOverlay="@style/circle">
@@ -105,73 +104,47 @@
             android:scaleType="centerCrop" />
     </com.google.android.material.card.MaterialCardView>
 
-    <LinearLayout
-        android:id="@+id/ll_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mc_image">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/item_name"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_price"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_name">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/item_price"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <EditText
-            android:id="@+id/et_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:inputType="numberDecimal"
-            android:maxLines="1"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/bt_confirm"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/confirm"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:hint="@string/item_name"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mc_image"
+        app:layout_constraintTop_toTopOf="@id/mc_image" />
+
+    <EditText
+        android:id="@+id/et_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:hint="@string/item_price"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/mc_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mc_image" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_options"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_price" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mc_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

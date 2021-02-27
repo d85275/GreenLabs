@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.ItemData
+import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +20,32 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     private val msg = MutableLiveData<String>()
     private val updatedItem = MutableLiveData<ItemData>()
 
+    private val options = MutableLiveData<List<Option?>>()
+
     private var isUpdateMode = false
 
     private var bitmapUpdated: Boolean = false
 
     fun bitmapUpdated(state: Boolean) {
         bitmapUpdated = state
+    }
+
+    fun getOptions(): LiveData<List<Option?>> = options
+
+    fun loadOptions() {
+        val list = arrayListOf<Option?>()
+        list.add(null)
+        options.value = list
+    }
+
+    fun onAddOptionClicked() {
+        options.value ?: return
+        val optionList = options.value!!.filterNotNull()
+        val list:ArrayList<Option?> = arrayListOf()
+        list.addAll(optionList)
+        list.add(Option("", ""))
+        list.add(null)
+        options.value = list
     }
 
     fun getMessage(): LiveData<String> = msg

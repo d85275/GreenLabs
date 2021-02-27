@@ -58,4 +58,7 @@
     <string name="detail_divider_head">========明細========</string>
     <string name="detail_divider_end">====================</string>
     <string name="add_sold_item">售出商品</string>
+    <string name="title">標題</string>
+    <string name="default_add_price">+ $0</string>
+    <string name="add_options">新增分類</string>
 </resources>

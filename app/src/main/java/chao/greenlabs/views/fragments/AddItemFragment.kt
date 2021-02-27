@@ -12,11 +12,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
+import chao.greenlabs.views.adpaters.AddOptionAdapter
 import chao.greenlabs.views.customedobjects.IntNumWatcher
 import chao.greenlabs.views.customedobjects.OnImageTouchListener
 import kotlinx.android.synthetic.main.fragment_add_item.*
@@ -26,6 +28,7 @@ class AddItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddItemViewModel
     private lateinit var onImageTouchListener: OnImageTouchListener
+    private lateinit var adapter: AddOptionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,11 @@ class AddItemFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModel()
+        setView()
         setListeners()
         setDefaultImage()
         registerObservers()
+        viewModel.loadOptions()
     }
 
     override fun onResume() {
@@ -62,12 +67,20 @@ class AddItemFragment : BaseFragment() {
         viewModel = ViewModelProvider(requireActivity(), factory).get(AddItemViewModel::class.java)
     }
 
+    private fun setView() {
+        adapter = AddOptionAdapter(viewModel)
+
+        rv_options.layoutManager = LinearLayoutManager(requireContext())
+        rv_options.setHasFixedSize(true)
+        rv_options.adapter = adapter
+    }
+
     private fun setListeners() {
         ll_add_photo.setOnClickListener {
             showImagePicker()
         }
 
-        bt_confirm.setOnClickListener {
+        ll_add.setOnClickListener {
             val name = et_name.text.toString()
             val price = et_price.text.toString()
             if (InputChecker.validItem(name, price)) {
@@ -117,6 +130,10 @@ class AddItemFragment : BaseFragment() {
             et_price.setText(updatedItem.price)
             val bitmap = updatedItem.getImage()
             BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
+        })
+
+        viewModel.getOptions().observe(viewLifecycleOwner, Observer { options ->
+            adapter.setList(options)
         })
     }
 
