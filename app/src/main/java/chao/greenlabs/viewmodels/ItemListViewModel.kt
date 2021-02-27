@@ -21,7 +21,7 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
     fun loadItemData() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getItems().reversed()
-            //list.forEach { it.loadImage(repository) }
+            list.forEach { it.loadImage(repository) }
             itemList.postValue(list)
         }
     }
