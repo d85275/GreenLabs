@@ -41,7 +41,7 @@ class ManageMarketViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getCustomer(marketData.id)
             list.forEach { customer->
-                customer.soldDataList?.forEach { it.loadImage(repository) }
+                //customer.soldDataList?.forEach { it.loadImage(repository) }
             }
             customerList.postValue(list)
             updateMarketIncome(list)

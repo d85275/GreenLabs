@@ -58,7 +58,7 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
             itemList.clear()
             itemList.addAll(repository.getItems().reversed())
             itemList.forEach {
-                it.loadImage(repository)
+                //it.loadImage(repository)
             }
             matchedItems.postValue(itemList)
         }

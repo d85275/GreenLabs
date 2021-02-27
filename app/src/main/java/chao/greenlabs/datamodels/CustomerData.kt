@@ -23,14 +23,15 @@ data class CustomerData(
         }
     }
 
-    data class SoldItem(val name: String, val price: String, var count: Int){
+    data class SoldItem(val name: String, val price: String, var count: Int) {
         @Ignore
         private var bitmap: Bitmap? = null
-        fun loadImage(repository: Repository) {
-            val fileName = StringBuilder().append(name).append("_").append(price).toString()
-            bitmap = repository.getSavedImage(fileName)
-        }
 
-        fun getImage(): Bitmap? = bitmap
+        private var isImageLoaded = false
+        fun getImage(repository: Repository): Bitmap? {
+            if (isImageLoaded) return bitmap
+            val fileName = StringBuilder().append(name).append("_").append(price).toString()
+            return repository.getSavedImage(fileName)
+        }
     }
 }

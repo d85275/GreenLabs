@@ -5,17 +5,13 @@ import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import chao.greenlabs.R
 import chao.greenlabs.databinding.ItemCustomerBinding
 import chao.greenlabs.datamodels.CustomerData
+import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import chao.greenlabs.views.customedobjects.SoldItemTransformer
 import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
-
-
-private const val OFFSET_LIMIT = 6
 
 class CustomerViewHolder(
     private val binding: ItemCustomerBinding,
@@ -56,7 +52,7 @@ class CustomerViewHolder(
     }
 
     private fun setSoldItems(){
-        val adapter = CustomerSoldItemAdapter()
+        val adapter = CustomerSoldItemAdapter(Repository(context))
         val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)
 
@@ -100,20 +96,5 @@ class CustomerViewHolder(
             else -> {
             }
         }
-    }
-
-    private fun setViewPager() {
-        val adapter = CustomerSoldItemAdapter()
-        val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
-        adapter.setList(list)
-
-        binding.vgSoldItems.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        binding.vgSoldItems.adapter = adapter
-        binding.vgSoldItems.offscreenPageLimit = 3
-        binding.vgSoldItems.setPageTransformer(
-            SoldItemTransformer(
-                OFFSET_LIMIT
-            )
-        )
     }
 }
