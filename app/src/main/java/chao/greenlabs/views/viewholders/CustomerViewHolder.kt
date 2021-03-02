@@ -11,7 +11,7 @@ import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.ManageMarketViewModel
-import chao.greenlabs.views.adpaters.CustomerSoldItemAdapter
+import chao.greenlabs.views.adpaters.addcustomer.CustomerSoldItemAdapter
 
 class CustomerViewHolder(
     private val binding: ItemCustomerBinding,
@@ -52,7 +52,10 @@ class CustomerViewHolder(
     }
 
     private fun setSoldItems(){
-        val adapter = CustomerSoldItemAdapter(Repository(context))
+        val adapter =
+            CustomerSoldItemAdapter(
+                Repository(context)
+            )
         val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)
 

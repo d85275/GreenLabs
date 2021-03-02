@@ -13,7 +13,7 @@ import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
-import chao.greenlabs.views.adpaters.SoldItemAdapter
+import chao.greenlabs.views.adpaters.addcustomer.SoldItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer.*
 import kotlinx.android.synthetic.main.fragment_add_customer.ll_back
 
@@ -44,7 +44,8 @@ class AddCustomerFragment : BaseFragment() {
     }
 
     private fun setViews() {
-        soldAdapter = SoldItemAdapter(viewModel)
+        soldAdapter =
+            SoldItemAdapter(viewModel)
         rv_sold_items.layoutManager = LinearLayoutManager(requireContext())
         rv_sold_items.setHasFixedSize(true)
         rv_sold_items.adapter = soldAdapter

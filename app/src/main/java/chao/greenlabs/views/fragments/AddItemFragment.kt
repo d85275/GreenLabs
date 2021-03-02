@@ -18,7 +18,7 @@ import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
-import chao.greenlabs.views.adpaters.AddOptionAdapter
+import chao.greenlabs.views.adpaters.additem.AddCategoryAdapter
 import chao.greenlabs.views.customedobjects.IntNumWatcher
 import chao.greenlabs.views.customedobjects.OnImageTouchListener
 import kotlinx.android.synthetic.main.fragment_add_item.*
@@ -28,7 +28,7 @@ class AddItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddItemViewModel
     private lateinit var onImageTouchListener: OnImageTouchListener
-    private lateinit var adapter: AddOptionAdapter
+    private lateinit var adapter: AddCategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +68,8 @@ class AddItemFragment : BaseFragment() {
     }
 
     private fun setView() {
-        adapter = AddOptionAdapter(viewModel)
+        adapter =
+            AddCategoryAdapter(viewModel)
 
         rv_options.layoutManager = LinearLayoutManager(requireContext())
         rv_options.setHasFixedSize(true)
@@ -132,8 +133,8 @@ class AddItemFragment : BaseFragment() {
             BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
         })
 
-        viewModel.getOptions().observe(viewLifecycleOwner, Observer { options ->
-            adapter.setList(options)
+        viewModel.getOptions().observe(viewLifecycleOwner, Observer { itemOptions ->
+            adapter.setList(itemOptions)
         })
     }
 

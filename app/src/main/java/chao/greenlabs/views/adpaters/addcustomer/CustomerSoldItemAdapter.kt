@@ -1,7 +1,6 @@
-package chao.greenlabs.views.adpaters
+package chao.greenlabs.views.adpaters.addcustomer
 
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

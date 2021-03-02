@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
-import chao.greenlabs.views.adpaters.ItemOptionsAdapter
+import chao.greenlabs.views.adpaters.addcustomer.ItemOptionsAdapter
 import kotlinx.android.synthetic.main.fragment_item_options.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -70,7 +70,9 @@ class ItemOptionsFragment : BaseFragment() {
         tv_name.text = "Test"
         tv_price.text = "$ 100"
 
-        adapter = ItemOptionsAdapter(viewModel)
+        adapter = ItemOptionsAdapter(
+            viewModel
+        )
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         rv_details.setHasFixedSize(true)

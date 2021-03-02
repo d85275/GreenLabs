@@ -14,7 +14,7 @@ import chao.greenlabs.repository.Repository
 import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
-import chao.greenlabs.views.adpaters.SearchedItemAdapter
+import chao.greenlabs.views.adpaters.addcustomer.SearchedItemAdapter
 import kotlinx.android.synthetic.main.fragment_add_customer_solditem.*
 
 class AddCustomerSoldItemFragment : BaseFragment() {
@@ -58,7 +58,10 @@ class AddCustomerSoldItemFragment : BaseFragment() {
             addCustomerSoldItemViewModel.setClickedItem(item)
         }
 
-        searchedAdapter = SearchedItemAdapter(onClickedListener)
+        searchedAdapter =
+            SearchedItemAdapter(
+                onClickedListener
+            )
         rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
         rv_searched_items.setHasFixedSize(true)
         rv_searched_items.adapter = searchedAdapter

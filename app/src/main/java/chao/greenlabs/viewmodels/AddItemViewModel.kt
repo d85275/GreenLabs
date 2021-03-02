@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
+import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
@@ -20,7 +22,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     private val msg = MutableLiveData<String>()
     private val updatedItem = MutableLiveData<ItemData>()
 
-    private val options = MutableLiveData<List<Option?>>()
+    private val itemOptions = MutableLiveData<List<OptionCategory?>>()
 
     private var isUpdateMode = false
 
@@ -30,22 +32,87 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         bitmapUpdated = state
     }
 
-    fun getOptions(): LiveData<List<Option?>> = options
+    fun getOptions(): LiveData<List<OptionCategory?>> = itemOptions
 
     fun loadOptions() {
-        val list = arrayListOf<Option?>()
+        val list = arrayListOf<OptionCategory?>()
         list.add(null)
-        options.value = list
+        itemOptions.value = list
     }
 
-    fun onAddOptionClicked() {
-        options.value ?: return
-        val optionList = options.value!!.filterNotNull()
-        val list:ArrayList<Option?> = arrayListOf()
-        list.addAll(optionList)
-        list.add(Option("", ""))
+
+    fun editOptionTitle(
+        default: String,
+        value: String,
+        categoryPosition: Int,
+        optionPosition: Int
+    ) {
+        if (categoryPosition < 0) return
+        itemOptions.value ?: return
+        val options = itemOptions.value!!
+        options[categoryPosition]?.optionList?.get(optionPosition)?.title =
+            if (value.trim().isEmpty()) {
+                default
+            } else {
+                value
+            }
+        itemOptions.value = options
+    }
+
+    fun editOptionPrice(
+        default: String,
+        value: String,
+        categoryPosition: Int,
+        optionPosition: Int
+    ) {
+        if (categoryPosition < 0) return
+        itemOptions.value ?: return
+        val options = itemOptions.value!!
+        options[categoryPosition]?.optionList?.get(optionPosition)?.addPrice =
+            if (value.trim().isEmpty()) {
+                default
+            } else {
+                value
+            }
+        itemOptions.value = options
+    }
+
+    fun removeOption(categoryPosition: Int, optionPosition: Int) {
+        if (categoryPosition < 0) return
+        itemOptions.value ?: return
+        val options = itemOptions.value!!
+        options[categoryPosition]?.optionList?.removeAt(optionPosition)
+        itemOptions.value = options
+    }
+
+    fun addOption(defaultTitle: String, categoryPosition: Int) {
+        if (categoryPosition < 0) return
+        itemOptions.value ?: return
+        val options = itemOptions.value!!
+        options[categoryPosition]?.optionList?.add(Option(defaultTitle, "0"))
+        itemOptions.value = options
+    }
+
+    fun addCategory(defaultTitle: String) {
+        itemOptions.value ?: return
+        val options = itemOptions.value!!.filterNotNull()
+        val list: ArrayList<OptionCategory?> = arrayListOf()
+        list.addAll(options)
+        list.add(OptionCategory(defaultTitle, arrayListOf()))
         list.add(null)
-        options.value = list
+        itemOptions.value = list
+    }
+
+    fun editCategoryTitle(categoryPosition: Int, default: String, value: String) {
+        if (categoryPosition < 0) return
+        val options = itemOptions.value ?: return
+        options[categoryPosition]?.title =
+            if (value.trim().isEmpty()) {
+                default
+            } else {
+                value
+            }
+        itemOptions.value = options
     }
 
     fun getMessage(): LiveData<String> = msg

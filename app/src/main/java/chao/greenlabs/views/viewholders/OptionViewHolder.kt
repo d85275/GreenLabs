@@ -3,7 +3,7 @@ package chao.greenlabs.views.viewholders
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.databinding.ItemOptionsBinding
-import chao.greenlabs.datamodels.ItemOptions
+import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.datamodels.Option
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
 import chao.greenlabs.views.customedobjects.views.OptionRadioButton
@@ -11,26 +11,26 @@ import chao.greenlabs.views.customedobjects.views.OptionRadioButton
 class OptionViewHolder(private val binding: ItemOptionsBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var itemOptions: ItemOptions
+    private lateinit var optionCategory: OptionCategory
     private lateinit var viewModel: ItemOptionsViewModel
     private var itemPosition = -1
 
     fun bindView(
-        itemOptions: ItemOptions,
+        optionCategory: OptionCategory,
         position: Int,
         viewModel: ItemOptionsViewModel
     ) {
-        this.itemOptions = itemOptions
+        this.optionCategory = optionCategory
         this.viewModel = viewModel
         this.itemPosition = position
         setViews()
     }
 
     private fun setViews() {
-        binding.tvTitle.text = itemOptions.title
+        binding.tvTitle.text = optionCategory.title
         binding.rgDetails.removeAllViews()
-        for (i in itemOptions.optionList.indices) {
-            addRadioButton(itemOptions.optionList[i], i)
+        for (i in optionCategory.optionList.indices) {
+            addRadioButton(optionCategory.optionList[i], i)
         }
     }
 

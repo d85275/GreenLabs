@@ -16,7 +16,7 @@ import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.ItemListVMFactory
 import chao.greenlabs.viewmodels.ItemListViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
-import chao.greenlabs.views.adpaters.ItemAdapter
+import chao.greenlabs.views.adpaters.additem.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import kotlinx.android.synthetic.main.fragment_item_list.ll_add
 
@@ -64,7 +64,8 @@ class ItemListFragment : BaseFragment() {
             })
         itemTouchHelper.attachToRecyclerView(rv_items)
 
-        adapter = ItemAdapter(onItemClickedAction)
+        adapter =
+            ItemAdapter(onItemClickedAction)
         rv_items.layoutManager = LinearLayoutManager(requireContext())
         rv_items.setHasFixedSize(true)
         rv_items.adapter = adapter

@@ -34,8 +34,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-        <LinearLayout
-            android:id="@+id/ll_options"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_option_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -54,7 +54,7 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_options">
+            app:layout_constraintTop_toBottomOf="@id/rv_option_list">
 
             <ImageView
                 android:layout_width="18dp"

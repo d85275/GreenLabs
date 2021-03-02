@@ -1,4 +1,4 @@
-package chao.greenlabs.views.adpaters
+package chao.greenlabs.views.adpaters.additem
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
