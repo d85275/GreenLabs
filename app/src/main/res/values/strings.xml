@@ -63,4 +63,6 @@
     <string name="added_option">選項 %1$d</string>
     <string name="default_add_price">+ $0</string>
     <string name="add_options">新增分類</string>
+    <string name="item_exist">商品已存在</string>
+    <string name="add_item_failed">新增資料失敗</string>
 </resources>

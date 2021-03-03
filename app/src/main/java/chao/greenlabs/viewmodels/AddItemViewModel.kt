@@ -158,32 +158,30 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
+    suspend fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
 
         saveBitmap(name, price, imageView)
 
         val data = ItemData(name, price)
         val updatedItem = updatedItem.value
 
-        viewModelScope.launch(Dispatchers.IO) {
-            when {
-                updatedItem == null -> {
-                    repository.addItem(data)
-                    msg.postValue("品項已儲存")
-                }
+        when {
+            updatedItem == null -> {
+                repository.addItem(data)
+                msg.postValue("品項已儲存")
+            }
 
-                updatedItem.name == data.name -> {
-                    repository.updateItem(data)
-                    msg.postValue("品項已更新")
-                }
+            updatedItem.name == data.name -> {
+                repository.updateItem(data)
+                msg.postValue("品項已更新")
+            }
 
-                else -> {
-                    repository.deleteItem(updatedItem)
-                    val fileName = StringBuilder().append(name).append("_").append(price).toString()
-                    repository.deleteImage(fileName)
-                    repository.addItem(data)
-                    msg.postValue("品項已更新")
-                }
+            else -> {
+                repository.deleteItem(updatedItem)
+                val fileName = StringBuilder().append(name).append("_").append(price).toString()
+                repository.deleteImage(fileName)
+                repository.addItem(data)
+                msg.postValue("品項已更新")
             }
         }
     }

@@ -2,15 +2,18 @@ package chao.greenlabs.views.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +29,9 @@ import chao.greenlabs.views.customedobjects.SwipeCallback
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.ll_add
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class AddItemFragment : BaseFragment() {
 
@@ -100,13 +106,7 @@ class AddItemFragment : BaseFragment() {
         }
 
         ll_add.setOnClickListener {
-            val name = et_name.text.toString()
-            val price = et_price.text.toString()
-            if (InputChecker.validItem(name, price)) {
-                viewModel.onConfirmClicked(name, price, iv_image)
-            } else {
-                DialogUtils.showWrongFormat(requireContext())
-            }
+            addItem()
         }
 
         ll_back.setOnClickListener {
@@ -122,6 +122,30 @@ class AddItemFragment : BaseFragment() {
 
         onImageTouchListener = OnImageTouchListener(iv_image)
         iv_image.setOnTouchListener(onImageTouchListener)
+    }
+
+    private fun addItem() {
+        val name = et_name.text.toString()
+        val price = et_price.text.toString()
+        if (InputChecker.validItem(name, price)) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    viewModel.onConfirmClicked(name, price, iv_image)
+                } catch (e: SQLiteConstraintException) {
+                    lifecycleScope.launch(Dispatchers.Main){
+                        resetData()
+                        ToastUtils.show(requireContext(), getString(R.string.item_exist))
+                    }
+                } catch (e: Exception) {
+                    lifecycleScope.launch(Dispatchers.Main){
+                        resetData()
+                        ToastUtils.show(requireContext(), getString(R.string.add_item_failed))
+                    }
+                }
+            }
+        } else {
+            DialogUtils.showWrongFormat(requireContext())
+        }
     }
 
     private fun setDefaultImage() {
