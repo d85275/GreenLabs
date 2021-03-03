@@ -11,7 +11,6 @@ import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
-import chao.greenlabs.utils.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -25,7 +24,7 @@ class AddItemViewModel(
     private val msg = MutableLiveData<String>()
     private val updatedItem = MutableLiveData<ItemData>()
 
-    private val itemOptions = MutableLiveData<MutableList<OptionCategory?>>()
+    private var optionCategories = MutableLiveData<MutableList<OptionCategory?>>()
 
     private var isUpdateMode = false
 
@@ -35,14 +34,20 @@ class AddItemViewModel(
         bitmapUpdated = state
     }
 
-    fun getOptions(): LiveData<MutableList<OptionCategory?>> = itemOptions
+    fun getOptionCategories(): LiveData<MutableList<OptionCategory?>> = optionCategories
 
     fun loadOptions() {
         val list = arrayListOf<OptionCategory?>()
         list.add(null)
-        itemOptions.value = list
+        optionCategories.value = list
     }
 
+    private fun resetCategory() {
+        val list = optionCategories.value ?: arrayListOf()
+        list.clear()
+        list.add(null)
+        optionCategories.postValue(list)
+    }
 
     fun editOptionTitle(
         default: String,
@@ -51,15 +56,15 @@ class AddItemViewModel(
         optionPosition: Int
     ) {
         if (categoryPosition < 0) return
-        itemOptions.value ?: return
-        val options = itemOptions.value!!
+        optionCategories.value ?: return
+        val options = optionCategories.value!!
         options[categoryPosition]?.optionList?.get(optionPosition)?.title =
             if (value.trim().isEmpty()) {
                 default
             } else {
                 value
             }
-        itemOptions.value = options
+        optionCategories.value = options
     }
 
     fun editOptionPrice(
@@ -69,61 +74,61 @@ class AddItemViewModel(
         optionPosition: Int
     ) {
         if (categoryPosition < 0) return
-        itemOptions.value ?: return
-        val options = itemOptions.value!!
+        optionCategories.value ?: return
+        val options = optionCategories.value!!
         options[categoryPosition]?.optionList?.get(optionPosition)?.addPrice =
             if (value.trim().isEmpty()) {
                 default
             } else {
                 value
             }
-        itemOptions.value = options
+        optionCategories.value = options
     }
 
     fun removeOption(categoryPosition: Int, optionPosition: Int) {
         if (categoryPosition < 0) return
-        itemOptions.value ?: return
-        val options = itemOptions.value!!
+        optionCategories.value ?: return
+        val options = optionCategories.value!!
         options[categoryPosition]?.optionList?.removeAt(optionPosition)
-        itemOptions.value = options
+        optionCategories.value = options
     }
 
     fun addOption(defaultTitle: String, categoryPosition: Int) {
         if (categoryPosition < 0) return
-        itemOptions.value ?: return
-        val options = itemOptions.value!!
+        optionCategories.value ?: return
+        val options = optionCategories.value!!
         options[categoryPosition]?.optionList?.add(Option(defaultTitle, "0"))
-        itemOptions.value = options
+        optionCategories.value = options
     }
 
     fun removeCategory(position: Int) {
         if (position < 0) return
-        itemOptions.value ?: return
-        val options = itemOptions.value!!
+        optionCategories.value ?: return
+        val options = optionCategories.value!!
         options.removeAt(position)
-        itemOptions.value = options
+        optionCategories.value = options
     }
 
     fun addCategory(defaultTitle: String) {
-        itemOptions.value ?: return
-        val options = itemOptions.value!!.filterNotNull()
+        optionCategories.value ?: return
+        val options = optionCategories.value!!.filterNotNull()
         val list: ArrayList<OptionCategory?> = arrayListOf()
         list.addAll(options)
         list.add(OptionCategory(defaultTitle, arrayListOf()))
         list.add(null)
-        itemOptions.value = list
+        optionCategories.value = list
     }
 
     fun editCategoryTitle(categoryPosition: Int, default: String, value: String) {
         if (categoryPosition < 0) return
-        val options = itemOptions.value ?: return
+        val options = optionCategories.value ?: return
         options[categoryPosition]?.title =
             if (value.trim().isEmpty()) {
                 default
             } else {
                 value
             }
-        itemOptions.value = options
+        optionCategories.value = options
     }
 
     fun getMessage(): LiveData<String> = msg
@@ -160,6 +165,22 @@ class AddItemViewModel(
         }
     }
 
+    private fun printOptionData() {
+        val optionCategories = this.optionCategories.value
+        if (optionCategories == null) {
+            Log.e("13", "empty option category")
+        }
+
+        optionCategories!!.forEach { category ->
+            if (category != null && category.optionList.isNotEmpty()) {
+                Log.e("123", "category: ${category.title}")
+                category.optionList.forEach { option ->
+                    Log.e("123", "option: ${option.title}")
+                }
+            }
+        }
+    }
+
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         viewModelScope.launch(Dispatchers.IO) {
             saveBitmap(name, price, imageView)
@@ -167,6 +188,8 @@ class AddItemViewModel(
             val data = ItemData(name, price)
             val updatedItem = updatedItem.value
 
+            // todo remove this part - for testing only
+            printOptionData()
 
             try {
                 when {
@@ -193,6 +216,8 @@ class AddItemViewModel(
                 msg.postValue(res.getString(R.string.item_exist))
             } catch (e: java.lang.Exception) {
                 msg.postValue(res.getString(R.string.add_item_failed))
+            } finally {
+                resetCategory()
             }
         }
 

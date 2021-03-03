@@ -6,6 +6,7 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -156,8 +157,9 @@ class AddItemFragment : BaseFragment() {
             BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
         })
 
-        viewModel.getOptions().observe(viewLifecycleOwner, Observer { itemOptions ->
-            adapter.setList(itemOptions)
+        viewModel.getOptionCategories().observe(viewLifecycleOwner, Observer { optionCategories ->
+            Log.e("123","get option category. size: ${optionCategories.size}")
+            adapter.setList(optionCategories)
         })
     }
 
