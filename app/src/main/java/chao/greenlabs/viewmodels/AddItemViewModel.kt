@@ -1,23 +1,26 @@
 package chao.greenlabs.viewmodels
 
+import android.content.res.Resources
+import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import android.widget.ImageView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
+import chao.greenlabs.utils.ToastUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
 
-class AddItemViewModel(private val repository: Repository) : ViewModel() {
+class AddItemViewModel(
+    private val res: Resources,
+    private val repository: Repository
+) : ViewModel() {
 
     private val msg = MutableLiveData<String>()
     private val updatedItem = MutableLiveData<ItemData>()
@@ -152,38 +155,47 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
             repository.saveImageToExternal(fileName, bitmap)
 
         } catch (e: Exception) {
-            Log.e("AddItemVM", "error: $e")
-            msg.postValue("儲存圖片時發生錯誤")
+            msg.postValue(res.getString(R.string.save_image_failed))
             return
         }
     }
 
-    suspend fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
+    fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
 
         saveBitmap(name, price, imageView)
 
         val data = ItemData(name, price)
         val updatedItem = updatedItem.value
 
-        when {
-            updatedItem == null -> {
-                repository.addItem(data)
-                msg.postValue("品項已儲存")
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                when {
+                    updatedItem == null -> {
+                        repository.addItem(data)
+                        msg.postValue(res.getString(R.string.item_saved))
+                    }
 
-            updatedItem.name == data.name -> {
-                repository.updateItem(data)
-                msg.postValue("品項已更新")
-            }
+                    updatedItem.name == data.name -> {
+                        repository.updateItem(data)
+                        msg.postValue(res.getString(R.string.item_updated))
+                    }
 
-            else -> {
-                repository.deleteItem(updatedItem)
-                val fileName = StringBuilder().append(name).append("_").append(price).toString()
-                repository.deleteImage(fileName)
-                repository.addItem(data)
-                msg.postValue("品項已更新")
+                    else -> {
+                        repository.deleteItem(updatedItem)
+                        val fileName =
+                            StringBuilder().append(name).append("_").append(price).toString()
+                        repository.deleteImage(fileName)
+                        repository.addItem(data)
+                        msg.postValue(res.getString(R.string.item_updated))
+                    }
+                }
+            } catch (e: SQLiteConstraintException) {
+                msg.postValue(res.getString(R.string.item_exist))
+            } catch (e: java.lang.Exception) {
+                msg.postValue(res.getString(R.string.add_item_failed))
             }
         }
+
     }
 
     fun getTmpPath(): File? {

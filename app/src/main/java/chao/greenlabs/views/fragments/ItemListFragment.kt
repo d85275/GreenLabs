@@ -47,7 +47,7 @@ class ItemListFragment : BaseFragment() {
         val factory = ItemListVMFactory(repository)
         listViewModel = ViewModelProvider(this, factory).get(ItemListViewModel::class.java)
 
-        val addItemFactory = AddItemVMFactory(repository)
+        val addItemFactory = AddItemVMFactory(resources, repository)
         addItemViewModel =
             ViewModelProvider(requireActivity(), addItemFactory).get(AddItemViewModel::class.java)
     }

@@ -65,4 +65,7 @@
     <string name="add_options">新增分類</string>
     <string name="item_exist">商品已存在</string>
     <string name="add_item_failed">新增資料失敗</string>
+    <string name="save_image_failed">儲存圖片時發生錯誤</string>
+    <string name="item_saved">品項已儲存</string>
+    <string name="item_updated">品項已更新</string>
 </resources>
