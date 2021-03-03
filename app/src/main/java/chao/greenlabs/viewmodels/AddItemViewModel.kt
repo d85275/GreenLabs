@@ -161,13 +161,13 @@ class AddItemViewModel(
     }
 
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
-
-        saveBitmap(name, price, imageView)
-
-        val data = ItemData(name, price)
-        val updatedItem = updatedItem.value
-
         viewModelScope.launch(Dispatchers.IO) {
+            saveBitmap(name, price, imageView)
+
+            val data = ItemData(name, price)
+            val updatedItem = updatedItem.value
+
+
             try {
                 when {
                     updatedItem == null -> {
