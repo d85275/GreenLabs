@@ -12,7 +12,7 @@ import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
 import chao.greenlabs.utils.DialogUtils
-import chao.greenlabs.utils.TouchCallbackUtils
+import chao.greenlabs.views.customedobjects.SwipeCallback
 import chao.greenlabs.viewmodels.ManageMarketViewModel
 import chao.greenlabs.viewmodels.factories.MarketListVMFactory
 import chao.greenlabs.viewmodels.MarketListViewModel
@@ -69,7 +69,7 @@ class MarketListFragment : BaseFragment() {
         }
 
         val itemTouchHelper =
-            ItemTouchHelper(TouchCallbackUtils.getItemTouchHelperCallback { position ->
+            ItemTouchHelper(SwipeCallback { position ->
                 onItemSwipedAction.invoke(position)
             })
         itemTouchHelper.attachToRecyclerView(rv_markets)

@@ -11,7 +11,7 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
-import chao.greenlabs.utils.TouchCallbackUtils
+import chao.greenlabs.views.customedobjects.SwipeCallback
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.ItemListVMFactory
 import chao.greenlabs.viewmodels.ItemListViewModel
@@ -59,7 +59,7 @@ class ItemListFragment : BaseFragment() {
         }
 
         val itemTouchHelper =
-            ItemTouchHelper(TouchCallbackUtils.getItemTouchHelperCallback { position ->
+            ItemTouchHelper(SwipeCallback { position ->
                 onItemSwipedAction.invoke(position)
             })
         itemTouchHelper.attachToRecyclerView(rv_items)

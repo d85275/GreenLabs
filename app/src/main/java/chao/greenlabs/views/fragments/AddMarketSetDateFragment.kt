@@ -15,6 +15,7 @@ import chao.greenlabs.viewmodels.AddMarketViewModel
 import chao.greenlabs.viewmodels.factories.AddMarketSetDateVMFactory
 import chao.greenlabs.views.customedobjects.views.ViewSetMarketInfo
 import chao.greenlabs.views.adpaters.AddMarketAdapter
+import chao.greenlabs.views.customedobjects.SwipeCallback
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.*
@@ -125,7 +126,7 @@ class AddMarketSetDateFragment : BaseFragment() {
         )
 
         val itemTouchHelper =
-            ItemTouchHelper(TouchCallbackUtils.getItemTouchHelperCallback { position ->
+            ItemTouchHelper(SwipeCallback { position ->
                 onItemSwipedAction.invoke(position)
             })
         itemTouchHelper.attachToRecyclerView(rv_market_date)

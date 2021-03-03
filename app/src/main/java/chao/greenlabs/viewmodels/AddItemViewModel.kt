@@ -22,7 +22,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
     private val msg = MutableLiveData<String>()
     private val updatedItem = MutableLiveData<ItemData>()
 
-    private val itemOptions = MutableLiveData<List<OptionCategory?>>()
+    private val itemOptions = MutableLiveData<MutableList<OptionCategory?>>()
 
     private var isUpdateMode = false
 
@@ -32,7 +32,7 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         bitmapUpdated = state
     }
 
-    fun getOptions(): LiveData<List<OptionCategory?>> = itemOptions
+    fun getOptions(): LiveData<MutableList<OptionCategory?>> = itemOptions
 
     fun loadOptions() {
         val list = arrayListOf<OptionCategory?>()
@@ -90,6 +90,14 @@ class AddItemViewModel(private val repository: Repository) : ViewModel() {
         itemOptions.value ?: return
         val options = itemOptions.value!!
         options[categoryPosition]?.optionList?.add(Option(defaultTitle, "0"))
+        itemOptions.value = options
+    }
+
+    fun removeCategory(position: Int) {
+        if (position < 0) return
+        itemOptions.value ?: return
+        val options = itemOptions.value!!
+        options.removeAt(position)
         itemOptions.value = options
     }
 

@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
@@ -21,7 +22,9 @@ import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import chao.greenlabs.views.adpaters.additem.AddCategoryAdapter
 import chao.greenlabs.views.customedobjects.IntNumWatcher
 import chao.greenlabs.views.customedobjects.OnImageTouchListener
+import chao.greenlabs.views.customedobjects.SwipeCallback
 import kotlinx.android.synthetic.main.fragment_add_item.*
+import kotlinx.android.synthetic.main.fragment_add_item.ll_add
 import kotlinx.android.synthetic.main.fragment_add_item.ll_back
 
 class AddItemFragment : BaseFragment() {
@@ -68,12 +71,27 @@ class AddItemFragment : BaseFragment() {
     }
 
     private fun setView() {
-        adapter =
-            AddCategoryAdapter(viewModel)
+        adapter = AddCategoryAdapter(viewModel)
 
         rv_options.layoutManager = LinearLayoutManager(requireContext())
         rv_options.setHasFixedSize(true)
         rv_options.adapter = adapter
+
+        val itemTouchHelper =
+            ItemTouchHelper(SwipeCallback { position ->
+                onItemSwipedAction.invoke(position)
+            })
+        itemTouchHelper.attachToRecyclerView(rv_options)
+    }
+
+    private val onItemSwipedAction: ((position: Int) -> Unit) = { position ->
+        val confirmAction: (() -> Unit) = {
+            viewModel.removeCategory(position)
+        }
+        val cancelAction: (() -> Unit) = {
+            adapter.notifyDataSetChanged()
+        }
+        DialogUtils.showDelete(requireContext(), confirmAction, cancelAction)
     }
 
     private fun setListeners() {
