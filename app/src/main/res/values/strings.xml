@@ -68,4 +68,5 @@
     <string name="save_image_failed">儲存圖片時發生錯誤</string>
     <string name="item_saved">品項已儲存</string>
     <string name="item_updated">品項已更新</string>
+    <string name="item_not_found">商品列表沒有此商品，點擊新增</string>
 </resources>

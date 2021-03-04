@@ -1,17 +1,11 @@
 package chao.greenlabs.views.adpaters.addcustomer
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.utils.BitmapUtils
-import chao.greenlabs.viewmodels.AddCustomerViewModel
 import kotlinx.android.synthetic.main.item_searched_items.view.*
 
 class SearchedItemAdapter(

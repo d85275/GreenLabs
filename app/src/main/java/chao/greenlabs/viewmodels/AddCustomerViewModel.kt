@@ -51,8 +51,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
     fun getCustomerData(): LiveData<CustomerData> = customerData
 
-    fun getItemList(): List<ItemData> = itemList
-
     fun loadItemData() {
         viewModelScope.launch(Dispatchers.IO) {
             itemList.clear()

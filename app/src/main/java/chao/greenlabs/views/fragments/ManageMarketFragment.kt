@@ -165,6 +165,5 @@ class ManageMarketFragment : BaseFragment() {
 
     private fun loadData() {
         viewModel.loadCustomers()
-        addCustomerViewModel.loadItemData()
     }
 }

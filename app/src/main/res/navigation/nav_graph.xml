@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_addCustomerSoldItemFragment_to_soldItemDetailsFragment"
             app:destination="@id/soldItemDetailsFragment" />
+        <action
+            android:id="@+id/action_addCustomerSoldItemFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/soldItemDetailsFragment"

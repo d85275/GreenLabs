@@ -3,29 +3,40 @@ package chao.greenlabs.views.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
+import chao.greenlabs.databinding.FragmentAddCustomerSolditemBinding
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.addcustomer.SearchedItemAdapter
-import kotlinx.android.synthetic.main.fragment_add_customer_solditem.*
+import kotlinx.coroutines.launch
 
 class AddCustomerSoldItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
     private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
     private lateinit var searchedAdapter: SearchedItemAdapter
+    private lateinit var binding: FragmentAddCustomerSolditemBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentViewId(R.layout.fragment_add_customer_solditem)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val layoutInflater = LayoutInflater.from(requireContext())
+        binding = FragmentAddCustomerSolditemBinding.inflate(layoutInflater, container, false)
+        binding.searchedDataSize = 0
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +46,12 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         setViews()
         registerObservers()
         setListeners()
+        viewModel.loadItemData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.etSearch.setText("")
     }
 
     override fun onDestroy() {
@@ -53,34 +70,36 @@ class AddCustomerSoldItemFragment : BaseFragment() {
 
     private fun setViews() {
         val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
-            et_search.text.clear()
+            binding.etSearch.text.clear()
             viewModel.onSearchItemClicked(item)
             addCustomerSoldItemViewModel.setClickedItem(item)
         }
 
-        searchedAdapter =
-            SearchedItemAdapter(
-                onClickedListener
-            )
-        rv_searched_items.layoutManager = LinearLayoutManager(requireContext())
-        rv_searched_items.setHasFixedSize(true)
-        rv_searched_items.adapter = searchedAdapter
+        searchedAdapter = SearchedItemAdapter(onClickedListener)
+        binding.rvSearchedItems.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSearchedItems.setHasFixedSize(true)
+        binding.rvSearchedItems.adapter = searchedAdapter
     }
 
     private fun setListeners() {
-        et_search.addTextChangedListener(textWatcher)
+        binding.etSearch.addTextChangedListener(textWatcher)
 
-        ll_back.setOnClickListener {
+        binding.llBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        tv_title.setOnClickListener {
+        binding.tvTitle.setOnClickListener {
             findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_soldItemDetailsFragment)
+        }
+
+        binding.tvAddItem.setOnClickListener {
+            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_addItemFragment)
         }
     }
 
     private fun registerObservers() {
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
+            binding.searchedDataSize = matchedList.size
             searchedAdapter.setList(matchedList)
             dismissLoading()
         })
