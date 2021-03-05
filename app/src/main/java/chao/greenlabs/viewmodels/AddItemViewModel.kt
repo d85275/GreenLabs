@@ -165,31 +165,28 @@ class AddItemViewModel(
         }
     }
 
-    private fun printOptionData() {
-        val optionCategories = this.optionCategories.value
-        if (optionCategories == null) {
-            Log.e("13", "empty option category")
-        }
+    private fun getCategory(): ArrayList<OptionCategory>? {
+        optionCategories.value ?: return null
+        val optionCategory = arrayListOf<OptionCategory>()
 
-        optionCategories!!.forEach { category ->
+        optionCategories.value!!.forEach { category ->
             if (category != null && category.optionList.isNotEmpty()) {
-                Log.e("123", "category: ${category.title}")
+                val optionList = arrayListOf<Option>()
                 category.optionList.forEach { option ->
-                    Log.e("123", "option: ${option.title}")
+                    optionList.add(option)
                 }
+                val newOptionCategory = OptionCategory(category.title, optionList)
             }
         }
+        return if (optionCategory.isNotEmpty()) optionCategory else null
     }
 
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         viewModelScope.launch(Dispatchers.IO) {
             saveBitmap(name, price, imageView)
 
-            val data = ItemData(name, price)
+            val data = ItemData(name, price, getCategory())
             val updatedItem = updatedItem.value
-
-            // todo remove this part - for testing only
-            printOptionData()
 
             try {
                 when {

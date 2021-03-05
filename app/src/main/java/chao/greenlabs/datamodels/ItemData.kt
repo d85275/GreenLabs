@@ -12,7 +12,7 @@ import chao.greenlabs.viewmodels.AddCustomerViewModel
 data class ItemData(
     @PrimaryKey val name: String,
     val price: String,
-    var optionCategory: OptionCategory? = null
+    var optionCategory: ArrayList<OptionCategory>? = null
 ) {
     @Ignore
     private var bitmap: Bitmap? = null
