@@ -165,8 +165,8 @@ class AddItemViewModel(
         }
     }
 
-    private fun getCategory(): ArrayList<OptionCategory>? {
-        optionCategories.value ?: return null
+    private fun getCategory(): ArrayList<OptionCategory> {
+        optionCategories.value ?: return arrayListOf()
         val optionCategory = arrayListOf<OptionCategory>()
 
         optionCategories.value!!.forEach { category ->
@@ -176,9 +176,10 @@ class AddItemViewModel(
                     optionList.add(option)
                 }
                 val newOptionCategory = OptionCategory(category.title, optionList)
+                optionCategory.add(newOptionCategory)
             }
         }
-        return if (optionCategory.isNotEmpty()) optionCategory else null
+        return optionCategory
     }
 
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
@@ -212,6 +213,7 @@ class AddItemViewModel(
             } catch (e: SQLiteConstraintException) {
                 msg.postValue(res.getString(R.string.item_exist))
             } catch (e: java.lang.Exception) {
+                Log.e("AddItemVM", "Add item failed: ${e.toString()}")
                 msg.postValue(res.getString(R.string.add_item_failed))
             } finally {
                 resetCategory()
