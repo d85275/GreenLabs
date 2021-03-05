@@ -1,6 +1,7 @@
 package chao.greenlabs.utils
 
 import android.content.Context
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -12,7 +13,11 @@ object KeyboardUtils {
         imm.showSoftInput(view, 0)
     }
 
-    fun showKeyboard(context: Context) {
+    fun showKeyboard(context: Context, delay: Long) {
+        Handler(context.mainLooper).postDelayed({ KeyboardUtils.showKeyboard(context) }, delay)
+    }
+
+    private fun showKeyboard(context: Context) {
         val imm: InputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);

@@ -6,7 +6,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.EditText
@@ -14,6 +13,7 @@ import android.widget.TextView
 import chao.greenlabs.R
 import chao.greenlabs.views.customedobjects.IntNumWatcher
 
+private const val SHOW_KEYBOARD_DELAY_MS = 100L
 
 object DialogUtils {
 
@@ -186,16 +186,10 @@ object DialogUtils {
                 )
             )
         }
-
-        dialog.setOnDismissListener {
-            Log.e("DialogUtils", "dialog dismissed")
-            // todo: to dismiss the keyboard here
-            KeyboardUtils.hideKeyboard(context, etData)
-        }
-
-        KeyboardUtils.showKeyboard(context)
         etData.setText(text)
+        etData.selectAll()
         etData.requestFocus()
         dialog.show()
+        KeyboardUtils.showKeyboard(context, SHOW_KEYBOARD_DELAY_MS)
     }
 }
