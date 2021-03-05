@@ -37,12 +37,12 @@ class AddItemViewModel(
     fun getOptionCategories(): LiveData<MutableList<OptionCategory?>> = optionCategories
 
     fun loadOptions() {
-        val list = arrayListOf<OptionCategory?>()
-        list.add(null)
+        val list = optionCategories.value ?: arrayListOf()
+        if (!list.contains(null)) list.add(null)
         optionCategories.value = list
     }
 
-    private fun resetCategory() {
+    fun resetCategory() {
         val list = optionCategories.value ?: arrayListOf()
         list.clear()
         list.add(null)
@@ -141,6 +141,9 @@ class AddItemViewModel(
 
     fun setUpdatedItem(itemData: ItemData) {
         updatedItem.value = itemData
+        val mutableList = mutableListOf<OptionCategory?>()
+        mutableList.addAll(itemData.optionCategory.filterNot { it.title.isEmpty() })
+        optionCategories.value = mutableList
         isUpdateMode = true
     }
 

@@ -6,7 +6,6 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +19,7 @@ import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
-import chao.greenlabs.views.adpaters.additem.AddCategoryAdapter
+import chao.greenlabs.views.adpaters.item.AddCategoryAdapter
 import chao.greenlabs.views.customedobjects.IntNumWatcher
 import chao.greenlabs.views.customedobjects.OnImageTouchListener
 import chao.greenlabs.views.customedobjects.SwipeCallback
@@ -57,6 +56,7 @@ class AddItemFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clearUpdatedItem()
+        viewModel.resetCategory()
     }
 
     private fun showKeyboard() {

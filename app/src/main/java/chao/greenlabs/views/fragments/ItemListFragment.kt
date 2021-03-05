@@ -16,7 +16,7 @@ import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.ItemListVMFactory
 import chao.greenlabs.viewmodels.ItemListViewModel
 import chao.greenlabs.viewmodels.factories.AddItemVMFactory
-import chao.greenlabs.views.adpaters.additem.ItemAdapter
+import chao.greenlabs.views.adpaters.item.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import kotlinx.android.synthetic.main.fragment_item_list.ll_add
 

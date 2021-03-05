@@ -7,7 +7,7 @@ import chao.greenlabs.databinding.ItemOptionCategoryBinding
 import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddItemViewModel
-import chao.greenlabs.views.adpaters.additem.OptionListAdapter
+import chao.greenlabs.views.adpaters.item.OptionListAdapter
 
 class OptionCategoryViewHolder(
     private val binding: ItemOptionCategoryBinding,
