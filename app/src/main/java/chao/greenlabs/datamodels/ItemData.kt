@@ -11,7 +11,8 @@ import chao.greenlabs.viewmodels.AddCustomerViewModel
 @Entity
 data class ItemData(
     @PrimaryKey val name: String,
-    val price: String
+    val price: String,
+    var optionCategory: OptionCategory? = null
 ) {
     @Ignore
     private var bitmap: Bitmap? = null

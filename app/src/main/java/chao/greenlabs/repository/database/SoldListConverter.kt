@@ -7,7 +7,7 @@ import org.json.JSONObject
 
 class SoldListConverter {
     @TypeConverter
-    fun fromCustomerData(soldList:List<CustomerData.SoldItem>): String {
+    fun fromSoldList(soldList:List<CustomerData.SoldItem>): String {
         return JSONObject().apply {
             put("soldDataList", Gson().toJson(soldList))
         }.toString()

@@ -11,7 +11,7 @@ import chao.greenlabs.datamodels.MarketData
     entities = [ItemData::class, MarketData::class, CustomerData::class],
     version = 1
 )
-@TypeConverters(MarketDataConverter::class, SoldListConverter::class)
+@TypeConverters(MarketDataConverter::class, SoldListConverter::class, OptionCategoryConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun itemDao(): ItemDao
     abstract fun marketDao(): MarketDao

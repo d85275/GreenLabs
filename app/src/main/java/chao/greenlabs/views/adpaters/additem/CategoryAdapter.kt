@@ -45,7 +45,6 @@ class AddCategoryAdapter(
     }
 
     fun setList(list: List<OptionCategory?>) {
-        Log.e("123","set list")
         categoryList.clear()
         categoryList.addAll(list)
         notifyDataSetChanged()

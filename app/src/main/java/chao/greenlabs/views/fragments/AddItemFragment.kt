@@ -158,7 +158,6 @@ class AddItemFragment : BaseFragment() {
         })
 
         viewModel.getOptionCategories().observe(viewLifecycleOwner, Observer { optionCategories ->
-            Log.e("123","get option category. size: ${optionCategories.size}")
             adapter.setList(optionCategories)
         })
     }
