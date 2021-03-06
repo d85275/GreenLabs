@@ -29,7 +29,7 @@ class ItemOptionsFragment : BaseFragment() {
         setViews()
         setListeners()
         registerObservers()
-        loadData()
+        //loadData()
     }
 
     override fun onDestroy() {
@@ -60,15 +60,17 @@ class ItemOptionsFragment : BaseFragment() {
     }
 
     private fun loadData() {
+        /*
         runBlocking(Dispatchers.IO) {
             val options = viewModel.loadData()
             adapter.setList(options)
         }
+         */
     }
 
     private fun setViews() {
-        tv_name.text = "Test"
-        tv_price.text = "$ 100"
+        tv_name.text = viewModel.getItemData().name
+        tv_price.text = viewModel.getItemData().price
 
         adapter = ItemOptionsAdapter(
             viewModel
@@ -78,6 +80,7 @@ class ItemOptionsFragment : BaseFragment() {
         rv_details.setHasFixedSize(true)
         rv_details.layoutManager = layoutManager
         rv_details.adapter = adapter
+        adapter.setList(viewModel.getItemData().optionCategory)
     }
 
     private fun setListeners() {

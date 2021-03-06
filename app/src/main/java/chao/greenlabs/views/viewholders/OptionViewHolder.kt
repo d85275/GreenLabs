@@ -13,7 +13,7 @@ class OptionViewHolder(private val binding: ItemOptionsBinding) :
 
     private lateinit var optionCategory: OptionCategory
     private lateinit var viewModel: ItemOptionsViewModel
-    private var itemPosition = -1
+    private var categoryPosition = -1
 
     fun bindView(
         optionCategory: OptionCategory,
@@ -22,7 +22,7 @@ class OptionViewHolder(private val binding: ItemOptionsBinding) :
     ) {
         this.optionCategory = optionCategory
         this.viewModel = viewModel
-        this.itemPosition = position
+        this.categoryPosition = position
         setViews()
     }
 
@@ -35,10 +35,11 @@ class OptionViewHolder(private val binding: ItemOptionsBinding) :
     }
 
     private fun addRadioButton(option: Option, optionPosition: Int) {
+        if (option.title.isEmpty()) return
         val itemRadioButton = OptionRadioButton(binding.root.context)
 
         itemRadioButton.init(viewModel, optionPosition) { position ->
-            viewModel.setSelection(itemPosition, position)
+            viewModel.setSelection(categoryPosition, position)
             updateCheck(position)
         }
 

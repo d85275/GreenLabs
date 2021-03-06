@@ -11,7 +11,7 @@ import chao.greenlabs.views.viewholders.OptionViewHolder
 class ItemOptionsAdapter(
     private val viewModel: ItemOptionsViewModel
 ) : RecyclerView.Adapter<OptionViewHolder>() {
-    private val itemOptionsList = arrayListOf<OptionCategory>()
+    private val categoryList = arrayListOf<OptionCategory>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,16 +20,16 @@ class ItemOptionsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return itemOptionsList.size
+        return categoryList.size
     }
 
     override fun onBindViewHolder(holder: OptionViewHolder, position: Int) {
-        holder.bindView(itemOptionsList[position], position, viewModel)
+        holder.bindView(categoryList[position], position, viewModel)
     }
 
     fun setList(list: List<OptionCategory>) {
-        itemOptionsList.clear()
-        itemOptionsList.addAll(list)
+        categoryList.clear()
+        categoryList.addAll(list)
         notifyDataSetChanged()
     }
 }

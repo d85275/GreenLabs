@@ -74,14 +74,14 @@
         android:name="chao.greenlabs.views.fragments.AddCustomerSoldItemFragment"
         android:label="AddCustomerSoldItemFragment" >
         <action
-            android:id="@+id/action_addCustomerSoldItemFragment_to_soldItemDetailsFragment"
-            app:destination="@id/soldItemDetailsFragment" />
+            android:id="@+id/action_addCustomerSoldItemFragment_to_itemOptionsFragment"
+            app:destination="@id/itemOptionsFragment" />
         <action
             android:id="@+id/action_addCustomerSoldItemFragment_to_addItemFragment"
             app:destination="@id/addItemFragment" />
     </fragment>
     <fragment
-        android:id="@+id/soldItemDetailsFragment"
+        android:id="@+id/itemOptionsFragment"
         android:name="chao.greenlabs.views.fragments.ItemOptionsFragment"
         tools:layout="@layout/fragment_item_options"
         android:label="SoldItemDetailsFragment" />

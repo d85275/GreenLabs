@@ -17,6 +17,7 @@ import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
+import chao.greenlabs.viewmodels.ItemOptionsViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
 import chao.greenlabs.views.adpaters.addcustomer.SearchedItemAdapter
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 class AddCustomerSoldItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
+    private lateinit var itemOptionViewModel: ItemOptionsViewModel
     private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
     private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var binding: FragmentAddCustomerSolditemBinding
@@ -66,13 +68,18 @@ class AddCustomerSoldItemFragment : BaseFragment() {
 
         addCustomerSoldItemViewModel =
             ViewModelProvider(this).get(AddCustomerSoldItemViewModel::class.java)
+
+        itemOptionViewModel = ViewModelProvider(requireActivity()).get(ItemOptionsViewModel::class.java)
     }
 
     private fun setViews() {
         val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
             binding.etSearch.text.clear()
-            viewModel.onSearchItemClicked(item)
+            //viewModel.onSearchItemClicked(item)
+            Log.e("123","set item data")
+            itemOptionViewModel.setItemData(item)
             addCustomerSoldItemViewModel.setClickedItem(item)
+            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_itemOptionsFragment)
         }
 
         searchedAdapter = SearchedItemAdapter(onClickedListener)
@@ -89,7 +96,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         }
 
         binding.tvTitle.setOnClickListener {
-            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_soldItemDetailsFragment)
+            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_itemOptionsFragment)
         }
 
         binding.tvAddItem.setOnClickListener {
@@ -105,7 +112,8 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         })
 
         addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
-            findNavController().popBackStack()
+            //findNavController().popBackStack()
+            //Log.e("123","navigate to it")
         })
     }
 
