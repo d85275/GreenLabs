@@ -76,7 +76,7 @@ class ItemOptionsFragment : BaseFragment() {
         tv_add_item.alpha = 1f
         tv_add_item.setOnClickListener {
             //viewModel.save()
-            addCustomerViewModel.onSearchItemClicked(viewModel.getItemData())
+            addCustomerViewModel.onSearchItemClicked(viewModel.getSavedItem())
             findNavController().popBackStack(R.id.addCustomerFragment,false)
         }
     }

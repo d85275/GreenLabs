@@ -1,13 +1,11 @@
 package chao.greenlabs.viewmodels
 
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.OptionCategory
-import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.LogUtils
 
@@ -46,7 +44,7 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
 
     fun setSelection(categoryPosition: Int, optionPosition: Int) {
         updateSelection(categoryPosition, optionPosition)
-        updateTotalPrice(categoryPosition, optionPosition)
+        totalPrice.value = getPrice()
         updateSelectionState()
     }
 
@@ -56,15 +54,18 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private fun updateTotalPrice(categoryPosition: Int, optionPosition: Int) {
+    private fun getPrice(): String {
         var totalAddedPrice = 0
         itemData.optionCategory.forEach { category ->
             val options = category.optionList.find { it.isSelected }
             totalAddedPrice += options?.addPrice?.toInt() ?: 0
         }
-        val total = (itemData.price.toInt() + totalAddedPrice).toString()
-        totalPrice.value = total
-        itemData.price = total
+        return (itemData.price.toInt() + totalAddedPrice).toString()
+    }
+
+    fun getSavedItem(): ItemData {
+        itemData.price = getPrice()
+        return itemData
     }
 
     private fun updateSelectionState() {
@@ -76,9 +77,5 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
             }
         }
         isOptionsSelected.value = true
-    }
-
-    fun save() {
-        Log.e("123", "save data here")
     }
 }
