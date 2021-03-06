@@ -40,9 +40,8 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
         totalPrice.value = itemData.price
     }
 
-    fun loadBitmap(name: String, price: String): Bitmap? {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getSavedImage(fileName)
+    fun loadBitmap(name: String): Bitmap? {
+        return repository.getSavedImage(name)
     }
 
     fun setSelection(categoryPosition: Int, optionPosition: Int) {

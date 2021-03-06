@@ -17,8 +17,7 @@ data class ItemData(
     @Ignore
     private var bitmap: Bitmap? = null
     fun loadImage(repository: Repository) {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        bitmap = repository.getSavedImage(fileName)
+        bitmap = repository.getSavedImage(name)
     }
 
     fun getImage(): Bitmap? = bitmap

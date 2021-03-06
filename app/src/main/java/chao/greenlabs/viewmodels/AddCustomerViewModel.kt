@@ -90,9 +90,8 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         this.customerData.value = customerData
     }
 
-    fun getImage(name: String, price: String): Bitmap? {
-        val fileName = StringBuilder().append(name).append("_").append(price).toString()
-        return repository.getSavedImage(fileName)
+    fun getImage(name: String): Bitmap? {
+        return repository.getSavedImage(name)
     }
 
     @SuppressLint("CheckResult")

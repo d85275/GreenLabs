@@ -89,7 +89,7 @@ class ItemOptionsFragment : BaseFragment() {
     private fun setViews() {
         tv_name.text = viewModel.getItemData().name
         val bitmap =
-            viewModel.loadBitmap(viewModel.getItemData().name, viewModel.getItemData().price)
+            viewModel.loadBitmap(viewModel.getItemData().name)
         BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
 
         adapter = ItemOptionsAdapter(

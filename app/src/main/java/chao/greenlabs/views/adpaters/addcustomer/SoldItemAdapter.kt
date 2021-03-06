@@ -32,7 +32,7 @@ class SoldItemAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val context = holder.itemView.context
         val price = holder.itemView.context.getString(R.string.price, itemList[position].price)
-        val bitmap = viewModel.getImage(itemList[position].name, itemList[position].price)
+        val bitmap = viewModel.getImage(itemList[position].name)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
         holder.itemView.tv_count.text = itemList[position].count.toString()

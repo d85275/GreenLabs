@@ -154,13 +154,12 @@ class AddItemViewModel(
         bitmapUpdated(false)
     }
 
-    private fun saveBitmap(name: String, price: String, imageView: ImageView) {
+    private fun saveBitmap(name: String, imageView: ImageView) {
         if (!bitmapUpdated) return
 
         val bitmap = BitmapUtils.getBitmapFromImageView(imageView)
         try {
-            val fileName = StringBuilder().append(name).append("_").append(price).toString()
-            repository.saveImageToExternal(fileName, bitmap)
+            repository.saveImageToExternal(name, bitmap)
 
         } catch (e: Exception) {
             msg.postValue(res.getString(R.string.save_image_failed))
@@ -187,7 +186,7 @@ class AddItemViewModel(
 
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         viewModelScope.launch(Dispatchers.IO) {
-            saveBitmap(name, price, imageView)
+            saveBitmap(name, imageView)
 
             val data = ItemData(name, price, getCategory())
             val updatedItem = updatedItem.value

@@ -30,8 +30,7 @@ data class CustomerData(
         private var isImageLoaded = false
         fun getImage(repository: Repository): Bitmap? {
             if (isImageLoaded) return bitmap
-            val fileName = StringBuilder().append(name).append("_").append(price).toString()
-            return repository.getSavedImage(fileName)
+            return repository.getSavedImage(name)
         }
     }
 }
