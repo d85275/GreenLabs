@@ -19,6 +19,7 @@ import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
+import chao.greenlabs.viewmodels.factories.ItemOptionsVMFactory
 import chao.greenlabs.views.adpaters.addcustomer.SearchedItemAdapter
 import kotlinx.coroutines.launch
 
@@ -26,7 +27,8 @@ class AddCustomerSoldItemFragment : BaseFragment() {
 
     private lateinit var viewModel: AddCustomerViewModel
     private lateinit var itemOptionViewModel: ItemOptionsViewModel
-    private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
+
+    //private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
     private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var binding: FragmentAddCustomerSolditemBinding
 
@@ -62,23 +64,24 @@ class AddCustomerSoldItemFragment : BaseFragment() {
     }
 
     private fun getViewModel() {
-        val factory = AddCustomerVMFactory(Repository(requireContext()))
+        val repository = Repository(requireContext())
+        val factory = AddCustomerVMFactory(repository)
         viewModel =
             ViewModelProvider(requireActivity(), factory).get(AddCustomerViewModel::class.java)
 
-        addCustomerSoldItemViewModel =
-            ViewModelProvider(this).get(AddCustomerSoldItemViewModel::class.java)
-
-        itemOptionViewModel = ViewModelProvider(requireActivity()).get(ItemOptionsViewModel::class.java)
+        //addCustomerSoldItemViewModel =
+        //    ViewModelProvider(this).get(AddCustomerSoldItemViewModel::class.java)
+        val itemOptionsFactory = ItemOptionsVMFactory(repository)
+        itemOptionViewModel = ViewModelProvider(requireActivity(), itemOptionsFactory)
+            .get(ItemOptionsViewModel::class.java)
     }
 
     private fun setViews() {
         val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
             binding.etSearch.text.clear()
             //viewModel.onSearchItemClicked(item)
-            Log.e("123","set item data")
             itemOptionViewModel.setItemData(item)
-            addCustomerSoldItemViewModel.setClickedItem(item)
+            //addCustomerSoldItemViewModel.setClickedItem(item)
             findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_itemOptionsFragment)
         }
 
@@ -111,10 +114,10 @@ class AddCustomerSoldItemFragment : BaseFragment() {
             dismissLoading()
         })
 
-        addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
-            //findNavController().popBackStack()
-            //Log.e("123","navigate to it")
-        })
+        //addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
+        //findNavController().popBackStack()
+        //Log.e("123","navigate to it")
+        //})
     }
 
     private val textWatcher = object : TextWatcher {

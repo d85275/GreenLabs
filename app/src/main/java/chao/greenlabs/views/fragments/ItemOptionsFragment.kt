@@ -1,17 +1,20 @@
 package chao.greenlabs.views.fragments
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
+import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
+import chao.greenlabs.viewmodels.factories.MarketListVMFactory
 import chao.greenlabs.views.adpaters.addcustomer.ItemOptionsAdapter
 import kotlinx.android.synthetic.main.fragment_item_options.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 
 class ItemOptionsFragment : BaseFragment() {
 
@@ -29,7 +32,6 @@ class ItemOptionsFragment : BaseFragment() {
         setViews()
         setListeners()
         registerObservers()
-        //loadData()
     }
 
     override fun onDestroy() {
@@ -38,39 +40,39 @@ class ItemOptionsFragment : BaseFragment() {
     }
 
     private fun getViewModels() {
-        viewModel = ViewModelProvider(requireActivity()).get(ItemOptionsViewModel::class.java)
+        val factory = MarketListVMFactory(Repository(requireContext()))
+        viewModel =
+            ViewModelProvider(requireActivity(), factory).get(ItemOptionsViewModel::class.java)
     }
 
     private fun registerObservers() {
-        //viewModel.getOptionsData().observe(viewLifecycleOwner, Observer { options ->
-        //    adapter.setList(options)
-        //})
-
         viewModel.getIsOptionsSelected().observe(viewLifecycleOwner, Observer { isOptionsSelected ->
             if (isOptionsSelected) {
-                tv_add_item.alpha = 1f
-                tv_add_item.setOnClickListener {
-                    viewModel.save()
-                }
+                enableAddButton()
             } else {
-                tv_add_item.alpha = 0.5f
-                tv_add_item.setOnClickListener(null)
+                disableAddButton()
             }
         })
     }
 
-    private fun loadData() {
-        /*
-        runBlocking(Dispatchers.IO) {
-            val options = viewModel.loadData()
-            adapter.setList(options)
+    private fun enableAddButton() {
+        tv_add_item.alpha = 1f
+        tv_add_item.setOnClickListener {
+            viewModel.save()
         }
-         */
+    }
+
+    private fun disableAddButton() {
+        tv_add_item.alpha = 0.5f
+        tv_add_item.setOnClickListener(null)
     }
 
     private fun setViews() {
         tv_name.text = viewModel.getItemData().name
         tv_price.text = viewModel.getItemData().price
+        val bitmap =
+            viewModel.loadBitmap(viewModel.getItemData().name, viewModel.getItemData().price)
+        BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
 
         adapter = ItemOptionsAdapter(
             viewModel
@@ -80,7 +82,11 @@ class ItemOptionsFragment : BaseFragment() {
         rv_details.setHasFixedSize(true)
         rv_details.layoutManager = layoutManager
         rv_details.adapter = adapter
-        adapter.setList(viewModel.getItemData().optionCategory)
+        val categoryList = viewModel.getCategoryList()
+        adapter.setList(categoryList)
+        if (categoryList.isEmpty()) {
+            enableAddButton()
+        }
     }
 
     private fun setListeners() {
