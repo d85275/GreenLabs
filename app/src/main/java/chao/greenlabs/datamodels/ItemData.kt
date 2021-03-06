@@ -11,7 +11,7 @@ import chao.greenlabs.viewmodels.AddCustomerViewModel
 @Entity
 data class ItemData(
     @PrimaryKey val name: String,
-    val price: String,
+    var price: String,
     var optionCategory: ArrayList<OptionCategory> = arrayListOf()
 ) {
     @Ignore

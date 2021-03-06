@@ -63,7 +63,9 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
             val options = category.optionList.find { it.isSelected }
             totalAddedPrice += options?.addPrice?.toInt() ?: 0
         }
-        totalPrice.value = (itemData.price.toInt() + totalAddedPrice).toString()
+        val total = (itemData.price.toInt() + totalAddedPrice).toString()
+        totalPrice.value = total
+        itemData.price = total
     }
 
     private fun updateSelectionState() {
