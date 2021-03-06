@@ -9,12 +9,16 @@ import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.LogUtils
 
 class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
 
     private var isOptionsSelected = MutableLiveData(false)
+    private var totalPrice = MutableLiveData("")
 
     fun getIsOptionsSelected(): LiveData<Boolean> = isOptionsSelected
+
+    fun getTotalPrice(): LiveData<String> = totalPrice
 
     fun clear() {
         isOptionsSelected = MutableLiveData(false)
@@ -33,6 +37,7 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
         isOptionsSelected.value =
             itemData.optionCategory.filterNot { it.title.isEmpty() && it.optionList.isEmpty() }
                 .isEmpty()
+        totalPrice.value = itemData.price
     }
 
     fun loadBitmap(name: String, price: String): Bitmap? {
@@ -41,18 +46,34 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun setSelection(categoryPosition: Int, optionPosition: Int) {
+        updateSelection(categoryPosition, optionPosition)
+        updateTotalPrice(categoryPosition, optionPosition)
+        updateSelectionState()
+    }
+
+    private fun updateSelection(categoryPosition: Int, optionPosition: Int) {
         for (i in itemData.optionCategory[categoryPosition].optionList.indices) {
             itemData.optionCategory[categoryPosition].optionList[i].isSelected = i == optionPosition
         }
+    }
 
-        itemData.optionCategory.forEach { option ->
-            val notSelected = option.optionList.none { it.isSelected }
+    private fun updateTotalPrice(categoryPosition: Int, optionPosition: Int) {
+        var totalAddedPrice = 0
+        itemData.optionCategory.forEach { category ->
+            val options = category.optionList.find { it.isSelected }
+            totalAddedPrice += options?.addPrice?.toInt() ?: 0
+        }
+        totalPrice.value = (itemData.price.toInt() + totalAddedPrice).toString()
+    }
+
+    private fun updateSelectionState() {
+        itemData.optionCategory.forEach { category ->
+            val notSelected = category.optionList.none { it.isSelected }
             if (notSelected) {
                 isOptionsSelected.value = false
                 return
             }
         }
-
         isOptionsSelected.value = true
     }
 

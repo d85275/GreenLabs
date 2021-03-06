@@ -114,7 +114,7 @@
 
             <TextView
                 android:id="@+id/tv_price"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
@@ -124,7 +124,7 @@
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@id/mc_image"
                 app:layout_constraintStart_toEndOf="@id/mc_image"
-                tools:text="$ 500" />
+                tools:text="$ 50000000" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

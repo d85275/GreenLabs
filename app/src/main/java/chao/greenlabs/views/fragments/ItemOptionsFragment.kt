@@ -53,6 +53,9 @@ class ItemOptionsFragment : BaseFragment() {
                 disableAddButton()
             }
         })
+        viewModel.getTotalPrice().observe(viewLifecycleOwner, Observer { price ->
+            tv_price.text = getString(R.string.price, price)
+        })
     }
 
     private fun enableAddButton() {
@@ -69,7 +72,6 @@ class ItemOptionsFragment : BaseFragment() {
 
     private fun setViews() {
         tv_name.text = viewModel.getItemData().name
-        tv_price.text = viewModel.getItemData().price
         val bitmap =
             viewModel.loadBitmap(viewModel.getItemData().name, viewModel.getItemData().price)
         BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
