@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="90dp"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:layout_marginEnd="25dp"
     android:layout_marginBottom="5dp">
 
@@ -23,11 +23,11 @@
             android:layout_gravity="end"
             android:background="@color/complementary_color"
             android:ellipsize="end"
-            android:translationZ="90dp"
             android:gravity="center"
             android:maxLines="1"
             android:textColor="@color/main_text_color"
             android:textSize="12sp"
+            android:translationZ="90dp"
             tools:text="10" />
 
         <ImageView
@@ -46,14 +46,13 @@
         android:ellipsize="end"
         android:gravity="end"
         android:maxLines="2"
-        android:lines="2"
         android:textColor="@color/market_list"
         android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/mc_image"
         app:layout_constraintStart_toStartOf="@id/mc_image"
         app:layout_constraintTop_toBottomOf="@id/mc_image"
-        tools:text="Eaarring" />
+        tools:text="Earrings" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -69,5 +68,19 @@
         app:layout_constraintStart_toStartOf="@id/mc_image"
         app:layout_constraintTop_toBottomOf="@id/tv_name"
         tools:text="$ 500" />
+
+    <TextView
+        android:id="@+id/tv_options"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="end"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/mc_image"
+        app:layout_constraintStart_toStartOf="@id/mc_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_price"
+        tools:text="櫻花, 耳夾" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

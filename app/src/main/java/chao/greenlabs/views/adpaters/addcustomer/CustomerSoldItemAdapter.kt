@@ -10,10 +10,7 @@ import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.BitmapUtils
 import chao.greenlabs.views.adpaters.diffcallbacks.SoldItemDiffCallback
-import kotlinx.android.synthetic.main.view_customer_item.view.iv_image
-import kotlinx.android.synthetic.main.view_customer_item.view.tv_count
-import kotlinx.android.synthetic.main.view_customer_item.view.tv_name
-import kotlinx.android.synthetic.main.view_customer_item.view.tv_price
+import kotlinx.android.synthetic.main.item_customer_item.view.*
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -27,7 +24,7 @@ class CustomerSoldItemAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_customer_item, parent, false)
+            .inflate(R.layout.item_customer_item, parent, false)
         return object : RecyclerView.ViewHolder(view) {}
     }
 
