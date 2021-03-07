@@ -1,10 +1,7 @@
 package chao.greenlabs.datamodels
 
-import android.graphics.Bitmap
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DateTimeUtils
 
 @Entity
@@ -23,14 +20,5 @@ data class CustomerData(
         }
     }
 
-    data class SoldItem(val name: String, val price: String, var count: Int) {
-        @Ignore
-        private var bitmap: Bitmap? = null
-
-        private var isImageLoaded = false
-        fun getImage(repository: Repository): Bitmap? {
-            if (isImageLoaded) return bitmap
-            return repository.getSavedImage(name)
-        }
-    }
+    data class SoldItem(val name: String, val price: String, var count: Int)
 }

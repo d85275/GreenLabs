@@ -1,13 +1,12 @@
 package chao.greenlabs.views.adpaters.item
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
-import chao.greenlabs.utils.BitmapUtils
+import chao.greenlabs.utils.ImageUtils
 import chao.greenlabs.views.adpaters.diffcallbacks.ItemDataDiffCallback
 import kotlinx.android.synthetic.main.item_items.view.*
 
@@ -32,8 +31,7 @@ class ItemAdapter(
         val price = context.getString(R.string.price, itemList[holder.adapterPosition].price)
         holder.itemView.tv_name.text = itemList[holder.adapterPosition].name
         holder.itemView.tv_price.text = price
-        val bitmap = itemList[holder.adapterPosition].getImage()
-        BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
+        ImageUtils.loadImage(context, itemList[holder.adapterPosition].name, holder.itemView.iv_image)
         holder.itemView.setOnClickListener {
             onItemClickedAction.invoke(itemList[holder.adapterPosition])
         }

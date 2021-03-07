@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
-import android.util.Log
+import android.os.Environment
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import chao.greenlabs.R
@@ -12,8 +12,9 @@ import chao.greenlabs.viewmodels.AddItemViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import java.io.File
 
-object BitmapUtils {
+object ImageUtils {
 
     fun getBitmapFromSource(
         result: ActivityResult,
@@ -36,10 +37,13 @@ object BitmapUtils {
         viewModel.bitmapUpdated(true)
     }
 
-    fun loadBitmap(context: Context, bitmap: Bitmap?, imageView: ImageView) {
+    fun loadImage(context: Context, itemName: String, imageView: ImageView) {
+        val path = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        if (path?.exists() != true) path?.mkdirs()
+        val file = File(path, "$itemName.png")
         Glide.with(context).applyDefaultRequestOptions(
             RequestOptions().placeholder(R.drawable.default_item)
-        ).load(bitmap).into(imageView)
+        ).load(file).into(imageView)
     }
 
     fun loadDefault(context: Context, imageView: ImageView) {

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
-import chao.greenlabs.utils.BitmapUtils
+import chao.greenlabs.utils.ImageUtils
 import kotlinx.android.synthetic.main.item_searched_items.view.*
 
 class SearchedItemAdapter(
@@ -29,8 +29,11 @@ class SearchedItemAdapter(
         val price = holder.itemView.context.getString(R.string.price, itemList[position].price)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
-        val bitmap = itemList[position].getImage()
-        BitmapUtils.loadBitmap(holder.itemView.context, bitmap, holder.itemView.iv_image)
+        ImageUtils.loadImage(
+            holder.itemView.context,
+            itemList[position].name,
+            holder.itemView.iv_image
+        )
         holder.itemView.setOnClickListener { onClickedListener.invoke(itemList[position]) }
     }
 

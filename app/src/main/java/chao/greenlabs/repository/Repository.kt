@@ -2,7 +2,6 @@ package chao.greenlabs.repository
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.MediaScannerConnection
 import android.os.Environment
 import android.util.Log
@@ -71,16 +70,6 @@ class Repository(private val context: Context) {
 
     suspend fun updateItem(itemData: ItemData) {
         db.itemDao().update(itemData)
-    }
-
-    fun getTestSavedImage(imgName: String): Bitmap? {
-        val imageFile = getImagePath(imgName) ?: return null
-        return BitmapFactory.decodeFile(imageFile.absolutePath)
-    }
-
-    fun getSavedImage(imgName: String): Bitmap? {
-        val imageFile = getImagePath(imgName) ?: return null
-        return BitmapFactory.decodeFile(imageFile.absolutePath)
     }
 
     fun deleteImage(imgName: String) {

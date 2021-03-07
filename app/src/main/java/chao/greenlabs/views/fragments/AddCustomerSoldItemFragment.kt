@@ -3,7 +3,6 @@ package chao.greenlabs.views.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +14,10 @@ import chao.greenlabs.R
 import chao.greenlabs.databinding.FragmentAddCustomerSolditemBinding
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.viewmodels.AddCustomerSoldItemViewModel
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
-import chao.greenlabs.viewmodels.factories.ItemOptionsVMFactory
 import chao.greenlabs.views.adpaters.addcustomer.SearchedItemAdapter
-import kotlinx.coroutines.launch
 
 class AddCustomerSoldItemFragment : BaseFragment() {
 
@@ -71,8 +67,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
 
         //addCustomerSoldItemViewModel =
         //    ViewModelProvider(this).get(AddCustomerSoldItemViewModel::class.java)
-        val itemOptionsFactory = ItemOptionsVMFactory(repository)
-        itemOptionViewModel = ViewModelProvider(requireActivity(), itemOptionsFactory)
+        itemOptionViewModel = ViewModelProvider(requireActivity())
             .get(ItemOptionsViewModel::class.java)
     }
 

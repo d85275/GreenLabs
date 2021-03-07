@@ -1,15 +1,12 @@
 package chao.greenlabs.viewmodels
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.datamodels.OptionCategory
-import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.LogUtils
 
-class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
+class ItemOptionsViewModel : ViewModel() {
 
     private var isOptionsSelected = MutableLiveData(false)
     private var totalPrice = MutableLiveData("")
@@ -36,10 +33,6 @@ class ItemOptionsViewModel(private val repository: Repository) : ViewModel() {
             itemData.optionCategory.filterNot { it.title.isEmpty() && it.optionList.isEmpty() }
                 .isEmpty()
         totalPrice.value = itemData.price
-    }
-
-    fun loadBitmap(name: String): Bitmap? {
-        return repository.getSavedImage(name)
     }
 
     fun setSelection(categoryPosition: Int, optionPosition: Int) {

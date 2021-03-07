@@ -22,16 +22,6 @@ class ItemDataDiffCallback(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldBitmap = oldData[oldItemPosition].getImage()
-        val newBitmap = newData[newItemPosition].getImage()
-        val theSame = oldBitmap?.sameAs(newBitmap)
-
-        if (theSame != null) {
-            return (oldData[oldItemPosition].name == newData[newItemPosition].name) &&
-                    (oldData[oldItemPosition].price == newData[newItemPosition].price) &&
-                    theSame
-        }
-
         return (oldData[oldItemPosition].name == newData[newItemPosition].name) &&
                 (oldData[oldItemPosition].price == newData[newItemPosition].price)
     }

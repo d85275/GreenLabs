@@ -1,8 +1,6 @@
 package chao.greenlabs.views.fragments
 
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.BitmapUtils
+import chao.greenlabs.utils.ImageUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
@@ -46,10 +44,8 @@ class ItemOptionsFragment : BaseFragment() {
     private fun getViewModels() {
         val repository = Repository(requireContext())
 
-        val factory = MarketListVMFactory(repository)
-
         viewModel =
-            ViewModelProvider(requireActivity(), factory).get(ItemOptionsViewModel::class.java)
+            ViewModelProvider(requireActivity()).get(ItemOptionsViewModel::class.java)
 
         val addCustomerFactory = AddCustomerVMFactory(repository)
         addCustomerViewModel =
@@ -75,7 +71,6 @@ class ItemOptionsFragment : BaseFragment() {
     private fun enableAddButton() {
         tv_add_item.alpha = 1f
         tv_add_item.setOnClickListener {
-            //viewModel.save()
             addCustomerViewModel.onSearchItemClicked(viewModel.getSavedItem())
             findNavController().popBackStack(R.id.addCustomerFragment,false)
         }
@@ -88,9 +83,7 @@ class ItemOptionsFragment : BaseFragment() {
 
     private fun setViews() {
         tv_name.text = viewModel.getItemData().name
-        val bitmap =
-            viewModel.loadBitmap(viewModel.getItemData().name)
-        BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
+        ImageUtils.loadImage(requireContext(), viewModel.getItemData().name, iv_image)
 
         adapter = ItemOptionsAdapter(
             viewModel

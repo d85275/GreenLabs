@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
-import chao.greenlabs.utils.BitmapUtils
+import chao.greenlabs.utils.ImageUtils
 import chao.greenlabs.utils.DialogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.views.adpaters.diffcallbacks.SoldItemDiffCallback
@@ -32,11 +32,10 @@ class SoldItemAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val context = holder.itemView.context
         val price = holder.itemView.context.getString(R.string.price, itemList[position].price)
-        val bitmap = viewModel.getImage(itemList[position].name)
         holder.itemView.tv_name.text = itemList[position].name
         holder.itemView.tv_price.text = price
         holder.itemView.tv_count.text = itemList[position].count.toString()
-        BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
+        ImageUtils.loadImage(context, itemList[position].name, holder.itemView.iv_image)
         setListeners(holder)
     }
 

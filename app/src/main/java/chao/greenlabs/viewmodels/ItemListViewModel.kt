@@ -1,6 +1,5 @@
 package chao.greenlabs.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +8,6 @@ import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-private const val TAG = "ManageItemViewModel"
 
 class ItemListViewModel(private val repository: Repository) : ViewModel() {
 
@@ -21,7 +18,6 @@ class ItemListViewModel(private val repository: Repository) : ViewModel() {
     fun loadItemData() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = repository.getItems().reversed()
-            list.forEach { it.loadImage(repository) }
             itemList.postValue(list)
         }
     }

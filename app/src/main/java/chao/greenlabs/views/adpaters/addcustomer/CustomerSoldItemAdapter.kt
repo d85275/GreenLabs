@@ -1,24 +1,17 @@
 package chao.greenlabs.views.adpaters.addcustomer
 
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
-import chao.greenlabs.repository.Repository
-import chao.greenlabs.utils.BitmapUtils
+import chao.greenlabs.utils.ImageUtils
 import chao.greenlabs.views.adpaters.diffcallbacks.SoldItemDiffCallback
 import kotlinx.android.synthetic.main.item_customer_item.view.*
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 
-private const val LOAD_IMAGE_DELAY_MS = 150L
 
-class CustomerSoldItemAdapter(
-    private val repository: Repository
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CustomerSoldItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var itemList = arrayListOf<CustomerData.SoldItem>()
 
@@ -43,12 +36,7 @@ class CustomerSoldItemAdapter(
         holder.itemView.tv_price.text = context.getString(R.string.price, price)
         holder.itemView.tv_count.text = count.toString()
 
-        Handler(context.mainLooper).postDelayed({
-            MainScope().launch {
-                val bitmap = itemList[position].getImage(repository)
-                BitmapUtils.loadBitmap(context, bitmap, holder.itemView.iv_image)
-            }
-        }, LOAD_IMAGE_DELAY_MS)
+        ImageUtils.loadImage(context, name, holder.itemView.iv_image)
     }
 
     fun setList(items: List<CustomerData.SoldItem>) {

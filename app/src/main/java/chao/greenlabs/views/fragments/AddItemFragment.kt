@@ -132,7 +132,7 @@ class AddItemFragment : BaseFragment() {
 
     private fun setDefaultImage() {
         if (!viewModel.getIsUpdateMode()) {
-            BitmapUtils.loadDefault(requireContext(), iv_image)
+            ImageUtils.loadDefault(requireContext(), iv_image)
         }
     }
 
@@ -153,8 +153,7 @@ class AddItemFragment : BaseFragment() {
             if (updatedItem == null) return@Observer
             et_name.setText(updatedItem.name)
             et_price.setText(updatedItem.price)
-            val bitmap = updatedItem.getImage()
-            BitmapUtils.loadBitmap(requireContext(), bitmap, iv_image)
+            ImageUtils.loadImage(requireContext(), updatedItem.name, iv_image)
         })
 
         viewModel.getOptionCategories().observe(viewLifecycleOwner, Observer { optionCategories ->
@@ -198,7 +197,7 @@ class AddItemFragment : BaseFragment() {
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                BitmapUtils.getBitmapFromSource(result, requireContext(), viewModel, iv_image)
+                ImageUtils.getBitmapFromSource(result, requireContext(), viewModel, iv_image)
             }
         }
 

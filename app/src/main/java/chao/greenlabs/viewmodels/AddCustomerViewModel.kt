@@ -1,8 +1,6 @@
 package chao.greenlabs.viewmodels
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -55,9 +53,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             itemList.clear()
             itemList.addAll(repository.getItems().reversed())
-            itemList.forEach {
-                it.loadImage(repository)
-            }
             matchedItems.postValue(itemList)
         }
     }
@@ -88,10 +83,6 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
 
         customerData.discount = discount.toInt()
         this.customerData.value = customerData
-    }
-
-    fun getImage(name: String): Bitmap? {
-        return repository.getSavedImage(name)
     }
 
     @SuppressLint("CheckResult")

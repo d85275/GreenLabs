@@ -52,10 +52,7 @@ class CustomerViewHolder(
     }
 
     private fun setSoldItems(){
-        val adapter =
-            CustomerSoldItemAdapter(
-                Repository(context)
-            )
+        val adapter = CustomerSoldItemAdapter()
         val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)
 
