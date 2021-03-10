@@ -24,6 +24,8 @@ class SoldItemDiffCallback(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return (oldData[oldItemPosition].name == newData[newItemPosition].name) &&
                 (oldData[oldItemPosition].price == newData[newItemPosition].price) &&
-                (oldData[oldItemPosition].count == newData[newItemPosition].count)
+                (oldData[oldItemPosition].count == newData[newItemPosition].count) &&
+                (oldData[oldItemPosition].optionCategory.containsAll(newData[newItemPosition].optionCategory)) &&
+                (newData[newItemPosition].optionCategory.containsAll(oldData[oldItemPosition].optionCategory))
     }
 }

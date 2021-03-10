@@ -33,16 +33,32 @@ class SoldItemAdapter(
         val context = holder.itemView.context
         val price = holder.itemView.context.getString(R.string.price, itemList[position].price)
         holder.itemView.tv_name.text = itemList[position].name
+        holder.itemView.tv_options.text = getSelectedOptions(itemList[position])
         holder.itemView.tv_price.text = price
         holder.itemView.tv_count.text = itemList[position].count.toString()
         ImageUtils.loadImage(context, itemList[position].name, holder.itemView.iv_image)
         setListeners(holder)
     }
 
+    private fun getSelectedOptions(soldItem: CustomerData.SoldItem): String {
+        val categories = soldItem.optionCategory
+        if (categories.isEmpty()) return ""
+        val options = StringBuilder()
+        categories.forEach { category ->
+            if (category.title.isNotEmpty()) {
+                category.optionList.forEach { option ->
+                    if (option.isSelected) options.append(option.title).append(" ")
+                }
+            }
+        }
+
+        return options.toString()
+    }
+
     private fun setListeners(holder: RecyclerView.ViewHolder) {
 
         holder.itemView.ll_minus.setOnClickListener {
-            if (itemList[holder.adapterPosition].count  == 1) {
+            if (itemList[holder.adapterPosition].count == 1) {
                 val confirmAction: (() -> Unit) = {
                     viewModel.deleteSoldItem(holder.adapterPosition)
                 }

@@ -13,10 +13,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="15dp"
-        app:shapeAppearanceOverlay="@style/circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circle">
 
         <ImageView
             android:id="@+id/iv_image"
@@ -33,9 +33,23 @@
         android:maxLines="1"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_options"
         app:layout_constraintStart_toEndOf="@id/mc_image"
-        app:layout_constraintTop_toTopOf="@id/mc_image"
         tools:text="EarringEarringEarringEarring" />
+
+    <TextView
+        android:id="@+id/tv_options"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mc_image"
+        app:layout_constraintEnd_toStartOf="@id/ll_minus"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="EarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarring" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -46,8 +60,9 @@
         android:gravity="end"
         android:maxLines="1"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/mc_image"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/mc_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_options"
         tools:text="$ 500" />
 
 

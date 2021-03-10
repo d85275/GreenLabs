@@ -90,19 +90,31 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         val customerData = customerData.value ?: return
         val soldList = customerData.soldDataList ?: return
 
-        val soldData = soldList.find { it.name == itemData.name && it.price == itemData.price }
+        val soldData = existSoldData(soldList, itemData)
 
         if (soldData != null) {
             soldList.find { it.name == itemData.name && it.price == itemData.price }!!.count++
             customerData.total += soldData.price.toInt()
         } else {
-            val soldItem = CustomerData.SoldItem(itemData.name, itemData.price, 1)
+            val soldItem =
+                CustomerData.SoldItem(itemData.name, itemData.price, 1, itemData.optionCategory)
             soldList.add(soldItem)
             customerData.total += soldItem.price.toInt()
         }
 
         customerData.soldDataList = soldList
         this.customerData.value = customerData
+    }
+
+    private fun existSoldData(
+        soldList: List<CustomerData.SoldItem>,
+        itemData: ItemData
+    ): CustomerData.SoldItem? {
+        return soldList.find {
+            it.name == itemData.name && it.price == itemData.price &&
+                    it.optionCategory.containsAll(itemData.optionCategory) &&
+                    itemData.optionCategory.containsAll(it.optionCategory)
+        }
     }
 
     fun onSearch(text: String) {

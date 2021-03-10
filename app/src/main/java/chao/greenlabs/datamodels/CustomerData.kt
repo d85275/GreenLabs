@@ -20,5 +20,10 @@ data class CustomerData(
         }
     }
 
-    data class SoldItem(val name: String, val price: String, var count: Int)
+    data class SoldItem(
+        val name: String,
+        val price: String,
+        var count: Int,
+        var optionCategory: ArrayList<OptionCategory> = arrayListOf()
+    )
 }
