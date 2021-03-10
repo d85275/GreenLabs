@@ -186,6 +186,11 @@ object DialogUtils {
                 )
             )
         }
+
+        dialog.setOnDismissListener {
+            KeyboardUtils.hideKeyboard(context)
+        }
+
         etData.setText(text)
         etData.selectAll()
         etData.requestFocus()
