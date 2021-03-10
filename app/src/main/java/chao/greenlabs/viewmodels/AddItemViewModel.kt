@@ -11,6 +11,7 @@ import chao.greenlabs.datamodels.OptionCategory
 import chao.greenlabs.datamodels.Option
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.ImageUtils
+import chao.greenlabs.utils.LogUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -155,6 +156,7 @@ class AddItemViewModel(
     }
 
     private fun saveBitmap(name: String, imageView: ImageView) {
+        LogUtils.debug("bitmapUpdated: $bitmapUpdated")
         if (!bitmapUpdated) return
 
         val bitmap = ImageUtils.getBitmapFromImageView(imageView)

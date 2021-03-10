@@ -42,7 +42,8 @@ object ImageUtils {
         if (path?.exists() != true) path?.mkdirs()
         val file = File(path, "$itemName.png")
         Glide.with(context).applyDefaultRequestOptions(
-            RequestOptions().placeholder(R.drawable.default_item)
+            RequestOptions().placeholder(R.drawable.default_item).
+            skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
         ).load(file).into(imageView)
     }
 

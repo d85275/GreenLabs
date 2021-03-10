@@ -17,7 +17,6 @@ class OptionCategoryListConverter {
         val categoryString = StringBuilder()
         for (i in categoryList.indices) {
             val category = categoryList[i]
-            Log.e("123", "to convert option category: $i")
             categoryString.append(fromCategory(category))
             if (i != categoryList.lastIndex) {
                 categoryString.append(strSeparator)
@@ -46,7 +45,6 @@ class OptionCategoryListConverter {
     }
 
     private fun toCategory(data: String): OptionCategory {
-        Log.e("123", "data: $data")
         if (data.isEmpty()) return OptionCategory("", arrayListOf())
         val json = JSONObject(data)
         val title = json.get("title").toString()
