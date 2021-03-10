@@ -50,7 +50,7 @@ class AddItemFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        showKeyboard()
+        if (!viewModel.getIsUpdateMode()) showKeyboard()
     }
 
     override fun onDestroy() {
