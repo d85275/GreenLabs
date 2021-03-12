@@ -186,6 +186,13 @@ class AddItemViewModel(
         return optionCategory
     }
 
+    private var isItemAdded = false
+
+    fun getIsItemAdded() = isItemAdded
+    fun setIsItemAdd(state: Boolean) {
+        isItemAdded = state
+    }
+
     fun onConfirmClicked(name: String, price: String, imageView: ImageView) {
         viewModelScope.launch(Dispatchers.IO) {
             saveBitmap(name, imageView)
@@ -198,6 +205,7 @@ class AddItemViewModel(
                     updatedItem == null -> {
                         repository.addItem(data)
                         msg.postValue(res.getString(R.string.item_saved))
+                        isItemAdded = true
                     }
 
                     updatedItem.name == data.name -> {

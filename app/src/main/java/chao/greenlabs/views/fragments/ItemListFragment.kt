@@ -1,6 +1,8 @@
 package chao.greenlabs.views.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +13,6 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
-import chao.greenlabs.utils.LogUtils
 import chao.greenlabs.views.customedobjects.SwipeCallback
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.ItemListVMFactory
@@ -20,6 +21,8 @@ import chao.greenlabs.viewmodels.factories.AddItemVMFactory
 import chao.greenlabs.views.adpaters.item.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import kotlinx.android.synthetic.main.fragment_item_list.ll_add
+
+private const val SCROLL_DELAY_MS = 150L
 
 class ItemListFragment : BaseFragment() {
 
@@ -74,14 +77,18 @@ class ItemListFragment : BaseFragment() {
     private fun registerObservers() {
         listViewModel.getItemList().observe(viewLifecycleOwner, Observer { list ->
             dismissLoading()
-            scrollToTop(list.size)
+            scrollToTop()
             adapter.setList(list)
         })
     }
 
-    private fun scrollToTop(newListSize: Int) {
-        if (newListSize <= adapter.itemCount) return
-        rv_items.scrollToPosition(0)
+    private fun scrollToTop() {
+        if (addItemViewModel.getIsItemAdded()) {
+            Handler(Looper.getMainLooper()).postDelayed(
+                { rv_items.smoothScrollToPosition(0) }, SCROLL_DELAY_MS
+            )
+            addItemViewModel.setIsItemAdd(false)
+        }
     }
 
     private fun setListeners() {
