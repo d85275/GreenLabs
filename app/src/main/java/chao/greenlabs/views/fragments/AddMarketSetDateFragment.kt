@@ -22,7 +22,6 @@ import com.github.sundeepk.compactcalendarview.domain.Event
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.*
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.tv_location
 import kotlinx.android.synthetic.main.fragment_add_market_set_date.tv_title
-import kotlinx.android.synthetic.main.view_set_market_info.*
 import java.util.*
 
 private const val VIEW_DISABLE = 0.5f
@@ -154,8 +153,6 @@ class AddMarketSetDateFragment : BaseFragment() {
                     v_set_market_info.setConfirmButtonText(getString(R.string.confirm))
                 }
                 v_set_market_info.setDate(date)
-                v_set_market_info.requireFocus()
-                KeyboardUtils.showKeyboard(requireContext(), et_fee)
                 Handler(requireContext().mainLooper).postDelayed(
                     { bottomSheetController.show() },
                     50

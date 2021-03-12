@@ -100,10 +100,6 @@ open class ViewSetMarketInfo : LinearLayout {
         binding.tvDate.text = date
     }
 
-    fun requireFocus() {
-        binding.etFee.requestFocus()
-    }
-
     fun dismiss() {
         bottomSheetController.hide()
     }

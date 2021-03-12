@@ -146,7 +146,6 @@
     <chao.greenlabs.views.customedobjects.views.ViewSetMarketInfo
         android:id="@+id/v_set_market_info"
         android:layout_width="match_parent"
-        android:layout_marginTop="70dp"
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:layout_height="match_parent"
