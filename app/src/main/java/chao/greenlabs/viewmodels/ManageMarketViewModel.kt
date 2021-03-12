@@ -13,8 +13,6 @@ import chao.greenlabs.utils.LogUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private const val TAG = "ManageMarketViewModel"
-
 class ManageMarketViewModel(
     private val res: Resources,
     private val repository: Repository
@@ -139,7 +137,7 @@ class ManageMarketViewModel(
         val marketDate = marketData.date
         val marketPrice = marketData.fee
         stringBuilder.append(marketName).append(" ").append(marketDate)
-            .append("\n${res.getString(R.string.total_price)}: ")
+            .append("\n${res.getString(R.string.total_sold_price)}: ")
             .append(totalPrice).append("\n\n")
 
         stringBuilder.append("${res.getString(R.string.market_price)} ")
@@ -201,6 +199,11 @@ class ManageMarketViewModel(
             ).append("\n\n")
         }
 
+        if (details.isEmpty()) {
+            LogUtils.debug("\n${stringBuilder.toString()}")
+            return stringBuilder.toString()
+        }
+
         stringBuilder.append("${res.getString(R.string.detail_divider_head)}\n")
         details.forEach { (name, count) ->
             stringBuilder.append(name).append(" * ").append(count).append("\n")
@@ -208,6 +211,7 @@ class ManageMarketViewModel(
         stringBuilder.append("${res.getString(R.string.detail_divider_end)}\n")
 
         LogUtils.debug("\n${stringBuilder.toString()}")
+
         return stringBuilder.toString()
     }
 }
