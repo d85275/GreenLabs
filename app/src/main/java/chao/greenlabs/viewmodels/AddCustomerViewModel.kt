@@ -140,10 +140,17 @@ class AddCustomerViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             if (!isUpdateMode) {
                 repository.addCustomer(customerData)
+                isCustomerAdded = true
             } else {
                 repository.updateCustomer(customerData)
             }
             isCustomerSaved.postValue(true)
         }
+    }
+
+    private var isCustomerAdded = false
+    fun getIsCustomerAdded(): Boolean = isCustomerAdded
+    fun setIsCustomerAdded(state: Boolean) {
+        isCustomerAdded = state
     }
 }

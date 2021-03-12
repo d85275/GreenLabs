@@ -4,7 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
@@ -22,9 +23,13 @@ import chao.greenlabs.viewmodels.factories.ManageMarketVMFactory
 import chao.greenlabs.views.adpaters.CustomerAdapter
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.fragment_manage_market.*
+import kotlinx.android.synthetic.main.fragment_manage_market.cl_top
+import kotlinx.android.synthetic.main.fragment_manage_market.ll_back
+import kotlinx.android.synthetic.main.fragment_manage_market.tv_title
 import kotlin.math.abs
 
 private const val COLLAPSE_TOTAL_VIEW_OFFSET = -30f
+private const val SCROLL_DELAY_MS = 150L
 
 class ManageMarketFragment : BaseFragment() {
 
@@ -93,7 +98,18 @@ class ManageMarketFragment : BaseFragment() {
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
             setList(customerList.map { it.copy() })
             dismissLoading()
+            scrollToBottom()
         })
+    }
+
+    private fun scrollToBottom() {
+        if (addCustomerViewModel.getIsCustomerAdded()) {
+            addCustomerViewModel.setIsCustomerAdded(false)
+            Handler(Looper.getMainLooper()).postDelayed(
+                { nest_scroll_view.smoothScrollTo(0, nest_scroll_view.getChildAt(0).height) },
+                SCROLL_DELAY_MS
+            )
+        }
     }
 
     private fun setList(customerList: List<CustomerData>) {
