@@ -9,6 +9,7 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.LogUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -150,13 +151,33 @@ class ManageMarketViewModel(
             stringBuilder.append("${res.getString(R.string.customer_divider)}\n")
             stringBuilder.append(res.getString(R.string.customer_no, i + 1)).append("\n\n")
             customer.soldDataList?.forEach {
-                stringBuilder.append(it.name).append(" * ").append(it.count).append(" ")
+
+                // get options
+                val options = StringBuilder()
+                it.optionCategory.forEach { category ->
+                    if (category.title.isNotEmpty()) {
+                        category.optionList.forEach { option ->
+                            if (option.isSelected) options.append(option.title).append(" ")
+                        }
+                    }
+                }
+
+                stringBuilder.append(it.name)
+
+                val key = StringBuilder().append(it.name)
+                if (options.toString().isNotEmpty()) {
+                    key.append(" (").append(options.toString().trim()).append(")")
+                    stringBuilder.append(" (").append(options.toString().trim()).append(")")
+                }
+
+                stringBuilder.append(" * ").append(it.count).append(" ")
                     .append((it.count * it.price.toInt())).append("\n")
 
-                if (details[it.name] == null) {
-                    details[it.name] = it.count
+
+                if (details[key.toString()] == null) {
+                    details[key.toString()] = it.count
                 } else {
-                    details[it.name] = details[it.name]!! + it.count
+                    details[key.toString()] = details[key.toString()]!! + it.count
                 }
             }
             if (customer.memo.isNotEmpty()) {
@@ -186,6 +207,7 @@ class ManageMarketViewModel(
         }
         stringBuilder.append("${res.getString(R.string.detail_divider_end)}\n")
 
+        LogUtils.debug("\n${stringBuilder.toString()}")
         return stringBuilder.toString()
     }
 }
