@@ -10,7 +10,6 @@ class AddOptionCategoryViewHolder(
     private val viewModel: AddItemViewModel
 ) : BaseViewHolder(binding.root) {
 
-    private var categoryIdx = 1
 
     override fun bindView(optionCategory: OptionCategory?, position: Int) {
         super.bindView(optionCategory, position)
@@ -20,8 +19,7 @@ class AddOptionCategoryViewHolder(
     private fun setListeners() {
         binding.root.setOnClickListener {
             val context = binding.root.context
-            val defaultTitle = context.getString(R.string.added_category, categoryIdx)
-            categoryIdx++
+            val defaultTitle = context.getString(R.string.added_category)
             viewModel.addCategory(defaultTitle)
         }
     }

@@ -19,7 +19,6 @@ class OptionCategoryViewHolder(
 
     private var mPosition = -1
     private var context: Context = binding.root.context
-    private var optionIdx = 1
 
     override fun bindView(optionCategory: OptionCategory?, position: Int) {
         super.bindView(optionCategory, position)
@@ -57,8 +56,7 @@ class OptionCategoryViewHolder(
     }
 
     private fun addOption() {
-        val defaultTitle = binding.root.context.getString(R.string.added_option, optionIdx)
-        optionIdx++
+        val defaultTitle = binding.root.context.getString(R.string.added_option)
         viewModel.addOption(defaultTitle, mPosition)
 
     }
