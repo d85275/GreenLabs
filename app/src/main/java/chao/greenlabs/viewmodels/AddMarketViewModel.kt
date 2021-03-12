@@ -16,15 +16,12 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
 
     private var marketList = MutableLiveData<List<MarketData>>(arrayListOf())
 
-    private var newMarketData = MutableLiveData<MarketData>()
-
     private var addDone = MutableLiveData(false)
 
     fun getAddDone(): LiveData<Boolean> = addDone
 
     fun getMarketList(): LiveData<List<MarketData>> = marketList
 
-    fun getNewMarketData(): LiveData<MarketData> = newMarketData
 
     fun addMarket(date: String, startTime: String, endTime: String, fee: String) {
         val curData: List<MarketData> = marketList.value!!
@@ -43,7 +40,6 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
                 MarketData.create(marketName, fee, marketLocation, date, startTime, endTime)
             list.add(marketData)
             list.addAll(curData)
-            newMarketData.value = marketData
         }
         marketList.value = list.sortedBy { it.date }
     }
@@ -82,7 +78,6 @@ class AddMarketViewModel(private val repository: Repository) : ViewModel() {
         marketName = ""
         marketLocation = ""
         marketList = MutableLiveData(arrayListOf())
-        newMarketData = MutableLiveData()
         addDone = MutableLiveData(false)
     }
 }

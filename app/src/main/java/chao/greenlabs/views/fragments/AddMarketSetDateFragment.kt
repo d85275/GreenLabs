@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
+import chao.greenlabs.datamodels.MarketData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.*
 import chao.greenlabs.viewmodels.AddMarketViewModel
@@ -58,14 +59,13 @@ class AddMarketSetDateFragment : BaseFragment() {
             if (v_set_market_info.isViewShown()) {
                 v_set_market_info.dismiss()
             } else {
-                showBackWarningDialog()
+                findNavController().popBackStack()
             }
         }
 
         ll_back.setOnClickListener {
             if (bottomSheetController.isShown()) return@setOnClickListener
-
-            showBackWarningDialog()
+            findNavController().popBackStack()
         }
 
         ll_done.setOnClickListener {
@@ -95,18 +95,20 @@ class AddMarketSetDateFragment : BaseFragment() {
 
         viewModel.getMarketList().observe(viewLifecycleOwner, Observer { list ->
             adapter.setList(list)
-        })
-
-        viewModel.getNewMarketData().observe(viewLifecycleOwner, Observer { marketData ->
-            val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return@Observer
-            val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
-            ccv_market_calendar.addEvents(listOf(event))
+            ccv_market_calendar.removeAllEvents()
+            list.forEach { addCalendarEvent(it) }
         })
 
         bottomSheetController.getShownState().observe(viewLifecycleOwner, Observer { isShown ->
             ll_back.alpha = if (isShown) VIEW_DISABLE else VIEW_ENABLE
             ll_done.alpha = if (isShown) VIEW_DISABLE else VIEW_ENABLE
         })
+    }
+
+    private fun addCalendarEvent(marketData: MarketData) {
+        val date = DateTimeUtils.getCurrentDate(marketData.date) ?: return
+        val event = Event(requireContext().getColor(R.color.colorPrimary), date.time)
+        ccv_market_calendar.addEvents(listOf(event))
     }
 
     private fun initViews() {
@@ -164,11 +166,6 @@ class AddMarketSetDateFragment : BaseFragment() {
                 tv_calendar_month.text = DateTimeUtils.getMonthString(firstDayOfNewMonth)
             }
         }
-    }
-
-    private fun showBackWarningDialog() {
-        val msg = getString(R.string.back_warning)
-        DialogUtils.showQuestion(requireContext(), msg) { findNavController().popBackStack() }
     }
 
     private val onItemSwipedAction: ((position: Int) -> Unit) = { position ->
