@@ -121,6 +121,7 @@
             android:drawablePadding="5dp"
             android:ellipsize="end"
             android:hint="@string/sold_item_hint"
+            android:inputType="text"
             android:maxLines="1"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"

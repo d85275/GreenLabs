@@ -24,6 +24,7 @@
     <string name="add_market">新增市集</string>
     <string name="market_name">市集名稱</string>
     <string name="market_price">攤位費用</string>
+    <string name="market_price_hint">請輸入攤位費用</string>
     <string name="market_location">市集地點</string>
     <string name="market_date">市集日期</string>
     <string name="item_name">商品名稱</string>
