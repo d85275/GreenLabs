@@ -39,6 +39,7 @@ class CustomerAdapter(
         (holder as CustomerViewHolder).bindView(
             viewPool,
             customerData,
+            customerList.size,
             holder.adapterPosition
         ) { data -> onAddCustomerAction.invoke(data) }
     }

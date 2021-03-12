@@ -21,15 +21,18 @@ class CustomerViewHolder(
     private lateinit var context: Context
     private lateinit var onAddCustomerAction: ((customerData: CustomerData) -> Unit)
     private lateinit var viewPool: RecyclerView.RecycledViewPool
+    private var customerSize = 0
 
     fun bindView(
         viewPool: RecyclerView.RecycledViewPool,
         customerData: CustomerData,
+        customerSize: Int,
         position: Int,
         onAddCustomerAction: (customerData: CustomerData) -> Unit
     ) {
         this.viewPool = viewPool
         this.customerData = customerData
+        this.customerSize = customerSize
         this.context = binding.root.context
         this.onAddCustomerAction = onAddCustomerAction
         setViews(position)
@@ -44,14 +47,15 @@ class CustomerViewHolder(
         val discount = customerData.discount
         val total = subTotal - discount
 
+        val no = customerSize - position
         binding.memo = "${customerData.memo}\u0020"
-        binding.customerNo = context.getString(R.string.customer_no, position + 1)
+        binding.customerNo = context.getString(R.string.customer_no, no)
         binding.subTotal = context.getString(R.string.price, subTotal.toString())
         binding.discount = context.getString(R.string.price, discount.toString())
         binding.total = context.getString(R.string.price, total.toString())
     }
 
-    private fun setSoldItems(){
+    private fun setSoldItems() {
         val adapter = CustomerSoldItemAdapter()
         val list = customerData.soldDataList ?: listOf<CustomerData.SoldItem>()
         adapter.setList(list)

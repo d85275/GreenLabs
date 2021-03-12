@@ -38,7 +38,7 @@ class ManageMarketViewModel(
     fun loadCustomers() {
         val marketData = this.marketData.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
-            val list = repository.getCustomer(marketData.id)
+            val list = repository.getCustomer(marketData.id).reversed()
             customerList.postValue(list)
             updateMarketIncome(list)
         }

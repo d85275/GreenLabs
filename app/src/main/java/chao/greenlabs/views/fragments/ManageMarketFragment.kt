@@ -98,15 +98,15 @@ class ManageMarketFragment : BaseFragment() {
         viewModel.getCustomerList().observe(viewLifecycleOwner, Observer { customerList ->
             setList(customerList.map { it.copy() })
             dismissLoading()
-            scrollToBottom()
+            scrollToTop()
         })
     }
 
-    private fun scrollToBottom() {
+    private fun scrollToTop() {
         if (addCustomerViewModel.getIsCustomerAdded()) {
             addCustomerViewModel.setIsCustomerAdded(false)
             Handler(Looper.getMainLooper()).postDelayed(
-                { nest_scroll_view.smoothScrollTo(0, nest_scroll_view.getChildAt(0).height) },
+                { nest_scroll_view.smoothScrollTo(0, 0) },
                 SCROLL_DELAY_MS
             )
         }
