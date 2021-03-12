@@ -11,7 +11,7 @@
     <string name="cancel">取消</string>
     <string name="price">$ %1$s</string>
     <string name="add_price">+$ %1$s</string>
-    <string name="total_sold_price">銷售總額</string>
+    <string name="total_sold_price">總收益</string>
     <string name="delete_msg">是否要將資料刪除？</string>
     <string name="sold_item_hint">請輸入售出商品品名或價格</string>
     <string name="data_copied">已複製市集資料</string>
