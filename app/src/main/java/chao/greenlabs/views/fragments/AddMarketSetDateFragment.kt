@@ -119,6 +119,7 @@ class AddMarketSetDateFragment : BaseFragment() {
         ccv_market_calendar.displayOtherMonthDays(true)
         ccv_market_calendar.shouldSelectFirstDayOfMonthOnScroll(false)
         ccv_market_calendar.shouldDrawIndicatorsBelowSelectedDays(true)
+        ccv_market_calendar.setUseThreeLetterAbbreviation(true)
 
         bottomSheetController = BottomSheetController(v_set_market_info)
         v_set_market_info.init(
