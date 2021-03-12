@@ -11,6 +11,7 @@ import chao.greenlabs.R
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.LogUtils
 import chao.greenlabs.views.customedobjects.SwipeCallback
 import chao.greenlabs.viewmodels.AddItemViewModel
 import chao.greenlabs.viewmodels.factories.ItemListVMFactory
@@ -73,8 +74,14 @@ class ItemListFragment : BaseFragment() {
     private fun registerObservers() {
         listViewModel.getItemList().observe(viewLifecycleOwner, Observer { list ->
             dismissLoading()
+            scrollToTop(list.size)
             adapter.setList(list)
         })
+    }
+
+    private fun scrollToTop(newListSize: Int) {
+        if (newListSize <= adapter.itemCount) return
+        rv_items.scrollToPosition(0)
     }
 
     private fun setListeners() {
