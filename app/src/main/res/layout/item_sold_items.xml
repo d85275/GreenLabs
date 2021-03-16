@@ -30,24 +30,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10sp"
         android:maxLines="1"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_options"
+        app:layout_constraintEnd_toStartOf="@id/ll_minus"
         app:layout_constraintStart_toEndOf="@id/mc_image"
-        tools:text="EarringEarringEarringEarring" />
+        tools:text="EarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarring" />
 
     <TextView
         android:id="@+id/tv_options"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10sp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/mc_image"
         app:layout_constraintEnd_toStartOf="@id/ll_minus"
+        app:layout_constraintStart_toEndOf="@id/mc_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="EarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarringEarring" />
 
@@ -70,7 +73,7 @@
         android:id="@+id/ll_minus"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/circle_bg_main"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/mc_image"
@@ -85,19 +88,19 @@
 
     <TextView
         android:id="@+id/tv_count"
-        android:layout_width="0dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="15dp"
         android:layout_weight="1"
+        android:gravity="center"
         android:ellipsize="end"
-        android:gravity="end"
         android:maxLines="1"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/mc_image"
         app:layout_constraintEnd_toStartOf="@id/ll_plus"
         app:layout_constraintTop_toTopOf="@id/mc_image"
-        tools:text="1" />
+        tools:text="100" />
 
     <LinearLayout
         android:id="@+id/ll_plus"

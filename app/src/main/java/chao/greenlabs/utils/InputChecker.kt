@@ -14,7 +14,12 @@ object InputChecker {
         return true
     }
 
-    fun validInput(vararg input:String): Boolean {
+    fun validNumber(num: String): Boolean {
+        if (num.length >= 7) return false
+        return true
+    }
+
+    fun validInput(vararg input: String): Boolean {
         input.forEach {
             if (it.isEmpty()) return false
         }

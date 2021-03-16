@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import chao.greenlabs.R
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.InputChecker
 import chao.greenlabs.utils.KeyboardUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
@@ -95,10 +96,15 @@ class AddCustomerFragment : BaseFragment() {
                 tv_discount.text.toString().split(" ")[1]
             }
             val confirmAction: (discount: String) -> Unit = {
-                if (it.isNotEmpty()) {
-                    tv_discount.text = getString(R.string.price, it)
+                if (InputChecker.validNumber(it)) {
+                    if (it.isNotEmpty()) {
+                        tv_discount.text = getString(R.string.price, it)
+                        viewModel.updateDiscount(it)
+                    }
+                } else {
+                    val msg = requireContext().getString(R.string.wrong_format)
+                    DialogUtils.showInfo(requireContext(), msg)
                 }
-                viewModel.updateDiscount(it)
                 KeyboardUtils.hideKeyboard(requireContext(), view)
             }
             DialogUtils.showEditNumber(requireContext(), confirmAction, discount)

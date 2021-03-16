@@ -126,7 +126,7 @@ class AddItemFragment : BaseFragment() {
         if (InputChecker.validItem(name, price)) {
             viewModel.onConfirmClicked(name, price, iv_image)
         } else {
-            val msg = requireContext().getString(R.string.column_empty)
+            val msg = requireContext().getString(R.string.wrong_format)
             DialogUtils.showInfo(requireContext(), msg)
         }
     }

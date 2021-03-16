@@ -81,9 +81,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sold_items"
             android:layout_width="0dp"
-            android:minHeight="150dp"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:minHeight="150dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_customer_number" />
@@ -122,13 +122,14 @@
                 android:id="@+id/tv_sub_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="end"
-                android:maxWidth="50dp"
+                android:maxWidth="150dp"
                 android:maxLines="1"
                 android:text="@{subTotal}"
                 android:textColor="@color/market_list"
                 android:textSize="12sp"
-                tools:text="$ 1500" />
+                tools:text="$ 1500000000000000000" />
         </LinearLayout>
 
         <LinearLayout
@@ -153,8 +154,9 @@
                 android:id="@+id/tv_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="end"
-                android:maxWidth="50dp"
+                android:maxWidth="150dp"
                 android:maxLines="1"
                 android:text="@{discount}"
                 android:textColor="@color/market_list"
@@ -195,8 +197,9 @@
                 android:id="@+id/tv_total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:gravity="end"
-                android:maxWidth="50dp"
+                android:maxWidth="150dp"
                 android:maxLines="1"
                 android:text="@{total}"
                 android:textColor="@color/market_list"
