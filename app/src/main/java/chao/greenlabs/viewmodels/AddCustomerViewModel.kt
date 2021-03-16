@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.LogUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

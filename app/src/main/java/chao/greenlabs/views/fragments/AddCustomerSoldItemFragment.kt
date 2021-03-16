@@ -14,6 +14,7 @@ import chao.greenlabs.R
 import chao.greenlabs.databinding.FragmentAddCustomerSolditemBinding
 import chao.greenlabs.datamodels.ItemData
 import chao.greenlabs.repository.Repository
+import chao.greenlabs.utils.LogUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ItemOptionsViewModel
 import chao.greenlabs.viewmodels.factories.AddCustomerVMFactory
@@ -24,9 +25,9 @@ class AddCustomerSoldItemFragment : BaseFragment() {
     private lateinit var viewModel: AddCustomerViewModel
     private lateinit var itemOptionViewModel: ItemOptionsViewModel
 
-    //private lateinit var addCustomerSoldItemViewModel: AddCustomerSoldItemViewModel
     private lateinit var searchedAdapter: SearchedItemAdapter
     private lateinit var binding: FragmentAddCustomerSolditemBinding
+    private var isSearched = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +37,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         val layoutInflater = LayoutInflater.from(requireContext())
         binding = FragmentAddCustomerSolditemBinding.inflate(layoutInflater, container, false)
         binding.searchedDataSize = 0
+        isSearched = false
         return binding.root
     }
 
@@ -65,8 +67,6 @@ class AddCustomerSoldItemFragment : BaseFragment() {
         viewModel =
             ViewModelProvider(requireActivity(), factory).get(AddCustomerViewModel::class.java)
 
-        //addCustomerSoldItemViewModel =
-        //    ViewModelProvider(this).get(AddCustomerSoldItemViewModel::class.java)
         itemOptionViewModel = ViewModelProvider(requireActivity())
             .get(ItemOptionsViewModel::class.java)
     }
@@ -74,9 +74,7 @@ class AddCustomerSoldItemFragment : BaseFragment() {
     private fun setViews() {
         val onClickedListener: ((itemData: ItemData) -> Unit) = { item ->
             binding.etSearch.text.clear()
-            //viewModel.onSearchItemClicked(item)
             itemOptionViewModel.setItemData(item)
-            //addCustomerSoldItemViewModel.setClickedItem(item)
             findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_itemOptionsFragment)
         }
 
@@ -93,10 +91,6 @@ class AddCustomerSoldItemFragment : BaseFragment() {
             findNavController().popBackStack()
         }
 
-        binding.tvTitle.setOnClickListener {
-            findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_itemOptionsFragment)
-        }
-
         binding.tvAddItem.setOnClickListener {
             findNavController().navigate(R.id.action_addCustomerSoldItemFragment_to_addItemFragment)
         }
@@ -105,19 +99,20 @@ class AddCustomerSoldItemFragment : BaseFragment() {
     private fun registerObservers() {
         viewModel.getMatchedItems().observe(viewLifecycleOwner, Observer { matchedList ->
             binding.searchedDataSize = matchedList.size
+            if (isSearched && matchedList.isEmpty()) {
+                binding.llNotFound.visibility = View.VISIBLE
+            } else {
+                binding.llNotFound.visibility = View.GONE
+            }
             searchedAdapter.setList(matchedList)
             dismissLoading()
         })
-
-        //addCustomerSoldItemViewModel.getClickedItem().observe(viewLifecycleOwner, Observer {
-        //findNavController().popBackStack()
-        //Log.e("123","navigate to it")
-        //})
     }
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             viewModel.onSearch(s.toString().trim())
+            if (s.toString().isNotEmpty()) isSearched = true
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
