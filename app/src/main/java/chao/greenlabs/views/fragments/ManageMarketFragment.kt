@@ -117,6 +117,11 @@ class ManageMarketFragment : BaseFragment() {
     }
 
     private fun setListeners() {
+        ll_market_income.setOnClickListener {
+            val msg = requireContext().getString(R.string.total_income_hint)
+            DialogUtils.showInfo(requireContext(), msg)
+        }
+
         ll_copy.setOnClickListener {
             val copyData = viewModel.getCopyData()
             val myClipboard =

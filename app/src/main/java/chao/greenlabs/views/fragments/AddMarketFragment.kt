@@ -63,7 +63,8 @@ class AddMarketFragment : BaseFragment() {
             KeyboardUtils.hideKeyboard(requireContext(), view)
             findNavController().navigate(R.id.action_addMarketFragment_to_addMarketSetDateFragment)
         } else {
-            DialogUtils.showWrongFormat(requireContext())
+            val msg = requireContext().getString(R.string.column_empty)
+            DialogUtils.showInfo(requireContext(), msg)
         }
     }
 

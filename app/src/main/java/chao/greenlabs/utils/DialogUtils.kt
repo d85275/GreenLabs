@@ -17,8 +17,7 @@ private const val SHOW_KEYBOARD_DELAY_MS = 100L
 
 object DialogUtils {
 
-    fun showWrongFormat(context: Context) {
-        val msg = context.getString(R.string.wrong_format)
+    fun showInfo(context: Context, msg: String) {
         showDialog(context, null, msg, null, null, null, null, false)
     }
 

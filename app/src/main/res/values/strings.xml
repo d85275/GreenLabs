@@ -32,6 +32,7 @@
     <string name="joined_market">已參加 %1$d 個市集</string>
     <string name="total_market_income">市集收益 %1$d</string>
     <string name="wrong_format">資料格式錯誤</string>
+    <string name="column_empty">請輸入所有欄位</string>
     <string name="no_market">尚未參加任何市集</string>
     <string name="start_time">開始時間</string>
     <string name="end_time">結束時間</string>
@@ -70,4 +71,5 @@
     <string name="item_saved">品項已儲存</string>
     <string name="item_updated">品項已更新</string>
     <string name="item_not_found">找不到此商品，點擊新增</string>
+    <string name="total_income_hint">總收益 = 攤位收入 - 攤位費</string>
 </resources>
