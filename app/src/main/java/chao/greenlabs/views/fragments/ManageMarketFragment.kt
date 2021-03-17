@@ -15,6 +15,7 @@ import chao.greenlabs.datamodels.CustomerData
 import chao.greenlabs.repository.Repository
 import chao.greenlabs.utils.AnimUtils
 import chao.greenlabs.utils.DialogUtils
+import chao.greenlabs.utils.LogUtils
 import chao.greenlabs.utils.ToastUtils
 import chao.greenlabs.viewmodels.AddCustomerViewModel
 import chao.greenlabs.viewmodels.ManageMarketViewModel

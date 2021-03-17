@@ -73,15 +73,17 @@ open class ViewSetMarketInfo : LinearLayout {
     }
 
     private fun addMarket() {
-        // todo: to check if we should add the data
         val startTime = binding.tvStart.text.toString()
         val endTime = binding.tvEnd.text.toString()
         val fee = binding.etFee.text.toString()
         val date = binding.tvDate.text.toString()
-        if (InputChecker.validInput(date, startTime, endTime, fee)) {
+        if (InputChecker.validInput(date, startTime, endTime, fee) && InputChecker.validNumber(fee)) {
             viewModel.addMarket(date, startTime, endTime, fee)
+            dismiss()
+        } else {
+            val msg = context.getString(R.string.wrong_format)
+            DialogUtils.showInfo(context, msg)
         }
-        dismiss()
     }
 
     private fun initView() {

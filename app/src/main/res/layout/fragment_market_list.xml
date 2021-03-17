@@ -76,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:background="@drawable/circle_bg_white"
-        android:elevation="10dp"
+        android:elevation="2dp"
         android:minWidth="200dp"
         android:translationX="-25dp"
         android:translationY="-45dp"
@@ -187,8 +187,7 @@
             android:layout_marginTop="40dp"
             android:text="@string/no_market"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:textStyle="bold" />
+            android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
 

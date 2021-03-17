@@ -29,11 +29,12 @@ object AnimUtils {
     }
 
     fun showFromRight(parent: View, view: View, offset: Float) {
-        view.visibility = View.VISIBLE
         view.measure(
             View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
         )
+        view.translationX = (2 * view.measuredWidth).toFloat()
+        view.visibility = View.VISIBLE
         view.animate()
             .translationX(offset)
             .setDuration(SHOW_DURATION_MS)
@@ -45,6 +46,8 @@ object AnimUtils {
             View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
         )
+
+        val x = view.translationX
         view.animate()
             .translationX((2 * view.measuredWidth).toFloat())
             .setDuration(SHOW_DURATION_MS)
