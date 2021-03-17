@@ -47,7 +47,6 @@ object AnimUtils {
             View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
         )
 
-        val x = view.translationX
         view.animate()
             .translationX((2 * view.measuredWidth).toFloat())
             .setDuration(SHOW_DURATION_MS)

@@ -79,6 +79,13 @@ class ItemListFragment : BaseFragment() {
             dismissLoading()
             scrollToTop()
             adapter.setList(list)
+            if (list.isEmpty()) {
+                no_items.visibility = View.VISIBLE
+                rv_items.visibility = View.GONE
+            } else {
+                no_items.visibility = View.GONE
+                rv_items.visibility = View.VISIBLE
+            }
         })
     }
 

@@ -72,4 +72,6 @@
     <string name="item_updated">品項已更新</string>
     <string name="item_not_found">找不到此商品，點擊新增</string>
     <string name="total_income_hint">總收益 = 攤位收入 - 攤位費</string>
+    <string name="no_customers_hint">尚未成立訂單，加油！！</string>
+    <string name="no_items_hint">尚未加入任何商品</string>
 </resources>

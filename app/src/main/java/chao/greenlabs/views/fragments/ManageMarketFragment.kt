@@ -100,8 +100,16 @@ class ManageMarketFragment : BaseFragment() {
             setList(customerList.map { it.copy() })
             dismissLoading()
             scrollToTop()
+            if (customerList.isEmpty()) {
+                no_customers.visibility = View.VISIBLE
+                rv_customers.visibility = View.GONE
+            } else {
+                no_customers.visibility = View.GONE
+                rv_customers.visibility = View.VISIBLE
+            }
         })
     }
+
 
     private fun scrollToTop() {
         if (addCustomerViewModel.getIsCustomerAdded()) {
