@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <chao.greenlabs.views.customedobjects.views.ViewMarketDetail
+                <chao.market_helper.views.customedobjects.views.ViewMarketDetail
                     android:id="@+id/v_market_detail"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"

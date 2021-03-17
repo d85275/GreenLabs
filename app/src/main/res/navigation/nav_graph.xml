@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/addItemFragment"
-        android:name="chao.greenlabs.views.fragments.AddItemFragment"
+        android:name="chao.market_helper.views.fragments.AddItemFragment"
         android:label="Blank"
         tools:layout="@layout/fragment_add_item" />
 
     <fragment
         android:id="@+id/addMarketFragment"
-        android:name="chao.greenlabs.views.fragments.AddMarketFragment"
+        android:name="chao.market_helper.views.fragments.AddMarketFragment"
         android:label="AddMarketFragment"
         tools:layout="@layout/fragment_add_market">
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="chao.greenlabs.views.fragments.ItemListFragment"
+        android:name="chao.market_helper.views.fragments.ItemListFragment"
         android:label="ItemListFragment"
         tools:layout="@layout/fragment_item_list">
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/marketListFragment"
-        android:name="chao.greenlabs.views.fragments.MarketListFragment"
+        android:name="chao.market_helper.views.fragments.MarketListFragment"
         android:label="MarketListFragment"
         tools:layout="@layout/fragment_market_list">
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/manageMarketFragment"
-        android:name="chao.greenlabs.views.fragments.ManageMarketFragment"
+        android:name="chao.market_helper.views.fragments.ManageMarketFragment"
         android:label="ManageMarketFragment"
         tools:layout="@layout/fragment_manage_market">
         <action
@@ -56,12 +56,12 @@
     </fragment>
     <fragment
         android:id="@+id/addMarketSetDateFragment"
-        android:name="chao.greenlabs.views.fragments.AddMarketSetDateFragment"
+        android:name="chao.market_helper.views.fragments.AddMarketSetDateFragment"
         android:label="AddMarketSetDateFragment"
         tools:layout="@layout/fragment_add_market_set_date" />
     <fragment
         android:id="@+id/addCustomerFragment"
-        android:name="chao.greenlabs.views.fragments.AddCustomerFragment"
+        android:name="chao.market_helper.views.fragments.AddCustomerFragment"
         android:label="AddCustomerFragment"
         tools:layout="@layout/fragment_add_customer" >
         <action
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/addCustomerSoldItemFragment"
         tools:layout="@layout/fragment_add_customer_solditem"
-        android:name="chao.greenlabs.views.fragments.AddCustomerSoldItemFragment"
+        android:name="chao.market_helper.views.fragments.AddCustomerSoldItemFragment"
         android:label="AddCustomerSoldItemFragment" >
         <action
             android:id="@+id/action_addCustomerSoldItemFragment_to_itemOptionsFragment"
@@ -82,7 +82,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemOptionsFragment"
-        android:name="chao.greenlabs.views.fragments.ItemOptionsFragment"
+        android:name="chao.market_helper.views.fragments.ItemOptionsFragment"
         tools:layout="@layout/fragment_item_options"
         android:label="SoldItemDetailsFragment" />
 

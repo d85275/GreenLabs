@@ -143,7 +143,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <chao.greenlabs.views.customedobjects.views.ViewSetMarketInfo
+    <chao.market_helper.views.customedobjects.views.ViewSetMarketInfo
         android:id="@+id/v_set_market_info"
         android:layout_width="match_parent"
         android:clickable="true"
